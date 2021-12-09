@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetAndroidStudio">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,8 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConnexionActivity" android:exported="true"/>
-        <activity android:name=".InscriptionActivity" android:exported="true"/>
+        <activity android:name=".Activities.ConnexionActivity" android:exported="true"/>
+        <activity android:name=".Activities.InscriptionActivity" android:exported="true"/>
     </application>
 
 </manifest>

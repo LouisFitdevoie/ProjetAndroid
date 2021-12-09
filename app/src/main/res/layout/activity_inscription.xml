@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".InscriptionActivity">
+    tools:context=".Activities.InscriptionActivity">
 
     <TextView
         android:id="@+id/tv_inscription_title"
@@ -66,12 +66,24 @@
         android:layout_centerHorizontal="true"
         android:hint="Confirmez le mot de passe"/>
 
+    <TextView
+        android:id="@+id/tv_inscription_incomplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_inscription_passwordConfirmation"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="25dp"
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        android:text="*Le mot de passe entré est différent, veuillez réessayer !"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/bt_inscription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_inscription_passwordConfirmation"
+        android:layout_below="@+id/tv_inscription_incomplete"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:onClick="onInscriptionClickManager"

@@ -1,13 +1,11 @@
-package be.heh.fitdevoie.projetandroidstudio;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
+package be.heh.fitdevoie.projetandroidstudio.Activities;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import be.heh.fitdevoie.projetandroidstudio.R;
 
 public class MainActivity extends Activity {
 

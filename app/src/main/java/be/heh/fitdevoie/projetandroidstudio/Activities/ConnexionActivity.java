@@ -1,35 +1,33 @@
-package be.heh.fitdevoie.projetandroidstudio;
+package be.heh.fitdevoie.projetandroidstudio.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class InscriptionActivity extends AppCompatActivity {
+import be.heh.fitdevoie.projetandroidstudio.R;
+
+public class ConnexionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inscription);
+        setContentView(R.layout.activity_connexion);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    public void onInscriptionClickManager(View v) {
-        final int BT_INSCRIPTION = R.id.bt_inscription;
-        final int BT_HOME = R.id.home;
+    public void onConnexionClickManager(View v) {
+        final int BT_CONNEXION = R.id.bt_connexion;
         switch(v.getId()) {
-            case BT_INSCRIPTION:
-                System.out.println("Click sur inscription");
+            case BT_CONNEXION:
+                System.out.println("Click sur connexion");
                 break;
-            case BT_HOME:
-                Intent toMain = new Intent(this, MainActivity.class);
-                startActivity(toMain);
-                finish();
         }
     }
 
