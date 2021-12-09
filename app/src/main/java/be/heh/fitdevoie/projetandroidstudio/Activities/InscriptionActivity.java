@@ -4,6 +4,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.regex.Pattern;
 
 import be.heh.fitdevoie.projetandroidstudio.Database.User;
 import be.heh.fitdevoie.projetandroidstudio.Database.UserAccessDB;
@@ -81,7 +84,11 @@ public class InscriptionActivity extends AppCompatActivity {
                         this.email_ok = false;
                         inscription_incomplete_description += "\n- Adresse email";
                     } else {
-                        this.email_ok = true;
+                        if(Patterns.EMAIL_ADDRESS.matcher(et_inscription_email.getText().toString()).matches()) {
+                            this.email_ok = true;
+                        } else {
+                            inscription_incomplete_description += "\n- L'adresse email entrée n'en est pas une";
+                        }
                     }
 
                     if(et_inscription_password.getText().toString().trim().length() == 0 || et_inscription_passwordConfirmation.getText().toString().trim().length() == 0) {
@@ -93,25 +100,30 @@ public class InscriptionActivity extends AppCompatActivity {
                             inscription_incomplete_description += "\n- Confirmation du mot de passe";
                         }
                     } else {
-                        if(et_inscription_password.getText().toString().equals(et_inscription_passwordConfirmation.getText().toString())) {
-                            this.pwd_ok = true;
-                        } else {
-                            inscription_incomplete_description += "\n- Les mots de passe entrés sont différents";
+                        if(et_inscription_password.getText().toString().trim().length() < 7) {
                             this.pwd_ok = false;
+                            inscription_incomplete_description += "\n- Le mot de passe entré est trop court (min 8 caractères)";
+                        } else {
+                            if(et_inscription_password.getText().toString().equals(et_inscription_passwordConfirmation.getText().toString())) {
+                                this.pwd_ok = true;
+                            } else {
+                                inscription_incomplete_description += "\n- Les mots de passe entrés sont différents";
+                                this.pwd_ok = false;
+                            }
                         }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                System.out.println("FN : " + this.firstName_ok + " LN : " + this.lastName_ok + " MAIL : " + this.email_ok + " PWD : " + this.pwd_ok);
+
                 if(this.firstName_ok && this.lastName_ok && this.email_ok && this.pwd_ok) {
                     tv_inscription_incomplete.setText("");
                     tv_inscription_incomplete.setVisibility(View.INVISIBLE);
                     System.out.println(inscription_incomplete_description);
-                    //User user1 = new User(et_inscription_firstName.getText().toString(),et_inscription_lastName.getText().toString(),et_inscription_email.getText().toString(),et_inscription_password.getText().toString());
+                    User user1 = new User(et_inscription_firstName.getText().toString(),et_inscription_lastName.getText().toString(),et_inscription_email.getText().toString(),et_inscription_password.getText().toString());
                     UserAccessDB userDB = new UserAccessDB(this);
                     userDB.openForWrite();
-                    //userDB.insertUser(user1);
+                    userDB.insertUser(user1);
                     userDB.Close();
 
                     Intent toTest = new Intent(this, MainActivity.class);
