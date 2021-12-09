@@ -79,4 +79,47 @@ public class UserAccessDB {
         c.close();
         return tabUser;
     }
+
+    public int userExist(String email) {
+        String select = "SELECT * FROM " + TABLE_USER + " WHERE " + COL_EMAIL + " = ?";
+
+        Cursor cursor = db.rawQuery(select, new String[]{email});
+        //Cursor c = db.query(TABLE_USER, new String[]{ COL_ID, " WHERE EMAIL=" + email }, null, null, null, null, COL_ID);
+
+        if(cursor.getCount() == 0) {
+            cursor.close();
+            return  1;
+        } else {
+            if(cursor.getCount() == 1) {
+                cursor.close();
+                return 0;
+            } else {
+                cursor.close();
+                return 2;
+            }
+        }
+    }
+
+    public User getUser(String email) {
+        String select = "SELECT * FROM " + TABLE_USER + " WHERE " + COL_EMAIL + " = " + email;
+
+        Cursor cursor = db.rawQuery(select, null);
+        if(cursor.getCount() == 0) {
+            cursor.close();
+            return null;
+        } else {
+            if(cursor.getCount() == 1) {
+                User userFound = new User();
+                userFound.setId(cursor.getInt(NUM_COL_ID));
+                userFound.setFirstName(cursor.getString(NUM_COL_FIRSTNAME));
+                userFound.setLastName(cursor.getString(NUM_COL_LASTNAME));
+                userFound.setEmail(cursor.getString(NUM_COL_EMAIL));
+                userFound.setPassword(cursor.getString(NUM_COL_PASSWORD));
+                return userFound;
+            } else {
+                cursor.close();
+                return null;
+            }
+        }
+    }
 }
