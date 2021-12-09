@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ConnexionActivity">
+
+    <TextView
+        android:id="@+id/tv_connexion_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Connexion"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_marginTop="25dp"
+        />
+
+    <EditText
+        android:id="@+id/et_connexion_email"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:layout_below="@+id/tv_connexion_title"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:hint="Adresse email"/>
+
+    <EditText
+        android:id="@+id/et_connexion_password"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_below="@+id/et_connexion_email"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:hint="Mot de passe"/>
+
+    <Button
+        android:id="@+id/bt_connexion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_connexion_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:onClick="onConnexionClickManager"
+        android:paddingHorizontal="25dp"
+        android:text="Connexion"
+        tools:ignore="onClick" />
+
+</RelativeLayout>
