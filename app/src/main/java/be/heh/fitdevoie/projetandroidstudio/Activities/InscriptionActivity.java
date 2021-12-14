@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import be.heh.fitdevoie.projetandroidstudio.Database.User;
@@ -39,6 +40,7 @@ public class InscriptionActivity extends AppCompatActivity {
     boolean lastName_ok = false;
     boolean email_ok = false;
     boolean pwd_ok = false;
+    boolean firstUser = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +124,28 @@ public class InscriptionActivity extends AppCompatActivity {
                     System.out.println(inscription_incomplete_description);
                     String emailFormatted = "'" + et_inscription_email.getText().toString() + "'";
 
-                    User userToCreate = new User(et_inscription_firstName.getText().toString(),et_inscription_lastName.getText().toString(),emailFormatted,et_inscription_password.getText().toString());
                     UserAccessDB userDB = new UserAccessDB(this);
+
+                    userDB.openForRead();
+                    try {
+                        ArrayList<User> existingUsers = userDB.getAllUser();
+                        if(existingUsers.isEmpty()) {
+                            this.firstUser = true;
+                        } else {
+                            this.firstUser = false;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    userDB.Close();
+
+                    User userToCreate;
+                    if(firstUser) {
+                        userToCreate = new User(et_inscription_firstName.getText().toString(),et_inscription_lastName.getText().toString(),emailFormatted,et_inscription_password.getText().toString(), 0);
+                    } else {
+                        userToCreate = new User(et_inscription_firstName.getText().toString(),et_inscription_lastName.getText().toString(),emailFormatted,et_inscription_password.getText().toString(), 1);
+                    }
+
 
                     userDB.openForWrite();
                     try {

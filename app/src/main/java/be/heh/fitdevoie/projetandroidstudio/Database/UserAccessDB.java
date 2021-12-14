@@ -23,6 +23,8 @@ public class UserAccessDB {
     private static final int NUM_COL_EMAIL = 3;
     private static final String COL_PASSWORD = "PASSWORD";
     private static final int NUM_COL_PASSWORD = 4;
+    private static final String COL_RIGHTS = "RIGHTS";
+    private static final int NUM_COL_RIGHTS = 5;
 
     private SQLiteDatabase db;
     private UserBddSqlite userdb;
@@ -49,6 +51,7 @@ public class UserAccessDB {
         content.put(COL_LASTNAME, user.getLastName());
         content.put(COL_EMAIL, user.getEmailAddress());
         content.put(COL_PASSWORD, user.getPassword());
+        content.put(COL_RIGHTS, user.getRights());
 
         return db.insert(TABLE_USER, null, content);
     }
@@ -59,6 +62,7 @@ public class UserAccessDB {
         content.put(COL_LASTNAME, user.getLastName());
         content.put(COL_EMAIL, user.getEmailAddress());
         content.put(COL_PASSWORD, user.getPassword());
+        content.put(COL_RIGHTS, user.getRights());
 
         return db.update(TABLE_USER, content, COL_ID + " = " + id, null);
     }
@@ -68,7 +72,7 @@ public class UserAccessDB {
     }
 
     public ArrayList<User> getAllUser() {
-        Cursor cursor = db.query(TABLE_USER, new String[] { COL_ID, COL_FIRSTNAME, COL_LASTNAME, COL_EMAIL, COL_PASSWORD }, null, null, null, null, COL_ID);
+        Cursor cursor = db.query(TABLE_USER, new String[] { COL_ID, COL_FIRSTNAME, COL_LASTNAME, COL_EMAIL, COL_PASSWORD, COL_RIGHTS }, null, null, null, null, COL_ID);
 
         ArrayList<User> tabUser = new ArrayList<User>();
 
@@ -84,6 +88,7 @@ public class UserAccessDB {
             user.setLastName((cursor.getString(NUM_COL_LASTNAME)));
             user.setEmailAddress(cursor.getString(NUM_COL_EMAIL));
             user.setPassword(cursor.getString(NUM_COL_PASSWORD));
+            user.setRights(cursor.getInt(NUM_COL_RIGHTS));
 
             tabUser.add(user);
         }
@@ -92,7 +97,7 @@ public class UserAccessDB {
     }
 
     public User getUserWithEmail(String emailToSearch) {
-        Cursor cursor = db.query(TABLE_USER, new String[] { COL_ID, COL_FIRSTNAME, COL_LASTNAME, COL_EMAIL, COL_PASSWORD }, null, null, null, null, COL_ID);
+        Cursor cursor = db.query(TABLE_USER, new String[] { COL_ID, COL_FIRSTNAME, COL_LASTNAME, COL_EMAIL, COL_PASSWORD, COL_RIGHTS }, null, null, null, null, COL_ID);
 
         User userToReturn = new User();
 
@@ -111,6 +116,7 @@ public class UserAccessDB {
                 userToReturn.setLastName(cursor.getString(NUM_COL_LASTNAME));
                 userToReturn.setEmailAddress(cursor.getString(NUM_COL_EMAIL));
                 userToReturn.setPassword(cursor.getString(NUM_COL_PASSWORD));
+                userToReturn.setRights(cursor.getInt(NUM_COL_RIGHTS));
                 break;
             }
         }

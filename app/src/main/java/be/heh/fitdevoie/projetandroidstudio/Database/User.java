@@ -6,14 +6,16 @@ public class User {
     private String lastName;
     private String emailAddress;
     private String password;
+    private int rights;
 
     public User() {}
 
-    public User(String firstName, String lastName, String emailAddress, String password) {
+    public User(String firstName, String lastName, String emailAddress, String password, int rights) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.password = password;
+        this.rights = rights;
     }
 
     public int getUserId() {
@@ -54,6 +56,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getRights() {
+        return this.rights;
+    }
+
+    public void setRights(int rights) {
+        this.rights = rights;
     }
 
 }
