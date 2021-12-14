@@ -74,13 +74,14 @@
             android:id="@+id/tv_inscription_incomplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxHeight="0dp"
             android:layout_below="@+id/et_inscription_passwordConfirmation"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="25dp"
             android:textAlignment="center"
             android:textColor="#FF0000"
-            android:text="*Le mot de passe entré est différent, veuillez réessayer !"
+            android:text=""
             android:visibility="invisible"/>
 
         <Button

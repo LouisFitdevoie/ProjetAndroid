@@ -1,65 +1,59 @@
 package be.heh.fitdevoie.projetandroidstudio.Database;
 
 public class User {
-    private int id;
+    private int userId;
     private String firstName;
     private String lastName;
-    private String email;
+    private String emailAddress;
     private String password;
 
-    public User() { }
+    public User() {}
 
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String emailAddress, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        this.emailAddress = emailAddress;
         this.password = password;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return this.userId;
     }
-    public void setId(int id) {
-        this.id = id;
+
+    public void setUserId(int id) {
+        this.userId = id;
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailAddress() {
+        return this.emailAddress;
     }
-    public void setEmail(String email) {
-        this.email = email;
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("ID : "
-                + Integer.toString(getId()) + "\n"
-                + "FirstName : " + getFirstName() + "\n"
-                + "LastName : " + getLastName() + "\n"
-                + "Password : " + getPassword() + "\n"
-                + "Email : " + getEmail());
-        return sb.toString();
-    }
 }

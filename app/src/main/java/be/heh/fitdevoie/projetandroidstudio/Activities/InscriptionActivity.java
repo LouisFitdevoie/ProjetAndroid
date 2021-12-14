@@ -120,10 +120,19 @@ public class InscriptionActivity extends AppCompatActivity {
                     tv_inscription_incomplete.setText("");
                     tv_inscription_incomplete.setVisibility(View.INVISIBLE);
                     System.out.println(inscription_incomplete_description);
-                    User user1 = new User(et_inscription_firstName.getText().toString(),et_inscription_lastName.getText().toString(),et_inscription_email.getText().toString(),et_inscription_password.getText().toString());
+                    String emailFormatted = "'" + et_inscription_email.getText().toString() + "'";
+
+                    User userToCreate = new User(et_inscription_firstName.getText().toString(),et_inscription_lastName.getText().toString(),emailFormatted,et_inscription_password.getText().toString());
                     UserAccessDB userDB = new UserAccessDB(this);
+
                     userDB.openForWrite();
-                    userDB.insertUser(user1);
+                    try {
+                        userDB.insertUser(userToCreate);
+                        System.out.println("\n\nUser créé\n\n");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        System.out.println("\n\nErreur création user\n\n");
+                    }
                     userDB.Close();
 
                     Intent toTest = new Intent(this, MainActivity.class);
