@@ -104,7 +104,7 @@
             android:layout_below="@+id/tv_modification_incomplete"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:onClick="onInscriptionClickManager"
+            android:onClick="onEditProfileClickManager"
             android:paddingHorizontal="25dp"
             android:text="Modifier"
             tools:ignore="onClick"
