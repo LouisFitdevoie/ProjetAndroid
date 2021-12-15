@@ -1,6 +1,8 @@
 package be.heh.fitdevoie.projetandroidstudio.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -40,13 +42,29 @@ public class ChoixAutomateActivity extends Activity {
         final int BT_DECONNEXION = R.id.bt_choixAutomate_deconnexion;
         switch (v.getId()) {
             case BT_DECONNEXION:
-                SharedPreferences.Editor editeur_prefs = prefs_data.edit();
-                editeur_prefs.putInt("rights", -1);
-                editeur_prefs.putInt("userId", -1);
-                editeur_prefs.commit();
                 Intent toMain = new Intent(this, MainActivity.class);
-                startActivity(toMain);
-                finish();
+                AlertDialog.Builder alertDialogDeconnexion = new AlertDialog.Builder(this);
+                alertDialogDeconnexion.setMessage("Voulez-vous vraiment vous déconnecter ?");
+                alertDialogDeconnexion.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        SharedPreferences.Editor editeur_prefs = prefs_data.edit();
+                        editeur_prefs.putInt("rights", -1);
+                        editeur_prefs.putInt("userId", -1);
+                        editeur_prefs.commit();
+                        startActivity(toMain);
+                        finish();
+                    }
+                });
+                alertDialogDeconnexion.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(getApplicationContext(), "Déconnexion annulée", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                AlertDialog alert = alertDialogDeconnexion.create();
+                alert.show();
                 break;
         }
     }

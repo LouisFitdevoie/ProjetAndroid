@@ -51,8 +51,10 @@
         android:layout_below="@+id/bt_choixAutomate_niveau"
         android:layout_marginTop="10dp"
         android:text="Se déconnecter"
+        android:textColor="@color/white"
         android:onClick="onChoixAutomateClickManager"
         tools:ignore="onclick"
+        android:backgroundTint="#AA0000"
         />
 
 
