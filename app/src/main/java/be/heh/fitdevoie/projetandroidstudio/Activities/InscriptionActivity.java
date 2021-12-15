@@ -1,18 +1,14 @@
 package be.heh.fitdevoie.projetandroidstudio.Activities;
 
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +16,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 import be.heh.fitdevoie.projetandroidstudio.Database.User;
 import be.heh.fitdevoie.projetandroidstudio.Database.UserAccessDB;
@@ -42,6 +37,8 @@ public class InscriptionActivity extends AppCompatActivity {
     boolean pwd_ok = false;
     boolean firstUser = true;
 
+    SharedPreferences prefs_data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +53,8 @@ public class InscriptionActivity extends AppCompatActivity {
         et_inscription_passwordConfirmation = (EditText) findViewById(R.id.et_inscription_passwordConfirmation);
         tv_inscription_incomplete = (TextView) findViewById(R.id.tv_inscription_incomplete);
         bt_inscription = (Button) findViewById(R.id.bt_inscription);
+
+        prefs_data = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
 
     public void onInscriptionClickManager(View v) {
@@ -157,8 +156,13 @@ public class InscriptionActivity extends AppCompatActivity {
                     }
                     userDB.Close();
 
-                    Intent toTest = new Intent(this, MainActivity.class);
-                    startActivity(toTest);
+                    SharedPreferences.Editor editeur_prefs = prefs_data.edit();
+                    editeur_prefs.putInt("rights", userToCreate.getRights());
+                    editeur_prefs.putInt("userId", userToCreate.getUserId());
+                    editeur_prefs.commit();
+
+                    Intent toChoixAutomate = new Intent(this, ChoixAutomateActivity.class);
+                    startActivity(toChoixAutomate);
                     finish();
                 } else {
 

@@ -1,21 +1,18 @@
 package be.heh.fitdevoie.projetandroidstudio.Activities;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
 
 import be.heh.fitdevoie.projetandroidstudio.Database.User;
 import be.heh.fitdevoie.projetandroidstudio.Database.UserAccessDB;
@@ -30,6 +27,9 @@ public class ConnexionActivity extends AppCompatActivity {
     boolean email_ok;
     boolean pwd_ok;
 
+    SharedPreferences prefs_data;
+    User userToLog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +42,9 @@ public class ConnexionActivity extends AppCompatActivity {
         tv_connexion_error = (TextView) findViewById(R.id.tv_connexion_error);
         email_ok = false;
         pwd_ok = false;
+
+        prefs_data = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        userToLog = new User();
     }
 
     public void onConnexionClickManager(View v) {
@@ -104,6 +107,7 @@ public class ConnexionActivity extends AppCompatActivity {
                                 connexion_error = "";
                                 tv_connexion_error.setText(connexion_error);
                                 tv_connexion_error.setVisibility(View.INVISIBLE);
+                                userToLog = userReturned;
                             }
                         }
                     }
@@ -114,6 +118,14 @@ public class ConnexionActivity extends AppCompatActivity {
 
                 if(email_ok && pwd_ok) {
                     System.out.println("Email et pwd OK");
+                    SharedPreferences.Editor editeur_datas = prefs_data.edit();
+                    editeur_datas.putInt("userId", userToLog.getUserId());
+                    editeur_datas.putInt("rights", userToLog.getRights());
+                    editeur_datas.commit();
+
+                    Intent toChoixAutomate = new Intent(this, ChoixAutomateActivity.class);
+                    startActivity(toChoixAutomate);
+                    finish();
                 }
 
                 break;
