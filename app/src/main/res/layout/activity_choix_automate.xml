@@ -50,7 +50,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/bt_choixAutomate_niveau"
         android:layout_marginTop="10dp"
-        android:text="Modifier le profil"
+        android:text="Modifier le mot de passe"
         android:onClick="onChoixAutomateClickManager"
         tools:ignore="onclick"
         />
