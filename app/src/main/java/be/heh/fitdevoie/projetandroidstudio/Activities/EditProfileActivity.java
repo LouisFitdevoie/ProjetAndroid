@@ -141,7 +141,8 @@ public class EditProfileActivity extends AppCompatActivity {
                             break;
                         } else {
                             AlertDialog.Builder alertDialogModification = new AlertDialog.Builder(this);
-                            alertDialogModification.setMessage("Voulez-vous vraiment vous changer votre mot de passe ?");
+                            alertDialogModification.setTitle("Voulez-vous vraiment vous changer votre mot de passe ?");
+                            alertDialogModification.setMessage("Vous serez déconnecté de l'application");
                             alertDialogModification.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
