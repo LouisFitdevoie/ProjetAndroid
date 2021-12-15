@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".Activities.InscriptionActivity">
+
+        <TextView
+            android:id="@+id/tv_editProfile_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Modifier le profil"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_marginTop="25dp"
+            />
+
+        <EditText
+            android:id="@+id/et_editProfile_firstName"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_below="@+id/tv_editProfile_title"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"
+            android:hint="Prénom"
+            android:enabled="false"/>
+
+        <EditText
+            android:id="@+id/et_editProfile_lastName"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_below="@+id/et_editProfile_firstName"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:hint="Nom de famille"
+            android:enabled="false"/>
+
+        <EditText
+            android:id="@+id/et_editProfile_email"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:layout_below="@+id/et_editProfile_lastName"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:hint="Adresse email"
+            android:enabled="false"/>
+
+        <EditText
+            android:id="@+id/et_editProfile_oldPassword"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:layout_below="@+id/et_editProfile_email"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:hint="Ancien mot de passe"/>
+
+        <EditText
+            android:id="@+id/et_editProfile_password"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:layout_below="@+id/et_editProfile_oldPassword"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:hint="Nouveau mot de passe"/>
+
+        <EditText
+            android:id="@+id/et_editProfile_passwordConfirmation"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:layout_below="@+id/et_editProfile_password"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:hint="Confirmez le nouveau mot de passe"/>
+
+        <TextView
+            android:id="@+id/tv_modification_incomplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="0dp"
+            android:layout_below="@+id/et_editProfile_passwordConfirmation"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="25dp"
+            android:textAlignment="center"
+            android:textColor="#FF0000"
+            android:text=""
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/bt_modification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_modification_incomplete"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:onClick="onInscriptionClickManager"
+            android:paddingHorizontal="25dp"
+            android:text="Modifier"
+            tools:ignore="onClick"
+            android:layout_marginBottom="25dp"/>
+
+    </RelativeLayout>
+</ScrollView>

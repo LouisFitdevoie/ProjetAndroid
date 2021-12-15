@@ -44,11 +44,22 @@
         />
 
     <Button
-        android:id="@+id/bt_choixAutomate_deconnexion"
+        android:id="@+id/bt_choixAutomate_profil"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/bt_choixAutomate_niveau"
+        android:layout_marginTop="10dp"
+        android:text="Modifier le profil"
+        android:onClick="onChoixAutomateClickManager"
+        tools:ignore="onclick"
+        />
+    <Button
+        android:id="@+id/bt_choixAutomate_deconnexion"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/bt_choixAutomate_profil"
         android:layout_marginTop="10dp"
         android:text="Se déconnecter"
         android:textColor="@color/white"

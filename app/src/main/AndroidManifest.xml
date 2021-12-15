@@ -21,6 +21,7 @@
         <activity android:name=".Activities.ConnexionActivity" android:exported="true"/>
         <activity android:name=".Activities.InscriptionActivity" android:exported="true"/>
         <activity android:name=".Activities.ChoixAutomateActivity" android:exported="true"/>
+        <activity android:name=".Activities.EditProfileActivity" android:exported="true"/>
     </application>
 
 </manifest>

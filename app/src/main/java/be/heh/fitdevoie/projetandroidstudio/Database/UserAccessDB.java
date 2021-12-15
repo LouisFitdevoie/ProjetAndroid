@@ -125,4 +125,32 @@ public class UserAccessDB {
         return userToReturn;
     }
 
+    public User getUserWithId(int userIdToSearch) {
+        Cursor cursor = db.query(TABLE_USER, new String[] { COL_ID, COL_FIRSTNAME, COL_LASTNAME, COL_EMAIL, COL_PASSWORD, COL_RIGHTS}, null, null, null, null, COL_ID);
+        User userToReturn = new User();
+
+        if(cursor.getCount() == 0) {
+            cursor.close();
+            return null;
+        }
+
+        while (cursor.moveToNext()) {
+
+            int idFound = cursor.getInt(NUM_COL_ID);
+
+            if(idFound == userIdToSearch) {
+                userToReturn.setUserId(cursor.getInt(NUM_COL_ID));
+                userToReturn.setFirstName(cursor.getString(NUM_COL_FIRSTNAME));
+                userToReturn.setLastName(cursor.getString(NUM_COL_LASTNAME));
+                userToReturn.setEmailAddress(cursor.getString(NUM_COL_EMAIL));
+                userToReturn.setPassword(cursor.getString(NUM_COL_PASSWORD));
+                userToReturn.setRights(cursor.getInt(NUM_COL_RIGHTS));
+                break;
+            }
+        }
+        cursor.close();
+
+        return userToReturn;
+    }
+
 }
