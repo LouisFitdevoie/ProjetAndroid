@@ -18,6 +18,7 @@ public class ChoixActivity extends Activity {
     Button bt_choix_comprimes;
     Button bt_choix_niveau;
     Button bt_choix_profil;
+    Button bt_choix_autoriserEcriture;
     Button bt_choix_deconnexion;
     SharedPreferences prefs_data;
 
@@ -29,10 +30,19 @@ public class ChoixActivity extends Activity {
         bt_choix_comprimes = (Button) findViewById(R.id.bt_choix_comprimes);
         bt_choix_niveau = (Button) findViewById(R.id.bt_choix_niveau);
         bt_choix_profil = (Button) findViewById(R.id.bt_choix_profil);
+        bt_choix_autoriserEcriture = (Button) findViewById(R.id.bt_choix_autoriserEcriture);
         bt_choix_deconnexion = (Button) findViewById(R.id.bt_choix_deconnexion);
 
         prefs_data = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Toast.makeText(this, "ID=" + prefs_data.getInt("userId", -1) + " RIGHTS=" + prefs_data.getInt("rights", -1), Toast.LENGTH_LONG).show();
+
+        if(prefs_data.getInt("rights", -1) == 0) {
+            bt_choix_autoriserEcriture.setEnabled(true);
+            bt_choix_autoriserEcriture.setVisibility(View.VISIBLE);
+        } else {
+            bt_choix_autoriserEcriture.setEnabled(false);
+            bt_choix_autoriserEcriture.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -40,7 +50,7 @@ public class ChoixActivity extends Activity {
         moveTaskToBack(true);
     }
 
-    public void onChoixAutomateClickManager(View v) {
+    public void onChoixClickManager(View v) {
         final int BT_COMPRIMES = R.id.bt_choix_comprimes;
         final int BT_NIVEAU = R.id.bt_choix_niveau;
         final int BT_PROFIL = R.id.bt_choix_profil;

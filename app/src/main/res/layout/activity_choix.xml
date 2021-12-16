@@ -27,7 +27,7 @@
         android:layout_below="@+id/tv_choix"
         android:layout_marginTop="25dp"
         android:text="Conditionnement de comprimés"
-        android:onClick="onChoixAutomateClickManager"
+        android:onClick="onChoixClickManager"
         tools:ignore="onclick"
         />
 
@@ -39,7 +39,7 @@
         android:layout_below="@+id/bt_choix_comprimes"
         android:layout_marginTop="10dp"
         android:text="Avertissement niveau de liquide"
-        android:onClick="onChoixAutomateClickManager"
+        android:onClick="onChoixClickManager"
         tools:ignore="onclick"
         />
 
@@ -51,14 +51,21 @@
         android:layout_below="@+id/bt_choix_niveau"
         android:layout_marginTop="10dp"
         android:text="Modifier le mot de passe"
-        android:onClick="onChoixAutomateClickManager"
+        android:onClick="onChoixClickManager"
         tools:ignore="onclick"
         />
     
     <Button
         android:id="@+id/bt_choix_autoriserEcriture"
-        android:layout_width="wrap_content"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/bt_choix_profil"
+        android:layout_marginTop="10dp"
+        android:text="Donner les droits d'écriture"
+        android:onClick="onChoixClickManager"
+        tools:ignore="onclick"
+        android:enabled="false"
         />
     
     <Button
@@ -66,11 +73,11 @@
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/bt_choix_profil"
+        android:layout_below="@+id/bt_choix_autoriserEcriture"
         android:layout_marginTop="10dp"
         android:text="Se déconnecter"
         android:textColor="@color/white"
-        android:onClick="onChoixAutomateClickManager"
+        android:onClick="onChoixClickManager"
         tools:ignore="onclick"
         android:backgroundTint="#AA0000"
         />
