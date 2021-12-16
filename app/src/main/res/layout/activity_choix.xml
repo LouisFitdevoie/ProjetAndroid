@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
-        android:id="@+id/tv_choixAutomate"
+        android:id="@+id/tv_choix"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Que voulez-vous faire ?"
@@ -20,11 +20,11 @@
         />
 
     <Button
-        android:id="@+id/bt_choixAutomate_comprimes"
+        android:id="@+id/bt_choix_comprimes"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tv_choixAutomate"
+        android:layout_below="@+id/tv_choix"
         android:layout_marginTop="25dp"
         android:text="Conditionnement de comprimés"
         android:onClick="onChoixAutomateClickManager"
@@ -32,11 +32,11 @@
         />
 
     <Button
-        android:id="@+id/bt_choixAutomate_niveau"
+        android:id="@+id/bt_choix_niveau"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/bt_choixAutomate_comprimes"
+        android:layout_below="@+id/bt_choix_comprimes"
         android:layout_marginTop="10dp"
         android:text="Avertissement niveau de liquide"
         android:onClick="onChoixAutomateClickManager"
@@ -44,22 +44,29 @@
         />
 
     <Button
-        android:id="@+id/bt_choixAutomate_profil"
+        android:id="@+id/bt_choix_profil"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/bt_choixAutomate_niveau"
+        android:layout_below="@+id/bt_choix_niveau"
         android:layout_marginTop="10dp"
         android:text="Modifier le mot de passe"
         android:onClick="onChoixAutomateClickManager"
         tools:ignore="onclick"
         />
+    
     <Button
-        android:id="@+id/bt_choixAutomate_deconnexion"
+        android:id="@+id/bt_choix_autoriserEcriture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    
+    <Button
+        android:id="@+id/bt_choix_deconnexion"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/bt_choixAutomate_profil"
+        android:layout_below="@+id/bt_choix_profil"
         android:layout_marginTop="10dp"
         android:text="Se déconnecter"
         android:textColor="@color/white"

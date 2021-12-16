@@ -15,10 +15,10 @@ import be.heh.fitdevoie.projetandroidstudio.R;
 
 public class ChoixActivity extends Activity {
 
-    Button bt_choixAutomate_comprimes;
-    Button bt_choixAutomate_niveau;
-    Button bt_choixAutomate_profil;
-    Button bt_choixAutomate_deconnexion;
+    Button bt_choix_comprimes;
+    Button bt_choix_niveau;
+    Button bt_choix_profil;
+    Button bt_choix_deconnexion;
     SharedPreferences prefs_data;
 
     @Override
@@ -26,10 +26,10 @@ public class ChoixActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_choix);
-        bt_choixAutomate_comprimes = (Button) findViewById(R.id.bt_choixAutomate_comprimes);
-        bt_choixAutomate_niveau = (Button) findViewById(R.id.bt_choixAutomate_niveau);
-        bt_choixAutomate_profil = (Button) findViewById(R.id.bt_choixAutomate_profil);
-        bt_choixAutomate_deconnexion = (Button) findViewById(R.id.bt_choixAutomate_deconnexion);
+        bt_choix_comprimes = (Button) findViewById(R.id.bt_choix_comprimes);
+        bt_choix_niveau = (Button) findViewById(R.id.bt_choix_niveau);
+        bt_choix_profil = (Button) findViewById(R.id.bt_choix_profil);
+        bt_choix_deconnexion = (Button) findViewById(R.id.bt_choix_deconnexion);
 
         prefs_data = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Toast.makeText(this, "ID=" + prefs_data.getInt("userId", -1) + " RIGHTS=" + prefs_data.getInt("rights", -1), Toast.LENGTH_LONG).show();
@@ -41,10 +41,10 @@ public class ChoixActivity extends Activity {
     }
 
     public void onChoixAutomateClickManager(View v) {
-        final int BT_COMPRIMES = R.id.bt_choixAutomate_comprimes;
-        final int BT_NIVEAU = R.id.bt_choixAutomate_niveau;
-        final int BT_PROFIL = R.id.bt_choixAutomate_profil;
-        final int BT_DECONNEXION = R.id.bt_choixAutomate_deconnexion;
+        final int BT_COMPRIMES = R.id.bt_choix_comprimes;
+        final int BT_NIVEAU = R.id.bt_choix_niveau;
+        final int BT_PROFIL = R.id.bt_choix_profil;
+        final int BT_DECONNEXION = R.id.bt_choix_deconnexion;
 
         switch (v.getId()) {
             case BT_PROFIL:
