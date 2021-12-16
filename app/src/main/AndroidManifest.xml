@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetAndroidStudio">
         <activity
+            android:name=".Activities.AutoriserEcritureActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -18,10 +21,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ConnexionActivity" android:exported="true"/>
-        <activity android:name=".Activities.InscriptionActivity" android:exported="true"/>
-        <activity android:name=".Activities.ChoixActivity" android:exported="true"/>
-        <activity android:name=".Activities.EditProfileActivity" android:exported="true"/>
+        <activity
+            android:name=".Activities.ConnexionActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.InscriptionActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.ChoixActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.EditProfileActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -54,6 +54,7 @@ public class ChoixActivity extends Activity {
         final int BT_COMPRIMES = R.id.bt_choix_comprimes;
         final int BT_NIVEAU = R.id.bt_choix_niveau;
         final int BT_PROFIL = R.id.bt_choix_profil;
+        final int BT_AUTHORIZEWRITE = R.id.bt_choix_autoriserEcriture;
         final int BT_DECONNEXION = R.id.bt_choix_deconnexion;
 
         switch (v.getId()) {
@@ -62,6 +63,13 @@ public class ChoixActivity extends Activity {
                 startActivity(toProfile);
                 finish();
                 break;
+
+            case BT_AUTHORIZEWRITE:
+                Intent toAuthorizeWrite = new Intent(this, AutoriserEcritureActivity.class);
+                startActivity(toAuthorizeWrite);
+                finish();
+                break;
+
             case BT_DECONNEXION:
                 Intent toMain = new Intent(this, MainActivity.class);
                 AlertDialog.Builder alertDialogDeconnexion = new AlertDialog.Builder(this);
