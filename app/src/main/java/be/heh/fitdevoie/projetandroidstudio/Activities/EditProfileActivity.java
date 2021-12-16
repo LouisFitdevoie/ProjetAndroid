@@ -1,7 +1,6 @@
 package be.heh.fitdevoie.projetandroidstudio.Activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -71,7 +69,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent toChoixAutomate = new Intent(this, ChoixAutomateActivity.class);
+        Intent toChoixAutomate = new Intent(this, ChoixActivity.class);
         startActivity(toChoixAutomate);
         finish();
     }
@@ -184,7 +182,7 @@ public class EditProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent toChoixAutomate = new Intent(this, ChoixAutomateActivity.class);
+                Intent toChoixAutomate = new Intent(this, ChoixActivity.class);
                 startActivity(toChoixAutomate);
                 finish();
                 return true;

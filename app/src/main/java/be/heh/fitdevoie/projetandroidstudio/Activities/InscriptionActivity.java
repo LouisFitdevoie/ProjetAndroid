@@ -161,7 +161,7 @@ public class InscriptionActivity extends AppCompatActivity {
                     editeur_prefs.putInt("userId", userToCreate.getUserId());
                     editeur_prefs.commit();
 
-                    Intent toChoixAutomate = new Intent(this, ChoixAutomateActivity.class);
+                    Intent toChoixAutomate = new Intent(this, ChoixActivity.class);
                     startActivity(toChoixAutomate);
                     finish();
                 } else {

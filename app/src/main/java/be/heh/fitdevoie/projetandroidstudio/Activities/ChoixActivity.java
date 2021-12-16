@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import be.heh.fitdevoie.projetandroidstudio.R;
 
-public class ChoixAutomateActivity extends Activity {
+public class ChoixActivity extends Activity {
 
     Button bt_choixAutomate_comprimes;
     Button bt_choixAutomate_niveau;
@@ -25,7 +25,7 @@ public class ChoixAutomateActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_choix_automate);
+        setContentView(R.layout.activity_choix);
         bt_choixAutomate_comprimes = (Button) findViewById(R.id.bt_choixAutomate_comprimes);
         bt_choixAutomate_niveau = (Button) findViewById(R.id.bt_choixAutomate_niveau);
         bt_choixAutomate_profil = (Button) findViewById(R.id.bt_choixAutomate_profil);

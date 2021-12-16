@@ -123,7 +123,7 @@ public class ConnexionActivity extends AppCompatActivity {
                     editeur_datas.putInt("rights", userToLog.getRights());
                     editeur_datas.commit();
 
-                    Intent toChoixAutomate = new Intent(this, ChoixAutomateActivity.class);
+                    Intent toChoixAutomate = new Intent(this, ChoixActivity.class);
                     startActivity(toChoixAutomate);
                     finish();
                 }
