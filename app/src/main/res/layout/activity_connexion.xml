@@ -9,23 +9,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".Activities.ConnexionActivity">
 
-        <TextView
-            android:id="@+id/tv_connexion_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Connexion"
-            android:textSize="35sp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_marginTop="25dp"
-            />
-
         <EditText
             android:id="@+id/et_connexion_email"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:layout_below="@+id/tv_connexion_title"
             android:layout_marginTop="50dp"
             android:layout_centerHorizontal="true"
             android:hint="Adresse email"/>

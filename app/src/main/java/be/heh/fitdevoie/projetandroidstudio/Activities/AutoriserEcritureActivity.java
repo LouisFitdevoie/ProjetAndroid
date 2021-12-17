@@ -35,7 +35,7 @@ public class AutoriserEcritureActivity extends AppCompatActivity {
 
     UserAccessDB userDB = new UserAccessDB(this);
     ArrayList<User> userList = new ArrayList<>();
-    int currentId = 0;
+    int currentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,7 @@ public class AutoriserEcritureActivity extends AppCompatActivity {
         userList = userDB.getAllUser();
         userDB.Close();
 
+        currentId = 0;
         if(userConnectedId == userList.get(currentId).getUserId()) {
             currentId += 1;
         }
@@ -90,10 +91,11 @@ public class AutoriserEcritureActivity extends AppCompatActivity {
         switch(view.getId()) {
             case BT_NEXT:
                 int tableSize = userList.size() - 1;
-                if(currentId == tableSize) {
-                    currentId = tableSize - 1;
+                System.out.println("CURRENT ID = " + currentId + " / TABLE SIZE = " + tableSize);
+                if(currentId + 1 == tableSize) {
+                    currentId = tableSize;
                 } else if(connectedUserID == userList.get(currentId - 1).getUserId()) {
-                    if(currentId == tableSize) {
+                    if(currentId + 1 == tableSize) {
                         currentId = tableSize;
                     } else {
                         currentId += 2;
@@ -104,7 +106,7 @@ public class AutoriserEcritureActivity extends AppCompatActivity {
                     currentId += 1;
                 }
 
-                if(currentId == tableSize) {
+                if(currentId + 1 == tableSize) {
                     bt_authorizeWrite_next.setEnabled(false);
                 } else {
                     bt_authorizeWrite_previous.setEnabled(true);

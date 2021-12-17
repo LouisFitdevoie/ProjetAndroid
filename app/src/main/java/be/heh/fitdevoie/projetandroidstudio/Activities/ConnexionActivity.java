@@ -36,6 +36,7 @@ public class ConnexionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connexion);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle("Connexion");
 
         et_connexion_email = (EditText) findViewById(R.id.et_connexion_email);
         et_connexion_password = (EditText) findViewById(R.id.et_connexion_password);

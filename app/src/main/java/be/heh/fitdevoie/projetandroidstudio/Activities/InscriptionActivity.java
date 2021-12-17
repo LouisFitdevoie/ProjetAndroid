@@ -45,6 +45,7 @@ public class InscriptionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inscription);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle("Inscription");
 
         et_inscription_firstName = (EditText) findViewById(R.id.et_inscription_firstName);
         et_inscription_lastName = (EditText) findViewById(R.id.et_inscription_lastName);
