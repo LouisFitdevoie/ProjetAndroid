@@ -58,6 +58,11 @@ public class ChoixActivity extends Activity {
         final int BT_DECONNEXION = R.id.bt_choix_deconnexion;
 
         switch (v.getId()) {
+            case BT_COMPRIMES:
+                Intent toComprimes = new Intent(this, ComprimesActivity.class);
+                startActivity(toComprimes);
+                finish();
+                break;
             case BT_PROFIL:
                 Intent toProfile = new Intent(this, EditProfileActivity.class);
                 startActivity(toProfile);
