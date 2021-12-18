@@ -4,18 +4,30 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import SimaticS7.S7;
+import SimaticS7.S7Client;
 import be.heh.fitdevoie.projetandroidstudio.R;
+import be.heh.fitdevoie.projetandroidstudio.TaskS7.ReadTaskS7;
 
 public class ComprimesActivity extends AppCompatActivity {
 
@@ -25,6 +37,21 @@ public class ComprimesActivity extends AppCompatActivity {
     EditText et_comprimes_rack;
     EditText et_comprimes_slot;
     TextView tv_comprimes_parametres_errorText;
+
+    RelativeLayout rl_comprimes_read;
+    LinearLayout ll_comprimes_flaconsVides_read;
+    TextView tv_comprimes_flaconsVides_read;
+    LinearLayout ll_comprimes_selecteurService_read;
+    TextView tv_comprimes_selecteurService_read;
+    LinearLayout ll_comprimes_nbComprimesSelectionne_read;
+    TextView tv_comprimes_nbComprimesSelectionne_read;
+    LinearLayout ll_comprimes_nbComprimes_read;
+    TextView tv_comprimes_nbComprimes_read;
+    Button bt_comprimes_read_disconnect;
+    private ReadTaskS7 readS7;
+    private NetworkInfo network;
+    private ConnectivityManager connexStatus;
+    private S7Client comS7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +69,54 @@ public class ComprimesActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("Conditionnement de comprimés");
 
+        rl_comprimes_read = (RelativeLayout) findViewById(R.id.rl_comprimes_read);
+        ll_comprimes_flaconsVides_read = (LinearLayout) findViewById(R.id.ll_comprimes_flaconsVides_read);
+        tv_comprimes_flaconsVides_read = (TextView) findViewById(R.id.tv_comprimes_flaconsVides_read);
+        ll_comprimes_selecteurService_read = (LinearLayout) findViewById(R.id.ll_comprimes_selecteurService_read);
+        tv_comprimes_selecteurService_read = (TextView) findViewById(R.id.tv_comprimes_selecteurService_read);
+        ll_comprimes_nbComprimesSelectionne_read = (LinearLayout) findViewById(R.id.ll_comprimes_nbComprimesSelectionne_read);
+        tv_comprimes_nbComprimesSelectionne_read = (TextView) findViewById(R.id.tv_comprimes_nbComprimesSelectionne_read);
+        ll_comprimes_nbComprimes_read = (LinearLayout) findViewById(R.id.ll_comprimes_nbComprimes_read);
+        tv_comprimes_nbComprimes_read = (TextView) findViewById(R.id.tv_comprimes_nbComprimes_read);
+        bt_comprimes_read_disconnect = (Button) findViewById(R.id.bt_comprimes_read_disconnect);
+        connexStatus = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        network = connexStatus.getActiveNetworkInfo();
+
     }
 
     public void onComprimesClickManager(View v) {
+
+        final int BT_COMPRIMES_READ = R.id.bt_comprimes_read;
+        final int BT_COMPRIMES_READ_DISCONNECT = R.id.bt_comprimes_read_disconnect;
+
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+        TimerTask doTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @SuppressWarnings("unchecked")
+                    public void run() {
+                        try {
+
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        };
+
         switch(v.getId()) {
-            case R.id.bt_comprimes_read:
+            case BT_COMPRIMES_READ:
                 String paramError = "Veuillez remplir/corriger les erreurs suivantes :";
                 Boolean ipOk = false;
                 Boolean rackOk = false;
                 Boolean slotOk = false;
                 String ipAddress = "";
+                int rack = 0;
+                int slot = 0;
 
                 if(et_comprimes_ip.getText().toString().trim().length() == 0) {
                     ipOk = false;
@@ -84,6 +149,7 @@ public class ComprimesActivity extends AppCompatActivity {
                     paramError += "\n- Le champ Rack est vide";
                 } else {
                     rackOk = true;
+                    rack = Integer.parseInt(et_comprimes_rack.getText().toString());
                 }
 
                 if(et_comprimes_slot.getText().toString().trim().length() == 0) {
@@ -91,11 +157,27 @@ public class ComprimesActivity extends AppCompatActivity {
                     paramError += "\n- Le champ Slot est vide";
                 } else {
                     slotOk = true;
+                    slot = Integer.parseInt(et_comprimes_slot.getText().toString());
                 }
 
                 if(ipOk && rackOk && slotOk) {
-                    bt_comprimes_read.setEnabled(false);
-                    rl_comprimes_parametres.setVisibility(View.GONE);
+
+                    if(network != null && network.isConnectedOrConnecting()) {
+                        readS7 = new ReadTaskS7();
+                        readS7.Start(ipAddress, String.valueOf(rack), String.valueOf(slot));
+
+                        bt_comprimes_read.setEnabled(false);
+                        rl_comprimes_parametres.setVisibility(View.GONE);
+                        rl_comprimes_read.setVisibility(View.VISIBLE);
+
+                        timer.schedule(doTask, 0, 1000);
+
+                    } else {
+                        paramError = "La connexion réseau est impossible";
+                        tv_comprimes_parametres_errorText.setText(paramError);
+                        tv_comprimes_parametres_errorText.setVisibility(View.VISIBLE);
+                        tv_comprimes_parametres_errorText.setMaxHeight(600);
+                    }
                 } else {
                     tv_comprimes_parametres_errorText.setText(paramError);
                     tv_comprimes_parametres_errorText.setVisibility(View.VISIBLE);
@@ -103,6 +185,16 @@ public class ComprimesActivity extends AppCompatActivity {
                 }
 
                 break;
+
+            case BT_COMPRIMES_READ_DISCONNECT:
+                if(network != null && network.isConnectedOrConnecting()) {
+                    readS7 = new ReadTaskS7();
+                    readS7.Stop();
+
+                    bt_comprimes_read.setEnabled(true);
+                    rl_comprimes_parametres.setVisibility(View.VISIBLE);
+                    rl_comprimes_read.setVisibility(View.GONE);
+                }
         }
     }
 
@@ -110,22 +202,19 @@ public class ComprimesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                if(network != null && network.isConnectedOrConnecting()) {
+                    readS7 = new ReadTaskS7();
+                    readS7.Stop();
+
+                    bt_comprimes_read.setEnabled(true);
+                    rl_comprimes_parametres.setVisibility(View.VISIBLE);
+                    rl_comprimes_read.setVisibility(View.GONE);
+                }
                 Intent toChoix = new Intent(this, ChoixActivity.class);
                 startActivity(toChoix);
                 finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void afterTextChanged(Editable s) {
-        double doubleValue = 0;
-        if (s != null) {
-            try {
-                doubleValue = Double.parseDouble(s.toString().replace(',', '.'));
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
