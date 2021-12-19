@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,10 +29,11 @@ import SimaticS7.S7;
 import SimaticS7.S7Client;
 import be.heh.fitdevoie.projetandroidstudio.R;
 import be.heh.fitdevoie.projetandroidstudio.TaskS7.ReadTaskS7;
+import be.heh.fitdevoie.projetandroidstudio.TaskS7.WriteTaskS7;
 
 public class ComprimesActivity extends AppCompatActivity {
 
-    Button bt_comprimes_read;
+    Button bt_comprimes;
     RelativeLayout rl_comprimes_parametres;
     EditText et_comprimes_ip;
     EditText et_comprimes_rack;
@@ -47,18 +49,20 @@ public class ComprimesActivity extends AppCompatActivity {
     TextView tv_comprimes_nbComprimesSelectionne_read;
     LinearLayout ll_comprimes_nbComprimes_read;
     TextView tv_comprimes_nbComprimes_read;
-    Button bt_comprimes_read_disconnect;
-    private ReadTaskS7 readS7;
+    TextView tv_comprimes_nbBouteillesRemplies_read;
     private NetworkInfo network;
     private ConnectivityManager connexStatus;
     private S7Client comS7;
+    View v;
+    ReadTaskS7 readS7;
+    WriteTaskS7 writeS7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comprimes);
 
-        bt_comprimes_read = (Button) findViewById(R.id.bt_comprimes_read);
+        bt_comprimes = (Button) findViewById(R.id.bt_comprimes);
         rl_comprimes_parametres = (RelativeLayout) findViewById(R.id.rl_comprimes_parametres);
         et_comprimes_ip = (EditText) findViewById(R.id.et_comprimes_ip);
         et_comprimes_rack = (EditText) findViewById(R.id.et_comprimes_rack);
@@ -78,7 +82,7 @@ public class ComprimesActivity extends AppCompatActivity {
         tv_comprimes_nbComprimesSelectionne_read = (TextView) findViewById(R.id.tv_comprimes_nbComprimesSelectionne_read);
         ll_comprimes_nbComprimes_read = (LinearLayout) findViewById(R.id.ll_comprimes_nbComprimes_read);
         tv_comprimes_nbComprimes_read = (TextView) findViewById(R.id.tv_comprimes_nbComprimes_read);
-        bt_comprimes_read_disconnect = (Button) findViewById(R.id.bt_comprimes_read_disconnect);
+        tv_comprimes_nbBouteillesRemplies_read = (TextView) findViewById(R.id.tv_comprimes_nbBouteillesRemplies_read);
         connexStatus = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         network = connexStatus.getActiveNetworkInfo();
 
@@ -86,115 +90,132 @@ public class ComprimesActivity extends AppCompatActivity {
 
     public void onComprimesClickManager(View v) {
 
-        final int BT_COMPRIMES_READ = R.id.bt_comprimes_read;
-        final int BT_COMPRIMES_READ_DISCONNECT = R.id.bt_comprimes_read_disconnect;
-
-        final Handler handler = new Handler();
-        Timer timer = new Timer();
-        TimerTask doTask = new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @SuppressWarnings("unchecked")
-                    public void run() {
-                        try {
-
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        };
+        final int BT_COMPRIMES_READ = R.id.bt_comprimes;
 
         switch(v.getId()) {
             case BT_COMPRIMES_READ:
-                String paramError = "Veuillez remplir/corriger les erreurs suivantes :";
-                Boolean ipOk = false;
-                Boolean rackOk = false;
-                Boolean slotOk = false;
-                String ipAddress = "";
-                int rack = 0;
-                int slot = 0;
+                /*
+                ReadTaskS7 readS7 = new ReadTaskS7(v, bt_comprimes, tv_comprimes_nbComprimes_read, tv_comprimes_flaconsVides_read);
+                if(bt_comprimes.getText().toString().equals("CONNECT")) {
+                    String paramError = "Veuillez remplir/corriger les erreurs suivantes :";
+                    Boolean ipOk = false;
+                    Boolean rackOk = false;
+                    Boolean slotOk = false;
+                    String ipAddress = "";
+                    int rack = 0;
+                    int slot = 0;
 
-                if(et_comprimes_ip.getText().toString().trim().length() == 0) {
-                    ipOk = false;
-                    paramError += "\n- Le champ IP est vide";
-                } else {
-                    String[] parts = et_comprimes_ip.getText().toString().split("\\.");
-                    if(parts.length != 4) {
+                    if (et_comprimes_ip.getText().toString().trim().length() == 0) {
                         ipOk = false;
-                        paramError += "\n- Le champ IP est incorrectement rempli, il doit être au format 192.168.10.134";
+                        paramError += "\n- Le champ IP est vide";
                     } else {
-                        Boolean[] ipPartsOk = { false , false , false , false };
-                        for(int i = 0 ; i < 4 ; i++) {
-                            if(Integer.parseInt(parts[i]) < 0 || Integer.parseInt(parts[i]) > 255) {
-                                ipPartsOk[i] = false;
-                                paramError = "Veuillez remplir/corriger les erreurs suivantes :\n- L'adresse IP doit contenir des nombres compris entre 0 et 255";
+                        String[] parts = et_comprimes_ip.getText().toString().split("\\.");
+                        if (parts.length != 4) {
+                            ipOk = false;
+                            paramError += "\n- Le champ IP est incorrectement rempli, il doit être au format 192.168.10.134";
+                        } else {
+                            Boolean[] ipPartsOk = {false, false, false, false};
+                            for (int i = 0; i < 4; i++) {
+                                if (Integer.parseInt(parts[i]) < 0 || Integer.parseInt(parts[i]) > 255) {
+                                    ipPartsOk[i] = false;
+                                    paramError = "Veuillez remplir/corriger les erreurs suivantes :\n- L'adresse IP doit contenir des nombres compris entre 0 et 255";
+                                } else {
+                                    ipPartsOk[i] = true;
+                                }
+                            }
+                            if (ipPartsOk[0] && ipPartsOk[1] && ipPartsOk[2] && ipPartsOk[3]) {
+                                ipOk = true;
                             } else {
-                                ipPartsOk[i] = true;
+                                ipOk = false;
                             }
                         }
-                        if(ipPartsOk[0] && ipPartsOk[1] && ipPartsOk[2] && ipPartsOk[3]) {
-                            ipOk = true;
-                        } else {
-                            ipOk = false;
-                        }
                     }
-                }
 
-                if(et_comprimes_rack.getText().toString().trim().length() == 0) {
-                    rackOk = false;
-                    paramError += "\n- Le champ Rack est vide";
-                } else {
-                    rackOk = true;
-                    rack = Integer.parseInt(et_comprimes_rack.getText().toString());
-                }
+                    if (et_comprimes_rack.getText().toString().trim().length() == 0) {
+                        rackOk = false;
+                        paramError += "\n- Le champ Rack est vide";
+                    } else {
+                        rackOk = true;
+                        rack = Integer.parseInt(et_comprimes_rack.getText().toString());
+                    }
 
-                if(et_comprimes_slot.getText().toString().trim().length() == 0) {
-                    slotOk = false;
-                    paramError += "\n- Le champ Slot est vide";
-                } else {
-                    slotOk = true;
-                    slot = Integer.parseInt(et_comprimes_slot.getText().toString());
-                }
+                    if (et_comprimes_slot.getText().toString().trim().length() == 0) {
+                        slotOk = false;
+                        paramError += "\n- Le champ Slot est vide";
+                    } else {
+                        slotOk = true;
+                        slot = Integer.parseInt(et_comprimes_slot.getText().toString());
+                    }
 
-                if(ipOk && rackOk && slotOk) {
+                    if (ipOk && rackOk && slotOk) {
 
-                    if(network != null && network.isConnectedOrConnecting()) {
-                        readS7 = new ReadTaskS7();
-                        readS7.Start(ipAddress, String.valueOf(rack), String.valueOf(slot));
+                        Toast.makeText(this,network.getTypeName(),Toast.LENGTH_SHORT).show();
+                        bt_comprimes.setText("DISCONNECT");
 
-                        bt_comprimes_read.setEnabled(false);
-                        rl_comprimes_parametres.setVisibility(View.GONE);
+                        readS7.Start("192.168.1.149","0","2");
+
                         rl_comprimes_read.setVisibility(View.VISIBLE);
-
-                        timer.schedule(doTask, 0, 1000);
+                        rl_comprimes_parametres.setVisibility(View.GONE);
+                        try {
+                            Thread.sleep(1000);
+                        } catch(InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        writeS7.Start("192.168.10.110","0","1");
 
                     } else {
-                        paramError = "La connexion réseau est impossible";
                         tv_comprimes_parametres_errorText.setText(paramError);
                         tv_comprimes_parametres_errorText.setVisibility(View.VISIBLE);
                         tv_comprimes_parametres_errorText.setMaxHeight(600);
                     }
                 } else {
-                    tv_comprimes_parametres_errorText.setText(paramError);
-                    tv_comprimes_parametres_errorText.setVisibility(View.VISIBLE);
-                    tv_comprimes_parametres_errorText.setMaxHeight(600);
-                }
-
-                break;
-
-            case BT_COMPRIMES_READ_DISCONNECT:
-                if(network != null && network.isConnectedOrConnecting()) {
-                    readS7 = new ReadTaskS7();
                     readS7.Stop();
-
-                    bt_comprimes_read.setEnabled(true);
-                    rl_comprimes_parametres.setVisibility(View.VISIBLE);
+                    bt_comprimes.setText("CONNECT");
+                    Toast.makeText(getApplicationContext(),"Traitement interrompu par l'utilisateur !",Toast.LENGTH_LONG).show();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    writeS7.Stop();
                     rl_comprimes_read.setVisibility(View.GONE);
+                    rl_comprimes_parametres.setVisibility(View.VISIBLE);
                 }
+                break;*/
+
+                if(network != null && network.isConnectedOrConnecting()) {
+                    if(bt_comprimes.getText().equals("CONNECT")) {
+                        Toast.makeText(this,network.getTypeName(),Toast.LENGTH_SHORT).show();
+                        bt_comprimes.setText("DISCONNECT");
+                        readS7 = new ReadTaskS7(v, bt_comprimes, tv_comprimes_nbComprimes_read, tv_comprimes_nbBouteillesRemplies_read);
+                        readS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
+
+                        rl_comprimes_parametres.setVisibility(View.GONE);
+                        rl_comprimes_read.setVisibility(View.VISIBLE);
+                        try {
+                            Thread.sleep(1000);
+                        } catch(InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        writeS7 = new WriteTaskS7();
+                        writeS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(), et_comprimes_slot.getText().toString());
+                    } else {
+                        readS7.Stop();
+                        bt_comprimes.setText("CONNECT");
+                        Toast.makeText(getApplicationContext(),"Traitement interrompu par l'utilisateur !",Toast.LENGTH_LONG).show();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        writeS7.Stop();
+                        rl_comprimes_read.setVisibility(View.GONE);
+                        rl_comprimes_parametres.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    Toast.makeText(this, "Connexion réseau impossible !", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
@@ -203,10 +224,10 @@ public class ComprimesActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if(network != null && network.isConnectedOrConnecting()) {
-                    readS7 = new ReadTaskS7();
-                    readS7.Stop();
+                    //readS7 = new ReadTaskS7(v, tv_comprimes_flaconsVides_read, tv_comprimes_selecteurService_read, tv_comprimes_nbComprimesSelectionne_read, tv_comprimes_nbComprimes_read, tv_comprimes_nbBouteillesRemplies_read);
+                    //readS7.Stop();
 
-                    bt_comprimes_read.setEnabled(true);
+                    bt_comprimes.setEnabled(true);
                     rl_comprimes_parametres.setVisibility(View.VISIBLE);
                     rl_comprimes_read.setVisibility(View.GONE);
                 }

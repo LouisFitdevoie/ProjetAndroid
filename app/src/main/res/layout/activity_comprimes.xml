@@ -10,246 +10,337 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/rl_comprimes_parametres"
+            android:id="@+id/rl_comprimes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true">
-            <LinearLayout
-                android:id="@+id/ll_comprimes_ip"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp">
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/rl_comprimes_parametres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_ip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Adresse IP : "
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+                    <EditText
+                        android:id="@+id/et_comprimes_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Adresse IP"
+                        android:inputType="number"
+                        android:text="192.168.10.149"
+                        android:textAlignment="center"
+                        android:digits="0123456789."/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_rack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:layout_below="@+id/ll_comprimes_ip">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N° de Rack : "
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+                    <EditText
+                        android:id="@+id/et_comprimes_rack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Numéro de rack"
+                        android:inputType="number"
+                        android:text="0"
+                        android:layout_below="@+id/et_comprimes_ip"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_slot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:layout_below="@+id/ll_comprimes_rack">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N° de Slot : "
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+                    <EditText
+                        android:id="@+id/et_comprimes_slot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Numéro de slot"
+                        android:inputType="number"
+                        android:text="2"
+                        android:layout_below="@+id/et_comprimes_rack"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
                 <TextView
+                    android:id="@+id/tv_comprimes_parametres_errorText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Adresse IP : "
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-                <EditText
-                    android:id="@+id/et_comprimes_ip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Adresse IP"
-                    android:inputType="number"
-                    android:text="192.168.10.134"
+                    android:maxHeight="0dp"
+                    android:layout_below="@+id/ll_comprimes_slot"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginHorizontal="25dp"
                     android:textAlignment="center"
-                    android:digits="0123456789."/>
-            </LinearLayout>
+                    android:textColor="#FF0000"
+                    android:text=""
+                    android:visibility="gone"
+                    />
+            </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_comprimes_rack"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
-                android:layout_below="@+id/ll_comprimes_ip">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N° de Rack : "
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-                <EditText
-                    android:id="@+id/et_comprimes_rack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Numéro de rack"
-                    android:inputType="number"
-                    android:text="1"
-                    android:layout_below="@+id/et_comprimes_ip"
-                    android:textAlignment="center"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_comprimes_slot"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
-                android:layout_below="@+id/ll_comprimes_rack">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N° de Slot : "
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-                <EditText
-                    android:id="@+id/et_comprimes_slot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Numéro de slot"
-                    android:inputType="number"
-                    android:text="0"
-                    android:layout_below="@+id/et_comprimes_rack"
-                    android:textAlignment="center"/>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_comprimes_parametres_errorText"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_comprimes_read"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="0dp"
-                android:layout_below="@+id/ll_comprimes_slot"
-                android:layout_marginTop="10dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginHorizontal="25dp"
-                android:textAlignment="center"
-                android:textColor="#FF0000"
-                android:text=""
                 android:visibility="gone"
-                />
+                android:layout_below="@+id/rl_comprimes_parametres"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="25dp">
 
-            <Button
-                android:id="@+id/bt_comprimes_read"
-                android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_flaconsVides_read"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Arrivée des flacons vides"
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_comprimes_flaconsVides_read"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Désactivé"
+                        android:textColor="@color/primary"
+                        android:textAlignment="viewEnd"
+                        android:layout_marginRight="25dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_selecteurService_read"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_comprimes_flaconsVides_read"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sélecteur en service"
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_comprimes_selecteurService_read"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Désactivé"
+                        android:textColor="@color/primary"
+                        android:textAlignment="viewEnd"
+                        android:layout_marginRight="25dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_nbComprimesSelectionne_read"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_comprimes_selecteurService_read"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre de comprimés demandés : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_comprimes_nbComprimesSelectionne_read"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="5"
+                        android:textColor="@color/primary"
+                        android:textAlignment="viewEnd"
+                        android:layout_marginRight="50dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_nbComprimes_read"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_comprimes_nbComprimesSelectionne_read"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombres de comprimés mis en tube : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_comprimes_nbComprimes_read"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/primary"
+                        android:textAlignment="viewEnd"
+                        android:layout_marginRight="50dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_nbBouteillesRemplies_read"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_comprimes_nbComprimes_read"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre de bouteilles remplies : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_comprimes_nbBouteillesRemplies_read"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/primary"
+                        android:textAlignment="viewEnd"
+                        android:layout_marginRight="50dp"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_comprimes_write"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="25dp"
-                android:text="Connect"
-                android:onClick="onComprimesClickManager"
-                tools:ignore="OnClick"
-                android:layout_below="@+id/tv_comprimes_parametres_errorText"/>
+                android:visibility="visible"
+                android:layout_below="@+id/rl_comprimes_parametres"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="25dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_flaconsVides_write"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="Arrivée des flacons vides"
+                        android:textColor="@color/primary"/>
+                    <Button
+                        android:id="@+id/bt_comprimes_flaconsVides_write"
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:text="Désactivé"
+                        android:layout_marginRight="0dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_selecteurService_write"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_comprimes_flaconsVides_write"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="Sélecteur en service"
+                        android:textColor="@color/primary"/>
+                    <Button
+                        android:id="@+id/bt_comprimes_selecteurService_write"
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:text="Désactivé"
+                        android:layout_marginRight="0dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_nbComprimesSelectionne_write"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_comprimes_selecteurService_write"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre de comprimés demandés : "
+                        android:textColor="@color/primary"/>
+                    <EditText
+                        android:id="@+id/et_comprimes_nbComprimesSelectionne_write"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="5"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="50dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_nbComprimes_write"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_comprimes_nbComprimesSelectionne_write"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombres de comprimés mis en tube : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_comprimes_nbComprimes_write"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/primary"
+                        android:textAlignment="viewEnd"
+                        android:layout_marginRight="50dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_nbBouteillesRemplies_write"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_comprimes_nbComprimes_write"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre de bouteilles remplies : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_comprimes_nbBouteillesRemplies_write"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/primary"
+                        android:textAlignment="viewEnd"
+                        android:layout_marginRight="50dp"/>
+                </LinearLayout>
+
+            </RelativeLayout>
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl_comprimes_read"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/bt_comprimes"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_below="@+id/rl_comprimes_parametres"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginTop="25dp">
-
-            <LinearLayout
-                android:id="@+id/ll_comprimes_flaconsVides_read"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Arrivée des flacons vides"
-                    android:textColor="@color/primary"/>
-                <TextView
-                    android:id="@+id/tv_comprimes_flaconsVides_read"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Désactivé"
-                    android:textColor="@color/primary"
-                    android:textAlignment="viewEnd"
-                    android:layout_marginRight="25dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_comprimes_selecteurService_read"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_comprimes_flaconsVides_read"
-                android:layout_marginTop="15dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sélecteur en service"
-                    android:textColor="@color/primary"/>
-                <TextView
-                    android:id="@+id/tv_comprimes_selecteurService_read"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Désactivé"
-                    android:textColor="@color/primary"
-                    android:textAlignment="viewEnd"
-                    android:layout_marginRight="25dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_comprimes_nbComprimesSelectionne_read"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_comprimes_selecteurService_read"
-                android:layout_marginTop="15dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nombre de comprimés demandés : "
-                    android:textColor="@color/primary"/>
-                <TextView
-                    android:id="@+id/tv_comprimes_nbComprimesSelectionne_read"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="5"
-                    android:textColor="@color/primary"
-                    android:textAlignment="viewEnd"
-                    android:layout_marginRight="50dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_comprimes_nbComprimes_read"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_comprimes_nbComprimesSelectionne_read"
-                android:layout_marginTop="15dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nombres de comprimés mis en tube : "
-                    android:textColor="@color/primary"/>
-                <TextView
-                    android:id="@+id/tv_comprimes_nbComprimes_read"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/primary"
-                    android:textAlignment="viewEnd"
-                    android:layout_marginRight="50dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_comprimes_nbBouteillesRemplies_read"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_comprimes_nbComprimes_read"
-                android:layout_marginTop="15dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nombre de bouteilles remplies : "
-                    android:textColor="@color/primary"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/primary"
-                    android:textAlignment="viewEnd"
-                    android:layout_marginRight="50dp"/>
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/bt_comprimes_read_disconnect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_comprimes_nbBouteillesRemplies_read"
-                android:layout_centerHorizontal="true"
-                android:text="Disconnect"
-                android:layout_marginTop="15dp"
-                android:onClick="onComprimesClickManager"
-                tools:ignore="onclick"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_comprimes_write"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_below="@+id/rl_comprimes_parametres">
-
-            <SeekBar
-                android:id="@+id/sb_comprimes_"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </RelativeLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:text="CONNECT"
+            android:onClick="onComprimesClickManager"
+            tools:ignore="OnClick"
+            android:layout_below="@+id/rl_comprimes"/>
 
     </RelativeLayout>
 </ScrollView>
