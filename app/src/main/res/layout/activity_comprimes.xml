@@ -239,7 +239,7 @@
                         android:textColor="@color/primary"/>
                     <Button
                         android:id="@+id/bt_comprimes_flaconsVides_write"
-                        android:layout_width="125dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Désactivé"
                         android:layout_marginRight="0dp"/>
@@ -258,7 +258,7 @@
                         android:textColor="@color/primary"/>
                     <Button
                         android:id="@+id/bt_comprimes_selecteurService_write"
-                        android:layout_width="125dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Désactivé"
                         android:layout_marginRight="0dp"/>
@@ -282,7 +282,7 @@
                         android:text="5"
                         android:textColor="@color/primary"
                         android:textAlignment="center"
-                        android:layout_marginRight="50dp"/>
+                        android:layout_marginRight="0dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -303,7 +303,7 @@
                         android:text="0"
                         android:textColor="@color/primary"
                         android:textAlignment="viewEnd"
-                        android:layout_marginRight="50dp"/>
+                        android:layout_marginRight="60dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -324,7 +324,7 @@
                         android:text="0"
                         android:textColor="@color/primary"
                         android:textAlignment="viewEnd"
-                        android:layout_marginRight="50dp"/>
+                        android:layout_marginRight="60dp"/>
                 </LinearLayout>
 
             </RelativeLayout>
