@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -49,6 +51,8 @@ public class ComprimesActivity extends AppCompatActivity {
     ReadTaskS7Comprimes readS7;
     WriteTaskS7 writeS7;
 
+    SharedPreferences prefs_data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +82,7 @@ public class ComprimesActivity extends AppCompatActivity {
         connexStatus = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         network = connexStatus.getActiveNetworkInfo();
 
+        prefs_data = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
 
     public void onComprimesClickManager(View v) {
@@ -86,8 +91,7 @@ public class ComprimesActivity extends AppCompatActivity {
 
         switch(v.getId()) {
             case BT_COMPRIMES_CONNECT:
-                /*
-                ReadTaskS7 readS7 = new ReadTaskS7(v, bt_comprimes, tv_comprimes_nbComprimes_read, tv_comprimes_flaconsVides_read);
+
                 if(bt_comprimes.getText().toString().equals("CONNECT")) {
                     String paramError = "Veuillez remplir/corriger les erreurs suivantes :";
                     Boolean ipOk = false;
@@ -141,19 +145,51 @@ public class ComprimesActivity extends AppCompatActivity {
 
                     if (ipOk && rackOk && slotOk) {
 
-                        Toast.makeText(this,network.getTypeName(),Toast.LENGTH_SHORT).show();
-                        bt_comprimes.setText("DISCONNECT");
-
-                        readS7.Start("192.168.1.113","0","1");
-
-                        rl_comprimes_read.setVisibility(View.VISIBLE);
-                        rl_comprimes_parametres.setVisibility(View.GONE);
-                        try {
-                            Thread.sleep(1000);
-                        } catch(InterruptedException e) {
-                            e.printStackTrace();
+                        if(prefs_data.getInt("rights", -1) == 0) { //Si admin
+                            bt_comprimes_flaconsVides.setEnabled(true);
+                            bt_comprimes_selecteurService.setEnabled(true);
+                            et_comprimes_nbComprimesSelectionne.setEnabled(true);
+                            et_comprimes_nbComprimes.setEnabled(true);
+                        } else {
+                            bt_comprimes_flaconsVides.setEnabled(false);
+                            bt_comprimes_selecteurService.setEnabled(false);
+                            et_comprimes_nbComprimesSelectionne.setEnabled(false);
+                            et_comprimes_nbComprimes.setEnabled(false);
                         }
-                        writeS7.Start("192.168.10.110","0","1");
+
+                        if(network != null && network.isConnectedOrConnecting()) {
+                            if(bt_comprimes.getText().equals("CONNECT")) {
+                                rl_comprimes_parametres.setVisibility(View.GONE);
+                                rl_comprimes_RW.setVisibility(View.VISIBLE);
+
+                                Toast.makeText(this,network.getTypeName(),Toast.LENGTH_SHORT).show();
+                                bt_comprimes.setText("DISCONNECT");
+                                readS7 = new ReadTaskS7Comprimes(v, bt_comprimes, bt_comprimes_flaconsVides, bt_comprimes_selecteurService, et_comprimes_nbComprimesSelectionne, et_comprimes_nbComprimes, tv_comprimes_nbBouteillesRemplies);
+                                readS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
+
+                                try {
+                                    Thread.sleep(1000);
+                                } catch(InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                writeS7 = new WriteTaskS7();
+                                writeS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(), et_comprimes_slot.getText().toString());
+                            } else {
+                                readS7.Stop();
+                                bt_comprimes.setText("CONNECT");
+                                Toast.makeText(getApplicationContext(),"Traitement interrompu par l'utilisateur !",Toast.LENGTH_LONG).show();
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                writeS7.Stop();
+                                rl_comprimes_RW.setVisibility(View.GONE);
+                                rl_comprimes_parametres.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            Toast.makeText(this, "Connexion réseau impossible !", Toast.LENGTH_SHORT).show();
+                        }
 
                     } else {
                         tv_comprimes_parametres_errorText.setText(paramError);
@@ -170,44 +206,11 @@ public class ComprimesActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     writeS7.Stop();
-                    rl_comprimes_read.setVisibility(View.GONE);
+                    rl_comprimes_RW.setVisibility(View.GONE);
                     rl_comprimes_parametres.setVisibility(View.VISIBLE);
                 }
-                break;*/
 
-                if(network != null && network.isConnectedOrConnecting()) {
-                    if(bt_comprimes.getText().equals("CONNECT")) {
-                        rl_comprimes_parametres.setVisibility(View.GONE);
-                        rl_comprimes_RW.setVisibility(View.VISIBLE);
 
-                        Toast.makeText(this,network.getTypeName(),Toast.LENGTH_SHORT).show();
-                        bt_comprimes.setText("DISCONNECT");
-                        readS7 = new ReadTaskS7Comprimes(v, bt_comprimes, bt_comprimes_flaconsVides, bt_comprimes_selecteurService, et_comprimes_nbComprimesSelectionne, et_comprimes_nbComprimes, tv_comprimes_nbBouteillesRemplies);
-                        readS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch(InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        writeS7 = new WriteTaskS7();
-                        writeS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(), et_comprimes_slot.getText().toString());
-                    } else {
-                        readS7.Stop();
-                        bt_comprimes.setText("CONNECT");
-                        Toast.makeText(getApplicationContext(),"Traitement interrompu par l'utilisateur !",Toast.LENGTH_LONG).show();
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        writeS7.Stop();
-                        rl_comprimes_RW.setVisibility(View.GONE);
-                        rl_comprimes_parametres.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    Toast.makeText(this, "Connexion réseau impossible !", Toast.LENGTH_SHORT).show();
-                }
                 break;
         }
     }
