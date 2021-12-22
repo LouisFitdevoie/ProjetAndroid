@@ -36,7 +36,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Adresse IP"
                         android:inputType="number"
-                        android:text="192.168.10.149"
+                        android:text="192.168.10.113"
                         android:textAlignment="center"
                         android:digits="0123456789."/>
                 </LinearLayout>
@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Numéro de slot"
                         android:inputType="number"
-                        android:text="2"
+                        android:text="1"
                         android:textAlignment="center"/>
                 </LinearLayout>
 

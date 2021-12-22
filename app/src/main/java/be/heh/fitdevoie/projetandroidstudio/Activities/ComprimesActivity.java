@@ -9,26 +9,18 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import SimaticS7.S7;
 import SimaticS7.S7Client;
 import be.heh.fitdevoie.projetandroidstudio.R;
-import be.heh.fitdevoie.projetandroidstudio.TaskS7.ReadTaskS7;
+import be.heh.fitdevoie.projetandroidstudio.TaskS7.ReadTaskS7Comprimes;
 import be.heh.fitdevoie.projetandroidstudio.TaskS7.WriteTaskS7;
 
 public class ComprimesActivity extends AppCompatActivity {
@@ -40,21 +32,21 @@ public class ComprimesActivity extends AppCompatActivity {
     EditText et_comprimes_slot;
     TextView tv_comprimes_parametres_errorText;
 
-    RelativeLayout rl_comprimes_read;
-    LinearLayout ll_comprimes_flaconsVides_read;
-    TextView tv_comprimes_flaconsVides_read;
-    LinearLayout ll_comprimes_selecteurService_read;
-    TextView tv_comprimes_selecteurService_read;
-    LinearLayout ll_comprimes_nbComprimesSelectionne_read;
-    TextView tv_comprimes_nbComprimesSelectionne_read;
-    LinearLayout ll_comprimes_nbComprimes_read;
-    TextView tv_comprimes_nbComprimes_read;
-    TextView tv_comprimes_nbBouteillesRemplies_read;
+    RelativeLayout rl_comprimes_RW;
+    LinearLayout ll_comprimes_flaconsVides;
+    Button bt_comprimes_flaconsVides;
+    LinearLayout ll_comprimes_selecteurService;
+    Button bt_comprimes_selecteurService;
+    LinearLayout ll_comprimes_nbComprimesSelectionne;
+    EditText et_comprimes_nbComprimesSelectionne;
+    LinearLayout ll_comprimes_nbComprimes;
+    EditText et_comprimes_nbComprimes;
+    TextView tv_comprimes_nbBouteillesRemplies;
     private NetworkInfo network;
     private ConnectivityManager connexStatus;
     private S7Client comS7;
     View v;
-    ReadTaskS7 readS7;
+    ReadTaskS7Comprimes readS7;
     WriteTaskS7 writeS7;
 
     @Override
@@ -62,7 +54,7 @@ public class ComprimesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comprimes);
 
-        bt_comprimes = (Button) findViewById(R.id.bt_comprimes);
+        bt_comprimes = (Button) findViewById(R.id.bt_comprimes_connect);
         rl_comprimes_parametres = (RelativeLayout) findViewById(R.id.rl_comprimes_parametres);
         et_comprimes_ip = (EditText) findViewById(R.id.et_comprimes_ip);
         et_comprimes_rack = (EditText) findViewById(R.id.et_comprimes_rack);
@@ -73,16 +65,16 @@ public class ComprimesActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("Conditionnement de comprimés");
 
-        rl_comprimes_read = (RelativeLayout) findViewById(R.id.rl_comprimes_read);
-        ll_comprimes_flaconsVides_read = (LinearLayout) findViewById(R.id.ll_comprimes_flaconsVides_read);
-        tv_comprimes_flaconsVides_read = (TextView) findViewById(R.id.tv_comprimes_flaconsVides_read);
-        ll_comprimes_selecteurService_read = (LinearLayout) findViewById(R.id.ll_comprimes_selecteurService_read);
-        tv_comprimes_selecteurService_read = (TextView) findViewById(R.id.tv_comprimes_selecteurService_read);
-        ll_comprimes_nbComprimesSelectionne_read = (LinearLayout) findViewById(R.id.ll_comprimes_nbComprimesSelectionne_read);
-        tv_comprimes_nbComprimesSelectionne_read = (TextView) findViewById(R.id.tv_comprimes_nbComprimesSelectionne_read);
-        ll_comprimes_nbComprimes_read = (LinearLayout) findViewById(R.id.ll_comprimes_nbComprimes_read);
-        tv_comprimes_nbComprimes_read = (TextView) findViewById(R.id.tv_comprimes_nbComprimes_read);
-        tv_comprimes_nbBouteillesRemplies_read = (TextView) findViewById(R.id.tv_comprimes_nbBouteillesRemplies_read);
+        rl_comprimes_RW = (RelativeLayout) findViewById(R.id.rl_comprimes_RW);
+        ll_comprimes_flaconsVides = (LinearLayout) findViewById(R.id.ll_comprimes_flaconsVides);
+        bt_comprimes_flaconsVides = (Button) findViewById(R.id.bt_comprimes_flaconsVides);
+        ll_comprimes_selecteurService = (LinearLayout) findViewById(R.id.ll_comprimes_selecteurService);
+        bt_comprimes_selecteurService = (Button) findViewById(R.id.bt_comprimes_selecteurService);
+        ll_comprimes_nbComprimesSelectionne = (LinearLayout) findViewById(R.id.ll_comprimes_nbComprimesSelectionne);
+        et_comprimes_nbComprimesSelectionne = (EditText) findViewById(R.id.et_comprimes_nbComprimesSelectionne);
+        ll_comprimes_nbComprimes = (LinearLayout) findViewById(R.id.ll_comprimes_nbComprimes);
+        et_comprimes_nbComprimes = (EditText) findViewById(R.id.et_comprimes_nbComprimes);
+        tv_comprimes_nbBouteillesRemplies = (TextView) findViewById(R.id.tv_comprimes_nbBouteillesRemplies);
         connexStatus = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         network = connexStatus.getActiveNetworkInfo();
 
@@ -90,10 +82,10 @@ public class ComprimesActivity extends AppCompatActivity {
 
     public void onComprimesClickManager(View v) {
 
-        final int BT_COMPRIMES_READ = R.id.bt_comprimes;
+        final int BT_COMPRIMES_CONNECT = R.id.bt_comprimes_connect;
 
         switch(v.getId()) {
-            case BT_COMPRIMES_READ:
+            case BT_COMPRIMES_CONNECT:
                 /*
                 ReadTaskS7 readS7 = new ReadTaskS7(v, bt_comprimes, tv_comprimes_nbComprimes_read, tv_comprimes_flaconsVides_read);
                 if(bt_comprimes.getText().toString().equals("CONNECT")) {
@@ -152,7 +144,7 @@ public class ComprimesActivity extends AppCompatActivity {
                         Toast.makeText(this,network.getTypeName(),Toast.LENGTH_SHORT).show();
                         bt_comprimes.setText("DISCONNECT");
 
-                        readS7.Start("192.168.1.149","0","2");
+                        readS7.Start("192.168.1.113","0","1");
 
                         rl_comprimes_read.setVisibility(View.VISIBLE);
                         rl_comprimes_parametres.setVisibility(View.GONE);
@@ -185,13 +177,14 @@ public class ComprimesActivity extends AppCompatActivity {
 
                 if(network != null && network.isConnectedOrConnecting()) {
                     if(bt_comprimes.getText().equals("CONNECT")) {
+                        rl_comprimes_parametres.setVisibility(View.GONE);
+                        rl_comprimes_RW.setVisibility(View.VISIBLE);
+
                         Toast.makeText(this,network.getTypeName(),Toast.LENGTH_SHORT).show();
                         bt_comprimes.setText("DISCONNECT");
-                        readS7 = new ReadTaskS7(v, bt_comprimes, tv_comprimes_nbComprimes_read, tv_comprimes_nbBouteillesRemplies_read);
+                        readS7 = new ReadTaskS7Comprimes(v, bt_comprimes, bt_comprimes_flaconsVides, bt_comprimes_selecteurService, et_comprimes_nbComprimesSelectionne, et_comprimes_nbComprimes, tv_comprimes_nbBouteillesRemplies);
                         readS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
 
-                        rl_comprimes_parametres.setVisibility(View.GONE);
-                        rl_comprimes_read.setVisibility(View.VISIBLE);
                         try {
                             Thread.sleep(1000);
                         } catch(InterruptedException e) {
@@ -209,7 +202,7 @@ public class ComprimesActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         writeS7.Stop();
-                        rl_comprimes_read.setVisibility(View.GONE);
+                        rl_comprimes_RW.setVisibility(View.GONE);
                         rl_comprimes_parametres.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -223,17 +216,11 @@ public class ComprimesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(network != null && network.isConnectedOrConnecting()) {
-                    //readS7 = new ReadTaskS7(v, tv_comprimes_flaconsVides_read, tv_comprimes_selecteurService_read, tv_comprimes_nbComprimesSelectionne_read, tv_comprimes_nbComprimes_read, tv_comprimes_nbBouteillesRemplies_read);
-                    //readS7.Stop();
-
-                    bt_comprimes.setEnabled(true);
-                    rl_comprimes_parametres.setVisibility(View.VISIBLE);
-                    rl_comprimes_read.setVisibility(View.GONE);
+                if(rl_comprimes_parametres.getVisibility() == View.VISIBLE) {
+                    Intent toChoix = new Intent(this, ChoixActivity.class);
+                    startActivity(toChoix);
+                    finish();
                 }
-                Intent toChoix = new Intent(this, ChoixActivity.class);
-                startActivity(toChoix);
-                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
