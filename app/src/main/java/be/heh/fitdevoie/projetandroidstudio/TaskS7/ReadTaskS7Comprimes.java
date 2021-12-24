@@ -149,72 +149,80 @@ public class ReadTaskS7Comprimes {
                 while(isRunning.get()) {
                     if(res.equals(0)) {
                         String sout = "";
-                        //Selecteur flacons vides
+                        //Selecteur flacons vides -> FONCTIONNEL
                         int retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 0, 2, datasPLC);
-                        int dataInt;
+                        int flaconsVides = 0;
                         Boolean dataBoolean = false;
-                        if(retInfo == 0) {
-                            dataBoolean = S7.GetBitAt(datasPLC, 0, 0);
-                            if(dataBoolean) {
-                                dataInt = 1;
-                            } else {
-                                dataInt = 0;
-                            }
-                            sout += "Flacons vides : " + String.valueOf(dataInt);
-                            sendProgressMessage(dataInt, 0);
-                        }
-                        //Selecteur en service
                         if(retInfo == 0) {
                             dataBoolean = S7.GetBitAt(datasPLC, 1, 3);
                             if(dataBoolean) {
-                                dataInt = 1;
+                                flaconsVides = 1;
                             } else {
-                                dataInt = 0;
+                                flaconsVides = 0;
                             }
-                            sout += "\nFlacons vides : " + String.valueOf(dataInt);
-                            sendProgressMessage(dataInt, 1);
+                            sout += "Flacons vides : " + String.valueOf(flaconsVides);
+                            sendProgressMessage(flaconsVides, 0);
                         }
-                        //Nb comprimés sélectionné
+                        //Selecteur en service -> FONCTIONNEL
+                        int selecteurEnService = 0;
                         if(retInfo == 0) {
-                            dataBoolean = S7.GetBitAt(datasPLC, 0, 1);
+                            dataBoolean = S7.GetBitAt(datasPLC, 0, 0);
                             if(dataBoolean) {
-                                dataInt = 5;
+                                selecteurEnService = 1;
                             } else {
-                                dataBoolean = S7.GetBitAt(datasPLC, 0, 2);
+                                selecteurEnService = 0;
+                            }
+                            sout += "\nSélecteur en service : " + String.valueOf(selecteurEnService);
+                            sendProgressMessage(selecteurEnService, 1);
+                        }
+                        //Nb comprimés sélectionné -> FONCTIONNEL
+                        int nbComprimesSelectionnes = 0;
+                        retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 4, 1, datasPLC);
+                        if(retInfo == 0) {
+                            dataBoolean = S7.GetBitAt(datasPLC, 0, 3);
+                            if(dataBoolean) {
+                                nbComprimesSelectionnes = 5;
+                            } else {
+                                dataBoolean = S7.GetBitAt(datasPLC, 0, 4);
                                 if(dataBoolean) {
-                                    dataInt = 10;
+                                    nbComprimesSelectionnes = 10;
                                 } else {
-                                    dataBoolean = S7.GetBitAt(datasPLC, 0, 3);
+                                    dataBoolean = S7.GetBitAt(datasPLC, 0, 5);
                                     if(dataBoolean) {
-                                        dataInt = 15;
+                                        nbComprimesSelectionnes = 15;
                                     } else {
-                                        dataInt = 0;
+                                        nbComprimesSelectionnes = 0;
                                     }
                                 }
                             }
-                            sout += "\nFlacons vides : " + String.valueOf(dataInt);
-                            sendProgressMessage(dataInt, 2);
+                            sout += "\nNb comprimés sélectionné : " + String.valueOf(nbComprimesSelectionnes);
+                            sendProgressMessage(nbComprimesSelectionnes, 2);
                         }
                         //Nb comprimés par bouteille
-                        retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 15, 2, datasPLC);
-                        dataInt = 0;
+                        retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 14, 2, datasPLC);
+                        int nbComprimes = 0;
+                        nbComprimes = 0;
                         if(retInfo == 0) {
-                            dataInt = S7.GetWordAt(datasPLC, 0);
-                            sout += "\nFlacons vides : " + String.valueOf(dataInt);
-                            sendProgressMessage(Integer.valueOf(dataInt), 3);
+                            nbComprimes = S7.GetWordAt(datasPLC, 0);
+                            if(nbComprimes > nbComprimesSelectionnes) {
+                                nbComprimes = nbComprimesSelectionnes;
+                            }
+                            sout += "\nNb comprimés par bouteille : " + String.valueOf(nbComprimes);
+                            sendProgressMessage(nbComprimes, 3);
                         }
                         //Nb bouteilles remplies
-                        dataInt = 0;
+                        retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 16, 2, datasPLC);
+                        int nbBouteillesRemplies = 0;
                         if(retInfo == 0) {
-                            dataInt = S7.GetWordAt(datasPLC, 1);
-                            sout += "\nFlacons vides : " + String.valueOf(dataInt);
-                            sendProgressMessage(Integer.valueOf(dataInt), 4);
+                            nbBouteillesRemplies = S7.GetWordAt(datasPLC, 0);
+                            sout += "\nNb bouteilles remplies : " + String.valueOf(nbBouteillesRemplies);
+                            sendProgressMessage(nbBouteillesRemplies, 4);
                         }
 
                         System.out.println(sout);
                     }
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
