@@ -13,47 +13,53 @@
             android:id="@+id/rl_niveau"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:id="@+id/rl_niveau_parametres"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true">
+
                 <LinearLayout
                     android:id="@+id/ll_niveau_ip"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="25dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Adresse IP : "
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
+
                     <EditText
                         android:id="@+id/et_niveau_ip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:digits="0123456789."
                         android:hint="Adresse IP"
                         android:inputType="number"
                         android:text="192.168.10.113"
-                        android:textAlignment="center"
-                        android:digits="0123456789."/>
+                        android:textAlignment="center" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_niveau_rack"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_below="@+id/ll_niveau_ip"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:layout_below="@+id/ll_niveau_ip">
+                    android:layout_marginTop="25dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="N° de Rack : "
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
+
                     <EditText
                         android:id="@+id/et_niveau_rack"
                         android:layout_width="wrap_content"
@@ -61,22 +67,24 @@
                         android:hint="Numéro de rack"
                         android:inputType="number"
                         android:text="0"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_niveau_slot"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_below="@+id/ll_niveau_rack"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:layout_below="@+id/ll_niveau_rack">
+                    android:layout_marginTop="25dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="N° de Slot : "
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
+
                     <EditText
                         android:id="@+id/et_niveau_slot"
                         android:layout_width="wrap_content"
@@ -84,33 +92,259 @@
                         android:hint="Numéro de slot"
                         android:inputType="number"
                         android:text="1"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_niveau_parametres_errorText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxHeight="0dp"
                     android:layout_below="@+id/ll_niveau_slot"
-                    android:layout_marginTop="10dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="10dp"
+                    android:maxHeight="0dp"
+                    android:text=""
                     android:textAlignment="center"
                     android:textColor="#FF0000"
-                    android:text=""
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_niveau_read"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_below="@+id/rl_niveau_parametres"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginTop="25dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_niveau_selecteurMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sélecteur de mode : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_selecteurMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Manuel"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_niveau_niveauConsigneAuto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/ll_niveau_selecteurMode"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Niveau de consigne automatique : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_niveauConsigneAuto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="779"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_niveau_niveauConsigneManuel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/ll_niveau_niveauConsigneAuto"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Niveau manuel demandé : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_niveauConsigneManuel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="779"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_niveau_sortie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/ll_niveau_niveauConsigneManuel"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sortie : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_sortie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_niveau_valve1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/ll_niveau_sortie"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Valve 1 : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_valve1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Activée"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="      Niveau : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_niveauValve1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_niveau_valve2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/ll_niveau_valve1"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Valve 2 : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_valve2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Activée"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="      Niveau : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_niveauValve2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_niveau_valve3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/ll_niveau_valve2"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Valve 3 : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_valve3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Activée"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="      Niveau : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_niveauValve3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_niveau_valve4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/ll_niveau_valve3"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Valve 4 : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_valve4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Activée"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="      Niveau : "
+                        android:textColor="@color/primary"/>
+                    <TextView
+                        android:id="@+id/tv_niveau_niveauValve4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/primary"
+                        android:textAlignment="center"
+                        android:layout_marginRight="0dp"/>
+                </LinearLayout>
 
             </RelativeLayout>
 
