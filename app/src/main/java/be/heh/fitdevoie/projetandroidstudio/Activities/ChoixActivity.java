@@ -63,6 +63,13 @@ public class ChoixActivity extends Activity {
                 startActivity(toComprimes);
                 finish();
                 break;
+
+            case BT_NIVEAU:
+                Intent toNiveau = new Intent(this, NiveauActivity.class);
+                startActivity(toNiveau);
+                finish();
+                break;
+
             case BT_PROFIL:
                 Intent toProfile = new Intent(this, EditProfileActivity.class);
                 startActivity(toProfile);

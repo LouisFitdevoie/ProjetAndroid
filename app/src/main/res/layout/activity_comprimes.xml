@@ -111,7 +111,7 @@
                 android:id="@+id/rl_comprimes_RW"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_below="@+id/rl_comprimes_parametres"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginTop="25dp">
@@ -233,7 +233,7 @@
             android:layout_marginBottom="25dp"
             android:text="CONNECT"
             android:onClick="onComprimesClickManager"
-            tools:ignore="OnClick"
+            tools:ignore="onclick"
             android:layout_below="@+id/rl_comprimes"/>
 
     </RelativeLayout>

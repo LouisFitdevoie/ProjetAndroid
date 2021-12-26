@@ -22,11 +22,15 @@ public class ReadTaskS7Niveau {
     private TextView pb_main_progressionS7;
     private View vi_main_ui;
     private Button bt_connect;
-    private Button bt_flaconsVides;
-    private Button bt_selecteurService;
-    private EditText et_nbComprimesSelectionne;
-    private EditText et_nbComprimes;
-    private TextView tv_nbBouteillesRemplies;
+    private TextView tv_niveau_selecteurMode;
+    private TextView tv_niveau_niveauLiquide;
+    private TextView tv_niveau_niveauConsigneAuto;
+    private TextView tv_niveau_niveauConsigneManuel;
+    private TextView tv_niveau_sortie;
+    private TextView tv_niveau_valve1;
+    private TextView tv_niveau_valve2;
+    private TextView tv_niveau_valve3;
+    private TextView tv_niveau_valve4;
 
     private AutomateS7 plcS7;
     private Thread readThread;
@@ -34,14 +38,18 @@ public class ReadTaskS7Niveau {
     private String[] param = new String[10];
     private byte[] datasPLC = new byte[512];
 
-    public ReadTaskS7Niveau(View view, Button bt_connect, Button bt_flaconsVides, Button bt_selecteurService, EditText et_nbComprimesSelectionne, EditText et_nbComprimes, TextView tv_nbBouteillesRemplies) {
+    public ReadTaskS7Niveau(View view, Button bt_connect, TextView tv_niveau_selecteurMode, TextView tv_niveau_niveauLiquide, TextView tv_niveau_niveauConsigneAuto, TextView tv_niveau_niveauConsigneManuel, TextView tv_niveau_sortie, TextView tv_niveau_valve1, TextView tv_niveau_valve2, TextView tv_niveau_valve3, TextView tv_niveau_valve4) {
         this.vi_main_ui = view;
         this.bt_connect = bt_connect;
-        this.bt_flaconsVides = bt_flaconsVides;
-        this.bt_selecteurService = bt_selecteurService;
-        this.et_nbComprimesSelectionne = et_nbComprimesSelectionne;
-        this.et_nbComprimes = et_nbComprimes;
-        this.tv_nbBouteillesRemplies = tv_nbBouteillesRemplies;
+        this.tv_niveau_selecteurMode = tv_niveau_selecteurMode;
+        this.tv_niveau_niveauLiquide = tv_niveau_niveauLiquide;
+        this.tv_niveau_niveauConsigneAuto = tv_niveau_niveauConsigneAuto;
+        this.tv_niveau_niveauConsigneManuel = tv_niveau_niveauConsigneManuel;
+        this.tv_niveau_sortie = tv_niveau_sortie;
+        this.tv_niveau_valve1 = tv_niveau_valve1;
+        this.tv_niveau_valve2 = tv_niveau_valve2;
+        this.tv_niveau_valve3 = tv_niveau_valve3;
+        this.tv_niveau_valve4 = tv_niveau_valve4;
 
         comS7 = new S7Client();
         plcS7 = new AutomateS7();
@@ -72,36 +80,52 @@ public class ReadTaskS7Niveau {
 
     private void downloadOnProgressUpdate(int progress, int what) {
         switch (what) {
-            case 0: //BT Flacons vides
+            case 0: //TV sélecteur de mode
                 if(progress == 1) {
-                    bt_flaconsVides.setText("ACTIVÉ");
+                    tv_niveau_selecteurMode.setText("Automatique");
                 } else {
-                    bt_flaconsVides.setText("DÉSACTIVÉ");
+                    tv_niveau_selecteurMode.setText("Manuel");
                 }
                 break;
-            case 1: //BT Selecteur en service
+            case 1: //TV niveau de liquide
+                tv_niveau_niveauLiquide.setText(String.valueOf(progress));
+                break;
+            case 2: //TV niveau de consigne automatique
+                tv_niveau_niveauConsigneAuto.setText(String.valueOf(progress));
+                break;
+            case 3: //TV niveau manuel demandé
+                tv_niveau_niveauConsigneManuel.setText(String.valueOf(progress));
+                break;
+            case 4: //TV sortie
+                tv_niveau_sortie.setText(String.valueOf(progress));
+                break;
+            case 5: //TV état valve 1
                 if(progress == 1) {
-                    bt_selecteurService.setText("ACTIVÉ");
+                    tv_niveau_valve1.setText("Fermée");
                 } else {
-                    bt_selecteurService.setText("DÉSACTIVÉ");
+                    tv_niveau_valve1.setText("Ouverte");
                 }
                 break;
-            case 2: //ET Nb comprimés sélectionné
-                if(progress == 5) {
-                    et_nbComprimesSelectionne.setText("5");
-                } else if(progress == 10) {
-                    et_nbComprimesSelectionne.setText("10");
-                } else if(progress == 15) {
-                    et_nbComprimesSelectionne.setText("15");
+            case 6: //TV état valve 2
+                if(progress == 1) {
+                    tv_niveau_valve2.setText("Fermée");
                 } else {
-                    System.out.println("Error");
+                    tv_niveau_valve2.setText("Ouverte");
                 }
                 break;
-            case 3: //ET Nb comprimés par bouteille
-                et_nbComprimes.setText(String.valueOf(progress));
+            case 7: //TV état valve 3
+                if(progress == 1) {
+                    tv_niveau_valve3.setText("Fermée");
+                } else {
+                    tv_niveau_valve3.setText("Ouverte");
+                }
                 break;
-            case 4: //TV Nb bouteilles remplies
-                tv_nbBouteillesRemplies.setText(String.valueOf(progress));
+            case 8: //TV état valve 4
+                if(progress == 1) {
+                    tv_niveau_valve4.setText("Fermée");
+                } else {
+                    tv_niveau_valve4.setText("Ouverte");
+                }
                 break;
         }
     }
@@ -148,76 +172,102 @@ public class ReadTaskS7Niveau {
                 while(isRunning.get()) {
                     if(res.equals(0)) {
                         String sout = "";
-                        //Selecteur flacons vides -> FONCTIONNEL
+                        //Selecteur de mode
                         int retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 0, 2, datasPLC);
-                        int flaconsVides = 0;
+                        int selectMode = 0;
                         Boolean dataBoolean = false;
                         if(retInfo == 0) {
-                            dataBoolean = S7.GetBitAt(datasPLC, 1, 3);
+                            dataBoolean = S7.GetBitAt(datasPLC, 0, 5);
                             if(dataBoolean) {
-                                flaconsVides = 1;
+                                selectMode = 1;
                             } else {
-                                flaconsVides = 0;
+                                selectMode = 0;
                             }
-                            sout += "Flacons vides : " + String.valueOf(flaconsVides);
-                            sendProgressMessage(flaconsVides, 0);
+                            sout += "Sélecteur de mode : " + String.valueOf(selectMode);
+                            sendProgressMessage(selectMode, 0);
                         }
-                        //Selecteur en service -> FONCTIONNEL
-                        int selecteurEnService = 0;
+                        //Niveau de liquide
+                        retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 16, 10, datasPLC);
+                        int niveauLiquide = 0;
                         if(retInfo == 0) {
-                            dataBoolean = S7.GetBitAt(datasPLC, 0, 0);
-                            if(dataBoolean) {
-                                selecteurEnService = 1;
-                            } else {
-                                selecteurEnService = 0;
-                            }
-                            sout += "\nSélecteur en service : " + String.valueOf(selecteurEnService);
-                            sendProgressMessage(selecteurEnService, 1);
+                            niveauLiquide = S7.GetWordAt(datasPLC, 0);
+                            sout += "\nNiveau de liquide : " + String.valueOf(niveauLiquide);
+                            sendProgressMessage(niveauLiquide, 1);
                         }
-                        //Nb comprimés sélectionné -> FONCTIONNEL
-                        int nbComprimesSelectionnes = 0;
-                        retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 4, 1, datasPLC);
+                        //Niveau de consigne automatique
+                        int niveauConsigneAuto = 0;
+                        if(retInfo == 0) {
+                            niveauConsigneAuto = S7.GetWordAt(datasPLC, 2);
+                            sout += "\nNiveau de consigne automatique : " + String.valueOf(niveauConsigneAuto);
+                            sendProgressMessage(niveauConsigneAuto, 2);
+                        }
+                        //Niveau manuel demandé
+                        int niveauManuel = 0;
+                        if(retInfo == 0) {
+                            niveauManuel = S7.GetWordAt(datasPLC, 4);
+                            sout += "\nNiveau manuel demandé : " + String.valueOf(niveauManuel);
+                            sendProgressMessage(niveauManuel, 3);
+                        }
+                        //Niveau de sortie
+                        int niveauSortie = 0;
+                        if(retInfo == 0) {
+                            niveauSortie = S7.GetWordAt(datasPLC, 6);
+                            sout += "\nNiveau de sortie : " + String.valueOf(niveauSortie);
+                            sendProgressMessage(niveauSortie, 4);
+                        }
+                        //Etat valve 1
+                        retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 0, 2, datasPLC);
+                        dataBoolean = false;
+                        int etatValve1 = 0;
+                        if(retInfo == 0) {
+                            dataBoolean = S7.GetBitAt(datasPLC, 0, 1);
+                            if(dataBoolean) {
+                                etatValve1 = 1;
+                            } else {
+                                etatValve1 = 0;
+                            }
+                            sout += "\nEtat valve 1 : " + String.valueOf(etatValve1);
+                            sendProgressMessage(etatValve1, 5);
+                        }
+                        //Etat valve 2
+                        dataBoolean = false;
+                        int etatValve2 = 0;
+                        if(retInfo == 0) {
+                            dataBoolean = S7.GetBitAt(datasPLC, 0, 2);
+                            if(dataBoolean) {
+                                etatValve2 = 1;
+                            } else {
+                                etatValve2 = 0;
+                            }
+                            sout += "\nEtat valve 2 : " + String.valueOf(etatValve2);
+                            sendProgressMessage(etatValve2, 6);
+                        }
+                        //Etat valve 3
+                        dataBoolean = false;
+                        int etatValve3 = 0;
                         if(retInfo == 0) {
                             dataBoolean = S7.GetBitAt(datasPLC, 0, 3);
                             if(dataBoolean) {
-                                nbComprimesSelectionnes = 5;
+                                etatValve3 = 1;
                             } else {
-                                dataBoolean = S7.GetBitAt(datasPLC, 0, 4);
-                                if(dataBoolean) {
-                                    nbComprimesSelectionnes = 10;
-                                } else {
-                                    dataBoolean = S7.GetBitAt(datasPLC, 0, 5);
-                                    if(dataBoolean) {
-                                        nbComprimesSelectionnes = 15;
-                                    } else {
-                                        nbComprimesSelectionnes = 0;
-                                    }
-                                }
+                                etatValve3 = 0;
                             }
-                            sout += "\nNb comprimés sélectionné : " + String.valueOf(nbComprimesSelectionnes);
-                            sendProgressMessage(nbComprimesSelectionnes, 2);
+                            sout += "\nEtat valve 3 : " + String.valueOf(etatValve3);
+                            sendProgressMessage(etatValve3, 7);
                         }
-                        //Nb comprimés par bouteille
-                        retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 14, 2, datasPLC);
-                        int nbComprimes = 0;
-                        nbComprimes = 0;
+                        //Etat valve 4
+                        dataBoolean = false;
+                        int etatValve4 = 0;
                         if(retInfo == 0) {
-                            nbComprimes = S7.GetWordAt(datasPLC, 0);
-                            if(nbComprimes > nbComprimesSelectionnes) {
-                                nbComprimes = nbComprimesSelectionnes;
+                            dataBoolean = S7.GetBitAt(datasPLC, 0, 4);
+                            if(dataBoolean) {
+                                etatValve4 = 1;
+                            } else {
+                                etatValve4 = 0;
                             }
-                            sout += "\nNb comprimés par bouteille : " + String.valueOf(nbComprimes);
-                            sendProgressMessage(nbComprimes, 3);
+                            sout += "\nEtat valve 4 : " + String.valueOf(etatValve4);
+                            sendProgressMessage(etatValve4, 8);
                         }
-                        //Nb bouteilles remplies
-                        retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 16, 2, datasPLC);
-                        int nbBouteillesRemplies = 0;
-                        if(retInfo == 0) {
-                            nbBouteillesRemplies = S7.GetWordAt(datasPLC, 0);
-                            sout += "\nNb bouteilles remplies : " + String.valueOf(nbBouteillesRemplies);
-                            sendProgressMessage(nbBouteillesRemplies, 4);
-                        }
-
                         System.out.println(sout);
                     }
                     try {

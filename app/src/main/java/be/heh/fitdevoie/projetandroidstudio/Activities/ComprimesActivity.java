@@ -87,10 +87,10 @@ public class ComprimesActivity extends AppCompatActivity {
 
     public void onComprimesClickManager(View v) {
 
-        final int BT_COMPRIMES_CONNECT = R.id.bt_comprimes_connect;
+        final int BT_COMPRIMES = R.id.bt_comprimes_connect;
 
         switch(v.getId()) {
-            case BT_COMPRIMES_CONNECT:
+            case BT_COMPRIMES:
 
                 if(bt_comprimes.getText().toString().equals("CONNECT")) {
                     String paramError = "Veuillez remplir/corriger les erreurs suivantes :";
@@ -172,8 +172,6 @@ public class ComprimesActivity extends AppCompatActivity {
                                 } catch(InterruptedException e) {
                                     e.printStackTrace();
                                 }
-                                writeS7 = new WriteTaskS7();
-                                writeS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(), et_comprimes_slot.getText().toString());
                             } else {
                                 readS7.Stop();
                                 bt_comprimes.setText("CONNECT");
@@ -183,7 +181,6 @@ public class ComprimesActivity extends AppCompatActivity {
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
-                                writeS7.Stop();
                                 rl_comprimes_RW.setVisibility(View.GONE);
                                 rl_comprimes_parametres.setVisibility(View.VISIBLE);
                             }
@@ -205,7 +202,6 @@ public class ComprimesActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    writeS7.Stop();
                     rl_comprimes_RW.setVisibility(View.GONE);
                     rl_comprimes_parametres.setVisibility(View.VISIBLE);
                 }
