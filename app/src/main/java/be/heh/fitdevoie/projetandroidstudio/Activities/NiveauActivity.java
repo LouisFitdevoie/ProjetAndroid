@@ -68,7 +68,7 @@ public class NiveauActivity extends AppCompatActivity {
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("Conditionnement de comprimés");
+        ab.setTitle("Régulation de niveau de liquide");
 
         rl_niveau_RW = (RelativeLayout) findViewById(R.id.rl_niveau_RW);
         tv_niveau_selecteurMode = (TextView) findViewById(R.id.tv_niveau_selecteurMode);

@@ -36,13 +36,13 @@ public class ComprimesActivity extends AppCompatActivity {
 
     RelativeLayout rl_comprimes_RW;
     LinearLayout ll_comprimes_flaconsVides;
-    Button bt_comprimes_flaconsVides;
+    TextView tv_comprimes_flaconsVides;
     LinearLayout ll_comprimes_selecteurService;
-    Button bt_comprimes_selecteurService;
+    TextView tv_comprimes_selecteurService;
     LinearLayout ll_comprimes_nbComprimesSelectionne;
-    EditText et_comprimes_nbComprimesSelectionne;
+    TextView tv_comprimes_nbComprimesSelectionne;
     LinearLayout ll_comprimes_nbComprimes;
-    EditText et_comprimes_nbComprimes;
+    TextView tv_comprimes_nbComprimes;
     TextView tv_comprimes_nbBouteillesRemplies;
     private NetworkInfo network;
     private ConnectivityManager connexStatus;
@@ -71,13 +71,13 @@ public class ComprimesActivity extends AppCompatActivity {
 
         rl_comprimes_RW = (RelativeLayout) findViewById(R.id.rl_comprimes_RW);
         ll_comprimes_flaconsVides = (LinearLayout) findViewById(R.id.ll_comprimes_flaconsVides);
-        bt_comprimes_flaconsVides = (Button) findViewById(R.id.bt_comprimes_flaconsVides);
+        tv_comprimes_flaconsVides = (TextView) findViewById(R.id.tv_comprimes_flaconsVides);
         ll_comprimes_selecteurService = (LinearLayout) findViewById(R.id.ll_comprimes_selecteurService);
-        bt_comprimes_selecteurService = (Button) findViewById(R.id.bt_comprimes_selecteurService);
+        tv_comprimes_selecteurService = (TextView) findViewById(R.id.tv_comprimes_selecteurService);
         ll_comprimes_nbComprimesSelectionne = (LinearLayout) findViewById(R.id.ll_comprimes_nbComprimesSelectionne);
-        et_comprimes_nbComprimesSelectionne = (EditText) findViewById(R.id.et_comprimes_nbComprimesSelectionne);
+        tv_comprimes_nbComprimesSelectionne = (TextView) findViewById(R.id.tv_comprimes_nbComprimesSelectionne);
         ll_comprimes_nbComprimes = (LinearLayout) findViewById(R.id.ll_comprimes_nbComprimes);
-        et_comprimes_nbComprimes = (EditText) findViewById(R.id.et_comprimes_nbComprimes);
+        tv_comprimes_nbComprimes = (TextView) findViewById(R.id.tv_comprimes_nbComprimes);
         tv_comprimes_nbBouteillesRemplies = (TextView) findViewById(R.id.tv_comprimes_nbBouteillesRemplies);
         connexStatus = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         network = connexStatus.getActiveNetworkInfo();
@@ -145,18 +145,6 @@ public class ComprimesActivity extends AppCompatActivity {
 
                     if (ipOk && rackOk && slotOk) {
 
-                        if(prefs_data.getInt("rights", -1) == 0) { //Si admin
-                            bt_comprimes_flaconsVides.setEnabled(true);
-                            bt_comprimes_selecteurService.setEnabled(true);
-                            et_comprimes_nbComprimesSelectionne.setEnabled(true);
-                            et_comprimes_nbComprimes.setEnabled(true);
-                        } else {
-                            bt_comprimes_flaconsVides.setEnabled(false);
-                            bt_comprimes_selecteurService.setEnabled(false);
-                            et_comprimes_nbComprimesSelectionne.setEnabled(false);
-                            et_comprimes_nbComprimes.setEnabled(false);
-                        }
-
                         if(network != null && network.isConnectedOrConnecting()) {
                             if(bt_comprimes.getText().equals("CONNECT")) {
                                 rl_comprimes_parametres.setVisibility(View.GONE);
@@ -164,7 +152,7 @@ public class ComprimesActivity extends AppCompatActivity {
 
                                 Toast.makeText(this,network.getTypeName(),Toast.LENGTH_SHORT).show();
                                 bt_comprimes.setText("DISCONNECT");
-                                readS7 = new ReadTaskS7Comprimes(v, bt_comprimes, bt_comprimes_flaconsVides, bt_comprimes_selecteurService, et_comprimes_nbComprimesSelectionne, et_comprimes_nbComprimes, tv_comprimes_nbBouteillesRemplies);
+                                readS7 = new ReadTaskS7Comprimes(v, bt_comprimes, tv_comprimes_flaconsVides, tv_comprimes_selecteurService, tv_comprimes_nbComprimesSelectionne, tv_comprimes_nbComprimes, tv_comprimes_nbBouteillesRemplies);
                                 readS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
 
                                 try {

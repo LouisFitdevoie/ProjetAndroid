@@ -23,10 +23,10 @@ public class ReadTaskS7Comprimes {
     private TextView pb_main_progressionS7;
     private View vi_main_ui;
     private Button bt_connect;
-    private Button bt_flaconsVides;
-    private Button bt_selecteurService;
-    private EditText et_nbComprimesSelectionne;
-    private EditText et_nbComprimes;
+    private TextView tv_flaconsVides;
+    private TextView tv_selecteurService;
+    private TextView tv_nbComprimesSelectionne;
+    private TextView tv_nbComprimes;
     private TextView tv_nbBouteillesRemplies;
 
     private AutomateS7 plcS7;
@@ -35,13 +35,13 @@ public class ReadTaskS7Comprimes {
     private String[] param = new String[10];
     private byte[] datasPLC = new byte[512];
 
-    public ReadTaskS7Comprimes(View view, Button bt_connect, Button bt_flaconsVides, Button bt_selecteurService, EditText et_nbComprimesSelectionne, EditText et_nbComprimes, TextView tv_nbBouteillesRemplies) {
+    public ReadTaskS7Comprimes(View view, Button bt_connect, TextView tv_flaconsVides, TextView tv_selecteurService, TextView tv_nbComprimesSelectionne, TextView tv_nbComprimes, TextView tv_nbBouteillesRemplies) {
         this.vi_main_ui = view;
         this.bt_connect = bt_connect;
-        this.bt_flaconsVides = bt_flaconsVides;
-        this.bt_selecteurService = bt_selecteurService;
-        this.et_nbComprimesSelectionne = et_nbComprimesSelectionne;
-        this.et_nbComprimes = et_nbComprimes;
+        this.tv_flaconsVides = tv_flaconsVides;
+        this.tv_selecteurService = tv_selecteurService;
+        this.tv_nbComprimesSelectionne = tv_nbComprimesSelectionne;
+        this.tv_nbComprimes = tv_nbComprimes;
         this.tv_nbBouteillesRemplies = tv_nbBouteillesRemplies;
 
         comS7 = new S7Client();
@@ -75,31 +75,31 @@ public class ReadTaskS7Comprimes {
         switch (what) {
             case 0: //BT Flacons vides
                 if(progress == 1) {
-                    bt_flaconsVides.setText("ACTIVÉ");
+                    tv_flaconsVides.setText("ACTIVÉ");
                 } else {
-                    bt_flaconsVides.setText("DÉSACTIVÉ");
+                    tv_flaconsVides.setText("DÉSACTIVÉ");
                 }
                 break;
             case 1: //BT Selecteur en service
                 if(progress == 1) {
-                    bt_selecteurService.setText("ACTIVÉ");
+                    tv_selecteurService.setText("ACTIVÉ");
                 } else {
-                    bt_selecteurService.setText("DÉSACTIVÉ");
+                    tv_selecteurService.setText("DÉSACTIVÉ");
                 }
                 break;
             case 2: //ET Nb comprimés sélectionné
                 if(progress == 5) {
-                    et_nbComprimesSelectionne.setText("5");
+                    tv_nbComprimesSelectionne.setText("5");
                 } else if(progress == 10) {
-                    et_nbComprimesSelectionne.setText("10");
+                    tv_nbComprimesSelectionne.setText("10");
                 } else if(progress == 15) {
-                    et_nbComprimesSelectionne.setText("15");
+                    tv_nbComprimesSelectionne.setText("15");
                 } else {
                     System.out.println("Error");
                 }
                 break;
             case 3: //ET Nb comprimés par bouteille
-                et_nbComprimes.setText(String.valueOf(progress));
+                tv_nbComprimes.setText(String.valueOf(progress));
                 break;
             case 4: //TV Nb bouteilles remplies
                 tv_nbBouteillesRemplies.setText(String.valueOf(progress));
