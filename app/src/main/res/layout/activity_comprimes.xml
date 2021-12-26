@@ -111,10 +111,10 @@
                 android:id="@+id/rl_comprimes_RW"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
                 android:layout_below="@+id/rl_comprimes_parametres"
                 android:layout_marginHorizontal="25dp"
-                android:layout_marginTop="25dp">
+                android:layout_marginTop="25dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/ll_comprimes_flaconsVides"
@@ -130,7 +130,8 @@
                         android:id="@+id/tv_comprimes_flaconsVides"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Désactivé"/>
+                        android:text="Désactivé"
+                        android:textColor="@color/primary"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -149,7 +150,8 @@
                         android:id="@+id/tv_comprimes_selecteurService"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Désactivé"/>
+                        android:text="Désactivé"
+                        android:textColor="@color/primary"/>
                 </LinearLayout>
 
                 <LinearLayout
