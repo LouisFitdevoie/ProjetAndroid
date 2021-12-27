@@ -53,6 +53,8 @@ public class ComprimesActivity extends AppCompatActivity {
 
     SharedPreferences prefs_data;
 
+    Button bt_comprimes_write;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,8 @@ public class ComprimesActivity extends AppCompatActivity {
         network = connexStatus.getActiveNetworkInfo();
 
         prefs_data = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        bt_comprimes_write = (Button) findViewById(R.id.bt_comprimes_write);
     }
 
     public void onComprimesClickManager(View v) {
