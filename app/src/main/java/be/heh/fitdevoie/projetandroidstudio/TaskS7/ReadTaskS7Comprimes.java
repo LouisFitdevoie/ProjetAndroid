@@ -5,7 +5,10 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +38,28 @@ public class ReadTaskS7Comprimes {
     private String[] param = new String[10];
     private byte[] datasPLC = new byte[512];
 
-    public ReadTaskS7Comprimes(View view, Button bt_connect, TextView tv_flaconsVides, TextView tv_selecteurService, TextView tv_nbComprimesSelectionne, TextView tv_nbComprimes, TextView tv_nbBouteillesRemplies) {
+    RelativeLayout rl_comprimes_dataToWrite;
+    CheckBox cb_comprimes_flaconsVides;
+    CheckBox cb_comprimes_selecteurService;
+    CheckBox cb_comprimes_resetCompteur;
+    RadioButton rb_comprimes_5demandes;
+    RadioButton rb_comprimes_10demandes;
+    RadioButton rb_comprimes_15demandes;
+
+    public ReadTaskS7Comprimes(View view,
+                               Button bt_connect,
+                               TextView tv_flaconsVides,
+                               TextView tv_selecteurService,
+                               TextView tv_nbComprimesSelectionne,
+                               TextView tv_nbComprimes,
+                               TextView tv_nbBouteillesRemplies,
+                               RelativeLayout rl_comprimes_dataToWrite,
+                               CheckBox cb_comprimes_flaconsVides,
+                               CheckBox cb_comprimes_selecteurService,
+                               CheckBox cb_comprimes_resetCompteur,
+                               RadioButton rb_comprimes_5demandes,
+                               RadioButton rb_comprimes_10demandes,
+                               RadioButton rb_comprimes_15demandes) {
         this.vi_main_ui = view;
         this.bt_connect = bt_connect;
         this.tv_flaconsVides = tv_flaconsVides;
@@ -43,6 +67,13 @@ public class ReadTaskS7Comprimes {
         this.tv_nbComprimesSelectionne = tv_nbComprimesSelectionne;
         this.tv_nbComprimes = tv_nbComprimes;
         this.tv_nbBouteillesRemplies = tv_nbBouteillesRemplies;
+        this.rl_comprimes_dataToWrite = rl_comprimes_dataToWrite;
+        this.cb_comprimes_flaconsVides = cb_comprimes_flaconsVides;
+        this.cb_comprimes_selecteurService = cb_comprimes_selecteurService;
+        this.cb_comprimes_resetCompteur = cb_comprimes_resetCompteur;
+        this.rb_comprimes_5demandes = rb_comprimes_5demandes;
+        this.rb_comprimes_10demandes = rb_comprimes_10demandes;
+        this.rb_comprimes_15demandes = rb_comprimes_15demandes;
 
         comS7 = new S7Client();
         plcS7 = new AutomateS7();
@@ -157,8 +188,10 @@ public class ReadTaskS7Comprimes {
                             dataBoolean = S7.GetBitAt(datasPLC, 1, 3);
                             if(dataBoolean) {
                                 flaconsVides = 1;
+                                cb_comprimes_flaconsVides.setChecked(true);
                             } else {
                                 flaconsVides = 0;
+                                cb_comprimes_flaconsVides.setChecked(false);
                             }
                             sout += "Flacons vides : " + String.valueOf(flaconsVides);
                             sendProgressMessage(flaconsVides, 0);
@@ -169,8 +202,10 @@ public class ReadTaskS7Comprimes {
                             dataBoolean = S7.GetBitAt(datasPLC, 0, 0);
                             if(dataBoolean) {
                                 selecteurEnService = 1;
+                                cb_comprimes_selecteurService.setChecked(true);
                             } else {
                                 selecteurEnService = 0;
+                                cb_comprimes_selecteurService.setChecked(false);
                             }
                             sout += "\nSélecteur en service : " + String.valueOf(selecteurEnService);
                             sendProgressMessage(selecteurEnService, 1);
@@ -182,14 +217,23 @@ public class ReadTaskS7Comprimes {
                             dataBoolean = S7.GetBitAt(datasPLC, 0, 3);
                             if(dataBoolean) {
                                 nbComprimesSelectionnes = 5;
+                                rb_comprimes_5demandes.setChecked(true);
+                                rb_comprimes_10demandes.setChecked(false);
+                                rb_comprimes_15demandes.setChecked(false);
                             } else {
                                 dataBoolean = S7.GetBitAt(datasPLC, 0, 4);
                                 if(dataBoolean) {
                                     nbComprimesSelectionnes = 10;
+                                    rb_comprimes_5demandes.setChecked(false);
+                                    rb_comprimes_10demandes.setChecked(true);
+                                    rb_comprimes_15demandes.setChecked(false);
                                 } else {
                                     dataBoolean = S7.GetBitAt(datasPLC, 0, 5);
                                     if(dataBoolean) {
                                         nbComprimesSelectionnes = 15;
+                                        rb_comprimes_5demandes.setChecked(false);
+                                        rb_comprimes_10demandes.setChecked(false);
+                                        rb_comprimes_15demandes.setChecked(true);
                                     } else {
                                         nbComprimesSelectionnes = 0;
                                     }

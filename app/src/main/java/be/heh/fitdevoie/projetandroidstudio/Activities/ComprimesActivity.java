@@ -14,8 +14,10 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +56,13 @@ public class ComprimesActivity extends AppCompatActivity {
     SharedPreferences prefs_data;
 
     Button bt_comprimes_write;
+    RelativeLayout rl_comprimes_dataToWrite;
+    CheckBox cb_comprimes_flaconsVides;
+    CheckBox cb_comprimes_selecteurService;
+    CheckBox cb_comprimes_resetCompteur;
+    RadioButton rb_comprimes_5demandes;
+    RadioButton rb_comprimes_10demandes;
+    RadioButton rb_comprimes_15demandes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +96,25 @@ public class ComprimesActivity extends AppCompatActivity {
         prefs_data = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         bt_comprimes_write = (Button) findViewById(R.id.bt_comprimes_write);
+        rl_comprimes_dataToWrite = (RelativeLayout) findViewById(R.id.rl_comprimes_dataToWrite);
+        cb_comprimes_flaconsVides = (CheckBox) findViewById(R.id.cb_comprimes_flaconsVides);
+        cb_comprimes_selecteurService = (CheckBox) findViewById(R.id.cb_comprimes_selecteurService);
+        cb_comprimes_resetCompteur = (CheckBox) findViewById(R.id.cb_comprimes_resetCompteur);
+        rb_comprimes_5demandes = (RadioButton) findViewById(R.id.rb_comprimes_5demandes);
+        rb_comprimes_10demandes = (RadioButton) findViewById(R.id.rb_comprimes_10demandes);
+        rb_comprimes_15demandes = (RadioButton) findViewById(R.id.rb_comprimes_15demandes);
     }
 
     public void onComprimesClickManager(View v) {
 
         final int BT_COMPRIMES = R.id.bt_comprimes_connect;
+        final int BT_COMPRIMES_WRITE = R.id.bt_comprimes_write;
+        final int CB_COMPRIMES_FLACONSVIDES = R.id.cb_comprimes_flaconsVides;
+        final int CB_COMPRIMES_SELECTEURSERVICE = R.id.cb_comprimes_selecteurService;
+        final int CB_COMPRIMES_RESETCOMPTEUR = R.id.cb_comprimes_resetCompteur;
+        final int RB_COMPRIMES_5DEMANDES = R.id.rb_comprimes_5demandes;
+        final int RB_COMPRIMES_10DEMANDES = R.id.rb_comprimes_10demandes;
+        final int RB_COMPRIMES_15DEMANDES = R.id.rb_comprimes_15demandes;
 
         switch(v.getId()) {
             case BT_COMPRIMES:
@@ -150,13 +173,29 @@ public class ComprimesActivity extends AppCompatActivity {
                     if (ipOk && rackOk && slotOk) {
 
                         if(network != null && network.isConnectedOrConnecting()) {
+
+                            bt_comprimes_write.setVisibility(View.VISIBLE);
+
                             if(bt_comprimes.getText().equals("CONNECT")) {
                                 rl_comprimes_parametres.setVisibility(View.GONE);
                                 rl_comprimes_RW.setVisibility(View.VISIBLE);
 
                                 Toast.makeText(this,network.getTypeName(),Toast.LENGTH_SHORT).show();
                                 bt_comprimes.setText("DISCONNECT");
-                                readS7 = new ReadTaskS7Comprimes(v, bt_comprimes, tv_comprimes_flaconsVides, tv_comprimes_selecteurService, tv_comprimes_nbComprimesSelectionne, tv_comprimes_nbComprimes, tv_comprimes_nbBouteillesRemplies);
+                                readS7 = new ReadTaskS7Comprimes(v,
+                                        bt_comprimes,
+                                        tv_comprimes_flaconsVides,
+                                        tv_comprimes_selecteurService,
+                                        tv_comprimes_nbComprimesSelectionne,
+                                        tv_comprimes_nbComprimes,
+                                        tv_comprimes_nbBouteillesRemplies,
+                                        rl_comprimes_dataToWrite,
+                                        cb_comprimes_flaconsVides,
+                                        cb_comprimes_selecteurService,
+                                        cb_comprimes_resetCompteur,
+                                        rb_comprimes_5demandes,
+                                        rb_comprimes_10demandes,
+                                        rb_comprimes_15demandes);
                                 readS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
 
                                 try {
@@ -188,6 +227,7 @@ public class ComprimesActivity extends AppCompatActivity {
                 } else {
                     readS7.Stop();
                     bt_comprimes.setText("CONNECT");
+                    bt_comprimes_write.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(),"Traitement interrompu par l'utilisateur !",Toast.LENGTH_LONG).show();
                     try {
                         Thread.sleep(1000);
@@ -200,6 +240,23 @@ public class ComprimesActivity extends AppCompatActivity {
 
 
                 break;
+
+            case BT_COMPRIMES_WRITE:
+                if(bt_comprimes_write.getText().toString().equals("Start writing")) {
+                    rl_comprimes_dataToWrite.setVisibility(View.VISIBLE);
+                    bt_comprimes_write.setText("Stop writing");
+                } else {
+                    rl_comprimes_dataToWrite.setVisibility(View.GONE);
+                    bt_comprimes_write.setText("Start writing");
+                }
+                break;
+
+            case CB_COMPRIMES_FLACONSVIDES:
+                WriteTaskS7 writeTaskS7 = new WriteTaskS7();
+                writeTaskS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
+                int flaconsVidesToWrite = cb_comprimes_flaconsVides.isChecked() ? 1 : 0;
+                writeTaskS7.setWriteBool(1,3, flaconsVidesToWrite);
+                writeTaskS7.Stop();
         }
     }
 

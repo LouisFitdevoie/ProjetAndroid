@@ -215,6 +215,114 @@
                 </LinearLayout>
 
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_comprimes_dataToWrite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_comprimes_RW"
+                android:layout_marginTop="25dp"
+                android:visibility="gone">
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_writeFlaconsVides"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Arrivée des flacons vides"/>
+                    <CheckBox
+                        android:id="@+id/cb_comprimes_flaconsVides"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:checked="false"
+                        android:buttonTint="@color/primary"
+                        android:onClick="onComprimesClickManager"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_writeSelecteurService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_below="@+id/ll_comprimes_writeFlaconsVides">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sélecteur en service"/>
+                    <CheckBox
+                        android:id="@+id/cb_comprimes_selecteurService"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:checked="false"
+                        android:buttonTint="@color/primary"
+                        android:onClick="onComprimesClickManager"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_writeResetCompteur"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_below="@+id/ll_comprimes_writeSelecteurService">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reset du compteur de flacon"/>
+                    <CheckBox
+                        android:id="@+id/cb_comprimes_resetCompteur"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:checked="false"
+                        android:buttonTint="@color/primary"
+                        android:onClick="onComprimesClickManager"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_comprimes_writeDemandeComprimes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_below="@+id/ll_comprimes_writeResetCompteur"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre de comprimés demandés"
+                        android:layout_marginTop="3dp"/>
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <RadioButton
+                            android:id="@+id/rb_comprimes_5demandes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:text="5"
+                            android:checked="false"
+                            android:buttonTint="@color/primary"
+                            android:onClick="onComprimesClickManager"/>
+                        <RadioButton
+                            android:id="@+id/rb_comprimes_10demandes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:text="10"
+                            android:checked="false"
+                            android:buttonTint="@color/primary"
+                            android:onClick="onComprimesClickManager"/>
+                        <RadioButton
+                            android:id="@+id/rb_comprimes_15demandes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:text="15"
+                            android:checked="false"
+                            android:buttonTint="@color/primary"
+                            android:onClick="onComprimesClickManager"/>
+                    </RadioGroup>
+                </LinearLayout>
+
+            </RelativeLayout>
         </RelativeLayout>
 
         <LinearLayout
@@ -232,7 +340,7 @@
                 android:text="Start writing"
                 android:onClick="onComprimesClickManager"
                 tools:ignore="onclick"
-                android:layout_marginRight="50dp"
+                android:layout_marginRight="25dp"
                 android:visibility="gone"/>
             <Button
                 android:id="@+id/bt_comprimes_connect"

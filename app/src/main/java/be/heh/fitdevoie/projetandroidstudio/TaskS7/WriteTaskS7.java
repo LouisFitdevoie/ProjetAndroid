@@ -14,7 +14,8 @@ public class WriteTaskS7 {
     private AutomateS7 plcS7;
     private S7Client comS7;
     private String[] parConnexion = new String[10];
-    private byte[] motCommande = new byte[10];
+    private byte[] motCommande1 = new byte[10];
+    private byte[] motCommande2 = new byte[10];
 
     public WriteTaskS7() {
         comS7 = new S7Client();
@@ -46,7 +47,7 @@ public class WriteTaskS7 {
                 Integer res = comS7.ConnectTo(parConnexion[0],Integer.valueOf(parConnexion[1]),Integer.valueOf(parConnexion[2]));
 
                 while(isRunning.get() && (res.equals(0))) {
-                    Integer writePLC = comS7.WriteArea(S7.S7AreaDB,53,0,1,motCommande); //A Vérifier
+                    Integer writePLC = comS7.WriteArea(S7.S7AreaDB,5,0,1,motCommande1);
 
                     if(writePLC.equals(0)) {
                         Log.i("ret WRITE : ",String.valueOf(res) + "****" + String.valueOf(writePLC));
@@ -58,11 +59,19 @@ public class WriteTaskS7 {
         }
     }
 
-    public void setWriteBool(int b, int v) {
-        if(v == 1) {
-            motCommande[0] = (byte) (b | motCommande[0]);
+    public void setWriteBool(int byteToWrite,int bitToWrite, int value) {
+        if(value == 1) {
+            if(byteToWrite == 0) {
+                motCommande1[0] = (byte) (bitToWrite | motCommande1[0]);
+            } else if(byteToWrite == 1) {
+                motCommande2[0] = (byte) (bitToWrite | motCommande2[0]);
+            }
         } else {
-            motCommande[0] = (byte) (~b & motCommande[0]);
+            if(byteToWrite == 0) {
+                motCommande1[0] = (byte) (~bitToWrite & motCommande1[0]);
+            } else if(byteToWrite == 1) {
+                motCommande2[0] = (byte) (~bitToWrite & motCommande2[0]);
+            }
         }
     }
 
