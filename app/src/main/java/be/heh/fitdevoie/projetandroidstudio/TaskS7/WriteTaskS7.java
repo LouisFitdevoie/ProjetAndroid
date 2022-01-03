@@ -52,6 +52,12 @@ public class WriteTaskS7 {
                     if(writePLC.equals(0)) {
                         Log.i("ret WRITE : ",String.valueOf(res) + "****" + String.valueOf(writePLC));
                     }
+
+                    try {
+                        Thread.sleep(500);
+                    } catch(InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

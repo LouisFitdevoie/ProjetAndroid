@@ -63,6 +63,7 @@ public class ComprimesActivity extends AppCompatActivity {
     RadioButton rb_comprimes_5demandes;
     RadioButton rb_comprimes_10demandes;
     RadioButton rb_comprimes_15demandes;
+    WriteTaskS7 writeTaskS7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,7 +175,13 @@ public class ComprimesActivity extends AppCompatActivity {
 
                         if(network != null && network.isConnectedOrConnecting()) {
 
-                            bt_comprimes_write.setVisibility(View.VISIBLE);
+                            if(prefs_data.getInt("rights", -1) == 0) {
+                                bt_comprimes_write.setVisibility(View.VISIBLE);
+                                bt_comprimes_write.setEnabled(true);
+                            } else {
+                                bt_comprimes_write.setVisibility(View.GONE);
+                                bt_comprimes_write.setEnabled(false);
+                            }
 
                             if(bt_comprimes.getText().equals("CONNECT")) {
                                 rl_comprimes_parametres.setVisibility(View.GONE);
@@ -236,27 +243,37 @@ public class ComprimesActivity extends AppCompatActivity {
                     }
                     rl_comprimes_RW.setVisibility(View.GONE);
                     rl_comprimes_parametres.setVisibility(View.VISIBLE);
+
+                    if(rl_comprimes_dataToWrite.getVisibility() == View.VISIBLE) {
+                        writeTaskS7.Stop();
+                        rl_comprimes_dataToWrite.setVisibility(View.GONE);
+                        bt_comprimes_write.setText("Stop writing");
+                    }
                 }
-
-
                 break;
 
             case BT_COMPRIMES_WRITE:
                 if(bt_comprimes_write.getText().toString().equals("Start writing")) {
                     rl_comprimes_dataToWrite.setVisibility(View.VISIBLE);
                     bt_comprimes_write.setText("Stop writing");
+                    writeTaskS7 = new WriteTaskS7();
+                    writeTaskS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
                 } else {
                     rl_comprimes_dataToWrite.setVisibility(View.GONE);
                     bt_comprimes_write.setText("Start writing");
+                    writeTaskS7.Stop();
                 }
                 break;
 
+            case CB_COMPRIMES_SELECTEURSERVICE:
+                int selecteurService = cb_comprimes_selecteurService.isChecked() ? 1 : 0;
+                writeTaskS7.setWriteBool(0, 0, selecteurService);
+                break;
+
             case CB_COMPRIMES_FLACONSVIDES:
-                WriteTaskS7 writeTaskS7 = new WriteTaskS7();
-                writeTaskS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
                 int flaconsVidesToWrite = cb_comprimes_flaconsVides.isChecked() ? 1 : 0;
                 writeTaskS7.setWriteBool(1,3, flaconsVidesToWrite);
-                writeTaskS7.Stop();
+                break;
         }
     }
 

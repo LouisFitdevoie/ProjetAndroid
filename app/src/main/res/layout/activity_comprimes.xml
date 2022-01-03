@@ -238,7 +238,8 @@
                         android:layout_height="30dp"
                         android:checked="false"
                         android:buttonTint="@color/primary"
-                        android:onClick="onComprimesClickManager"/>
+                        android:onClick="onComprimesClickManager"
+                        tools:ignore="onclick"/>
                 </LinearLayout>
 
                 <LinearLayout
