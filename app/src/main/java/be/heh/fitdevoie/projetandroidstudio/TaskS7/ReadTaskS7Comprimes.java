@@ -31,12 +31,12 @@ public class ReadTaskS7Comprimes {
     private TextView tv_nbComprimesSelectionne;
     private TextView tv_nbComprimes;
     private TextView tv_nbBouteillesRemplies;
+    private String[] param = new String[10];
+    private byte[] datasPLC = new byte[512];
 
     private AutomateS7 plcS7;
     private Thread readThread;
     private S7Client comS7;
-    private String[] param = new String[10];
-    private byte[] datasPLC = new byte[512];
 
     RelativeLayout rl_comprimes_dataToWrite;
     CheckBox cb_comprimes_flaconsVides;
@@ -99,7 +99,7 @@ public class ReadTaskS7Comprimes {
     }
 
     private void downloadOnPreExecute(int t) {
-        Toast.makeText(vi_main_ui.getContext(),"Le traitement de la tâche de fond a démarré" + "\n",Toast.LENGTH_SHORT).show();
+
     }
 
     private void downloadOnProgressUpdate(int progress, int what) {
@@ -139,7 +139,7 @@ public class ReadTaskS7Comprimes {
     }
 
     private void downloadOnPostExecute() {
-        Toast.makeText(vi_main_ui.getContext(),"Le traitement de la tâche de fond est terminé", Toast.LENGTH_LONG).show();
+
     }
 
     private Handler monHandler = new Handler() {

@@ -1,6 +1,9 @@
 package be.heh.fitdevoie.projetandroidstudio.TaskS7;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
