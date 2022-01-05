@@ -68,6 +68,7 @@ public class NiveauActivity extends AppCompatActivity {
     RelativeLayout rl_niveau_dataToWrite;
     WriteTaskS7 writeTaskS7;
 
+    Button bt_niveau_toGraph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,12 +122,15 @@ public class NiveauActivity extends AppCompatActivity {
         rl_niveau_read.setVisibility(View.GONE);
         rl_niveau_dataToWrite.setVisibility(View.GONE);
         bt_niveau_write.setVisibility(View.GONE);
+
+        bt_niveau_toGraph = (Button) findViewById(R.id.bt_niveau_toGraph);
     }
 
     public void onNiveauClickManager(View v) {
 
         final int BT_NIVEAU = R.id.bt_niveau;
         final int BT_NIVEAU_WRITE = R.id.bt_niveau_write;
+        final int BT_NIVEAU_TOGRAPH = R.id.bt_niveau_toGraph;
 
         switch(v.getId()) {
             case BT_NIVEAU:
@@ -278,6 +282,11 @@ public class NiveauActivity extends AppCompatActivity {
                     }
                     writeTaskS7.Stop();
                 }
+                break;
+
+            case BT_NIVEAU_TOGRAPH:
+                Intent toGraph = new Intent(this, GraphiqueNiveauActivity.class);
+                startActivity(toGraph);
                 break;
         }
     }

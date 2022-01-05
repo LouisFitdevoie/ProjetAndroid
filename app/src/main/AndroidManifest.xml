@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetAndroidStudio">
         <activity
+            android:name=".Activities.GraphiqueNiveauActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.NiveauActivity"
             android:exported="false" />
         <activity
