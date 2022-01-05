@@ -281,7 +281,12 @@ public class NiveauActivity extends AppCompatActivity {
                 break;
 
             case BT_NIVEAU_TOGRAPH:
+                ArrayList<Integer> savedValues = readS7.getSavedValues();
+                readS7.Stop();
                 Intent toGraph = new Intent(this, GraphiqueNiveauActivity.class);
+                Bundle valuesToSend = new Bundle();
+                valuesToSend.putIntegerArrayList("savedValues", savedValues);
+                toGraph.putExtras(valuesToSend);
                 startActivity(toGraph);
                 break;
         }

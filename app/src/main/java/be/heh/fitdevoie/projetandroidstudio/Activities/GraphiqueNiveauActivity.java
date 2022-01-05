@@ -9,6 +9,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.util.ArrayList;
+
 import be.heh.fitdevoie.projetandroidstudio.R;
 
 public class GraphiqueNiveauActivity extends AppCompatActivity {
@@ -21,6 +27,19 @@ public class GraphiqueNiveauActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("Graphique de niveau");
+
+        Bundle savedValuesBundle = getIntent().getExtras();
+        ArrayList<Integer> savedValues = savedValuesBundle.getIntegerArrayList("savedValues");
+
+        GraphView graph = (GraphView) findViewById(R.id.gv_niveau);
+        LineGraphSeries<DataPoint> serie = new LineGraphSeries<>();
+
+        int level = 0;
+        for(int i = 0 ; i < savedValues.size() ; i++) {
+            level = savedValues.get(i);
+            serie.appendData(new DataPoint(i * 0.5, level), true, 100000);
+        }
+        graph.addSeries(serie);
     }
 
     @Override

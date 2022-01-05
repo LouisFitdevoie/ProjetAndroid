@@ -9,6 +9,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import SimaticS7.S7;
@@ -40,6 +42,8 @@ public class ReadTaskS7Niveau {
 
     private RelativeLayout rl_niveau_dataToWrite;
 
+    private ArrayList<Integer> savedValues;
+
     public ReadTaskS7Niveau(View view,
                             Button bt_connect,
                             TextView tv_niveau_selecteurMode,
@@ -69,6 +73,8 @@ public class ReadTaskS7Niveau {
         plcS7 = new AutomateS7();
 
         readThread = new Thread(plcS7);
+
+        savedValues = new ArrayList<>();
     }
 
     public void Stop() {
@@ -103,6 +109,7 @@ public class ReadTaskS7Niveau {
                 break;
             case 1: //TV niveau de liquide
                 tv_niveau_niveauLiquide.setText(String.valueOf(progress));
+                savedValues.add(progress);
                 break;
             case 2: //TV niveau de consigne automatique
                 tv_niveau_niveauConsigneAuto.setText(String.valueOf(progress));
@@ -167,6 +174,23 @@ public class ReadTaskS7Niveau {
             }
         }
     };
+
+    public ArrayList<Integer> getSavedValues() {
+        int maxValues = 500;
+        System.out.println("Nb values saved : " + savedValues.size());
+        if(savedValues.size() <= maxValues) {
+            System.out.println("Nb values returned : " + savedValues.size());
+            return savedValues;
+        } else {
+            ArrayList<Integer> valuesToReturn = new ArrayList<>();
+            int difference = savedValues.size() - maxValues;
+            for(int i = 0 ; i < maxValues ; i++) {
+                valuesToReturn.add(savedValues.get(difference + i));
+            }
+            System.out.println("Nb values returned : " + valuesToReturn.size());
+            return valuesToReturn;
+        }
+    }
 
     private class AutomateS7 implements Runnable {
         @Override

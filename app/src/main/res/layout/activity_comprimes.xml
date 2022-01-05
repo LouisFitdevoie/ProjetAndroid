@@ -230,7 +230,10 @@
                         android:layout_height="wrap_content"
                         android:text="Valeur à envoyer"
                         android:layout_marginTop="3dp"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center"
+                        android:textColor="@color/primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
 
                     <RadioGroup
                         android:id="@+id/rg_comprimes_dbbNumber"
