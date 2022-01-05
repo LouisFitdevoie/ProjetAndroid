@@ -5,6 +5,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +20,6 @@ public class ReadTaskS7Niveau {
     private static final int MESSAGE_PROGRESS_UPDATE = 2;
     private static final int MESSAGE_POST_EXECUTE = 3;
     private AtomicBoolean isRunning = new AtomicBoolean(false);
-    private TextView pb_main_progressionS7;
     private View vi_main_ui;
     private Button bt_connect;
     private TextView tv_niveau_selecteurMode;
@@ -38,7 +38,20 @@ public class ReadTaskS7Niveau {
     private String[] param = new String[10];
     private byte[] datasPLC = new byte[512];
 
-    public ReadTaskS7Niveau(View view, Button bt_connect, TextView tv_niveau_selecteurMode, TextView tv_niveau_niveauLiquide, TextView tv_niveau_niveauConsigneAuto, TextView tv_niveau_niveauConsigneManuel, TextView tv_niveau_sortie, TextView tv_niveau_valve1, TextView tv_niveau_valve2, TextView tv_niveau_valve3, TextView tv_niveau_valve4) {
+    private RelativeLayout rl_niveau_dataToWrite;
+
+    public ReadTaskS7Niveau(View view,
+                            Button bt_connect,
+                            TextView tv_niveau_selecteurMode,
+                            TextView tv_niveau_niveauLiquide,
+                            TextView tv_niveau_niveauConsigneAuto,
+                            TextView tv_niveau_niveauConsigneManuel,
+                            TextView tv_niveau_sortie,
+                            TextView tv_niveau_valve1,
+                            TextView tv_niveau_valve2,
+                            TextView tv_niveau_valve3,
+                            TextView tv_niveau_valve4,
+                            RelativeLayout rl_niveau_dataToWrite) {
         this.vi_main_ui = view;
         this.bt_connect = bt_connect;
         this.tv_niveau_selecteurMode = tv_niveau_selecteurMode;
@@ -50,6 +63,7 @@ public class ReadTaskS7Niveau {
         this.tv_niveau_valve2 = tv_niveau_valve2;
         this.tv_niveau_valve3 = tv_niveau_valve3;
         this.tv_niveau_valve4 = tv_niveau_valve4;
+        this.rl_niveau_dataToWrite = rl_niveau_dataToWrite;
 
         comS7 = new S7Client();
         plcS7 = new AutomateS7();
@@ -63,11 +77,11 @@ public class ReadTaskS7Niveau {
         readThread.interrupt();
     }
 
-    public void Start(String a, String r, String s) {
+    public void Start(String ipAddress, String rack, String slot) {
         if(!readThread.isAlive()) {
-            param[0] = a;
-            param[1] = r;
-            param[2] = s;
+            param[0] = ipAddress;
+            param[1] = rack;
+            param[2] = slot;
 
             readThread.start();
             isRunning.set(true);
@@ -75,7 +89,7 @@ public class ReadTaskS7Niveau {
     }
 
     private void downloadOnPreExecute(int t) {
-        Toast.makeText(vi_main_ui.getContext(),"Le traitement de la tâche de fond a démarré" + "\n",Toast.LENGTH_SHORT).show();
+
     }
 
     private void downloadOnProgressUpdate(int progress, int what) {
@@ -131,7 +145,7 @@ public class ReadTaskS7Niveau {
     }
 
     private void downloadOnPostExecute() {
-        Toast.makeText(vi_main_ui.getContext(),"Le traitement de la tâche de fond est terminé", Toast.LENGTH_LONG).show();
+
     }
 
     private Handler monHandler = new Handler() {

@@ -23,7 +23,6 @@ public class ReadTaskS7Comprimes {
     private static final int MESSAGE_PROGRESS_UPDATE = 2;
     private static final int MESSAGE_POST_EXECUTE = 3;
     private AtomicBoolean isRunning = new AtomicBoolean(false);
-    private TextView pb_main_progressionS7;
     private View vi_main_ui;
     private Button bt_connect;
     private TextView tv_flaconsVides;
@@ -38,7 +37,7 @@ public class ReadTaskS7Comprimes {
     private Thread readThread;
     private S7Client comS7;
 
-    RelativeLayout rl_comprimes_dataToWrite;
+    private RelativeLayout rl_comprimes_dataToWrite;
 
     public ReadTaskS7Comprimes(View view,
                                Button bt_connect,
@@ -69,11 +68,11 @@ public class ReadTaskS7Comprimes {
         readThread.interrupt();
     }
 
-    public void Start(String a, String r, String s) {
+    public void Start(String ipAddress, String rack, String slot) {
         if(!readThread.isAlive()) {
-            param[0] = a;
-            param[1] = r;
-            param[2] = s;
+            param[0] = ipAddress;
+            param[1] = rack;
+            param[2] = slot;
 
             readThread.start();
             isRunning.set(true);

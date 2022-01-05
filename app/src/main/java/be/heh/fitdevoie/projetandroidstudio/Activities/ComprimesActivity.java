@@ -127,7 +127,6 @@ public class ComprimesActivity extends AppCompatActivity {
 
         switch(v.getId()) {
             case BT_COMPRIMES:
-
                 if(bt_comprimes.getText().toString().equals("CONNECT")) {
                     String paramError = "Veuillez remplir/corriger les erreurs suivantes :";
                     Boolean ipOk = false;
@@ -186,7 +185,7 @@ public class ComprimesActivity extends AppCompatActivity {
                                 bt_comprimes_write.setEnabled(false);
                             }
 
-                            if(bt_comprimes.getText().equals("CONNECT") || rl_comprimes_parametres.getVisibility() == View.GONE) {
+                            if(bt_comprimes.getText().equals("CONNECT")) {
                                 rl_comprimes_parametres.setVisibility(View.GONE);
                                 rl_comprimes_read.setVisibility(View.VISIBLE);
 
@@ -236,7 +235,6 @@ public class ComprimesActivity extends AppCompatActivity {
                     rl_comprimes_parametres.setVisibility(View.VISIBLE);
 
                     if(rl_comprimes_dataToWrite.getVisibility() == View.VISIBLE) {
-
                         rl_comprimes_dataToWrite.setVisibility(View.GONE);
                     }
                 }

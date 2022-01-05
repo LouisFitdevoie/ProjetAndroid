@@ -15,13 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import SimaticS7.S7Client;
+import java.util.ArrayList;
+
 import be.heh.fitdevoie.projetandroidstudio.R;
-import be.heh.fitdevoie.projetandroidstudio.TaskS7.ReadTaskS7Comprimes;
 import be.heh.fitdevoie.projetandroidstudio.TaskS7.ReadTaskS7Niveau;
 import be.heh.fitdevoie.projetandroidstudio.TaskS7.WriteTaskS7;
 
@@ -34,7 +36,7 @@ public class NiveauActivity extends AppCompatActivity {
     EditText et_niveau_slot;
     TextView tv_niveau_parametres_errorText;
 
-    RelativeLayout rl_niveau_RW;
+    RelativeLayout rl_niveau_read;
     TextView tv_niveau_selecteurMode;
     TextView tv_niveau_niveauLiquide;
     TextView tv_niveau_niveauConsigneAuto;
@@ -47,12 +49,25 @@ public class NiveauActivity extends AppCompatActivity {
 
     private NetworkInfo network;
     private ConnectivityManager connexStatus;
-    private S7Client comS7;
+
     View v;
     ReadTaskS7Niveau readS7;
-    WriteTaskS7 writeS7;
 
     SharedPreferences prefs_data;
+
+    Button bt_niveau_write;
+    RadioGroup rg_niveau_dbbNumber;
+    RadioButton rb_niveau_DBB2;
+    RadioButton rb_niveau_DBB3;
+    RadioButton rb_niveau_DBB24;
+    RadioButton rb_niveau_DBB26;
+    RadioButton rb_niveau_DBB28;
+    RadioButton rb_niveau_DBB30;
+    ArrayList<RadioButton> radioButtons = new ArrayList<>();
+    EditText et_niveau_valueToSend;
+    RelativeLayout rl_niveau_dataToWrite;
+    WriteTaskS7 writeTaskS7;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +85,7 @@ public class NiveauActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("Régulation de niveau de liquide");
 
-        rl_niveau_RW = (RelativeLayout) findViewById(R.id.rl_niveau_RW);
+        rl_niveau_read = (RelativeLayout) findViewById(R.id.rl_niveau_read);
         tv_niveau_selecteurMode = (TextView) findViewById(R.id.tv_niveau_selecteurMode);
         tv_niveau_niveauLiquide = (TextView) findViewById(R.id.tv_niveau_niveauLiquide);
         tv_niveau_niveauConsigneAuto = (TextView) findViewById(R.id.tv_niveau_niveauConsigneAuto);
@@ -84,11 +99,34 @@ public class NiveauActivity extends AppCompatActivity {
         connexStatus = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         network = connexStatus.getActiveNetworkInfo();
         prefs_data = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        bt_niveau_write = (Button) findViewById(R.id.bt_niveau_write);
+        rl_niveau_dataToWrite = (RelativeLayout) findViewById(R.id.rl_niveau_dataToWrite);
+        rg_niveau_dbbNumber = (RadioGroup) findViewById(R.id.rg_niveau_dbbnumber);
+        rb_niveau_DBB2 = (RadioButton) findViewById(R.id.rb_niveau_DBB2);
+        rb_niveau_DBB3 = (RadioButton) findViewById(R.id.rb_niveau_DBB3);
+        rb_niveau_DBB24 = (RadioButton) findViewById(R.id.rb_niveau_DBB24);
+        rb_niveau_DBB26 = (RadioButton) findViewById(R.id.rb_niveau_DBB26);
+        rb_niveau_DBB28 = (RadioButton) findViewById(R.id.rb_niveau_DBB28);
+        rb_niveau_DBB30 = (RadioButton) findViewById(R.id.rb_niveau_DBB30);
+        et_niveau_valueToSend = (EditText) findViewById(R.id.et_niveau_valueToSend);
+
+        radioButtons.add(rb_niveau_DBB2);
+        radioButtons.add(rb_niveau_DBB3);
+        radioButtons.add(rb_niveau_DBB24);
+        radioButtons.add(rb_niveau_DBB26);
+        radioButtons.add(rb_niveau_DBB28);
+        radioButtons.add(rb_niveau_DBB30);
+
+        rl_niveau_read.setVisibility(View.GONE);
+        rl_niveau_dataToWrite.setVisibility(View.GONE);
+        bt_niveau_write.setVisibility(View.GONE);
     }
 
     public void onNiveauClickManager(View v) {
 
         final int BT_NIVEAU = R.id.bt_niveau;
+        final int BT_NIVEAU_WRITE = R.id.bt_niveau_write;
 
         switch(v.getId()) {
             case BT_NIVEAU:
@@ -97,9 +135,6 @@ public class NiveauActivity extends AppCompatActivity {
                     Boolean ipOk = false;
                     Boolean rackOk = false;
                     Boolean slotOk = false;
-                    String ipAddress = "";
-                    int rack = 0;
-                    int slot = 0;
 
                     if (et_niveau_ip.getText().toString().trim().length() == 0) {
                         ipOk = false;
@@ -132,7 +167,6 @@ public class NiveauActivity extends AppCompatActivity {
                         paramError += "\n- Le champ Rack est vide";
                     } else {
                         rackOk = true;
-                        rack = Integer.parseInt(et_niveau_rack.getText().toString());
                     }
 
                     if (et_niveau_slot.getText().toString().trim().length() == 0) {
@@ -140,40 +174,56 @@ public class NiveauActivity extends AppCompatActivity {
                         paramError += "\n- Le champ Slot est vide";
                     } else {
                         slotOk = true;
-                        slot = Integer.parseInt(et_niveau_slot.getText().toString());
                     }
 
                     if (ipOk && rackOk && slotOk) {
 
                         if(network != null && network.isConnectedOrConnecting()) {
+
+                            if(prefs_data.getInt("rights", -1) == 0) {
+                                bt_niveau_write.setVisibility(View.VISIBLE);
+                                bt_niveau_write.setEnabled(true);
+                            } else {
+                                bt_niveau_write.setVisibility(View.GONE);
+                                bt_niveau_write.setEnabled(false);
+                            }
+
                             if(bt_niveau.getText().equals("CONNECT")) {
                                 rl_niveau_parametres.setVisibility(View.GONE);
-                                rl_niveau_RW.setVisibility(View.VISIBLE);
+                                rl_niveau_read.setVisibility(View.VISIBLE);
 
-                                Toast.makeText(this,network.getTypeName(),Toast.LENGTH_SHORT).show();
                                 bt_niveau.setText("DISCONNECT");
-                                readS7 = new ReadTaskS7Niveau(v, bt_niveau, tv_niveau_selecteurMode, tv_niveau_niveauLiquide, tv_niveau_niveauConsigneAuto, tv_niveau_niveauConsigneManuel, tv_niveau_sortie, tv_niveau_valve1, tv_niveau_valve2, tv_niveau_valve3, tv_niveau_valve4);
+                                readS7 = new ReadTaskS7Niveau(v,
+                                        bt_niveau,
+                                        tv_niveau_selecteurMode,
+                                        tv_niveau_niveauLiquide,
+                                        tv_niveau_niveauConsigneAuto,
+                                        tv_niveau_niveauConsigneManuel,
+                                        tv_niveau_sortie,
+                                        tv_niveau_valve1,
+                                        tv_niveau_valve2,
+                                        tv_niveau_valve3,
+                                        tv_niveau_valve4,
+                                        rl_niveau_dataToWrite);
                                 readS7.Start(et_niveau_ip.getText().toString(),et_niveau_rack.getText().toString(),et_niveau_slot.getText().toString());
-
-                                try {
-                                    Thread.sleep(1000);
-                                } catch(InterruptedException e) {
-                                    e.printStackTrace();
-                                }
                             } else {
                                 readS7.Stop();
                                 bt_niveau.setText("CONNECT");
-                                Toast.makeText(getApplicationContext(),"Traitement interrompu par l'utilisateur !",Toast.LENGTH_LONG).show();
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                rl_niveau_RW.setVisibility(View.GONE);
+                                rl_niveau_read.setVisibility(View.GONE);
                                 rl_niveau_parametres.setVisibility(View.VISIBLE);
                             }
                         } else {
                             Toast.makeText(this, "Connexion réseau impossible !", Toast.LENGTH_SHORT).show();
+                        }
+
+                        if(prefs_data.getInt("rights", -1) == 0) {
+                            bt_niveau_write.setVisibility(View.VISIBLE);
+                            bt_niveau_write.setEnabled(true);
+                            rl_niveau_dataToWrite.setVisibility(View.VISIBLE);
+                        } else {
+                            bt_niveau_write.setVisibility(View.GONE);
+                            bt_niveau_write.setEnabled(false);
+                            rl_niveau_dataToWrite.setVisibility(View.GONE);
                         }
 
                     } else {
@@ -183,18 +233,51 @@ public class NiveauActivity extends AppCompatActivity {
                     }
                 } else {
                     readS7.Stop();
+
                     bt_niveau.setText("CONNECT");
-                    Toast.makeText(getApplicationContext(),"Traitement interrompu par l'utilisateur !",Toast.LENGTH_LONG).show();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    rl_niveau_RW.setVisibility(View.GONE);
+                    bt_niveau_write.setVisibility(View.GONE);
+                    et_niveau_valueToSend.setText(null);
+
+                    rl_niveau_read.setVisibility(View.GONE);
                     rl_niveau_parametres.setVisibility(View.VISIBLE);
+
+                    if(rl_niveau_dataToWrite.getVisibility() == View.VISIBLE) {
+                        rl_niveau_dataToWrite.setVisibility(View.GONE);
+                    }
                 }
 
+                break;
 
+            case BT_NIVEAU_WRITE:
+                Boolean writeOk = false;
+                for(RadioButton rb : radioButtons) {
+                    if(rb.isChecked()) {
+                        writeOk = true;
+                    }
+                }
+                if(et_niveau_valueToSend.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "Veuillez entrer une valeur", Toast.LENGTH_SHORT).show();
+                } else if(!writeOk) {
+                    Toast.makeText(this, "Veuillez choisir une DBB", Toast.LENGTH_SHORT).show();
+                } else if (writeOk) {
+                    writeTaskS7 = new WriteTaskS7();
+                    writeTaskS7.Start(et_niveau_ip.getText().toString(),et_niveau_rack.getText().toString(),et_niveau_slot.getText().toString());
+                    int value = Integer.parseInt(et_niveau_valueToSend.getText().toString());
+                    if(rb_niveau_DBB2.isChecked()) {
+                        writeTaskS7.WriteByte(2, value);
+                    } else if(rb_niveau_DBB3.isChecked()) {
+                        writeTaskS7.WriteByte(3, value);
+                    } else if(rb_niveau_DBB24.isChecked()) {
+                        writeTaskS7.WriteByte(24, value);
+                    } else if(rb_niveau_DBB26.isChecked()) {
+                        writeTaskS7.WriteByte(26,value);
+                    } else if(rb_niveau_DBB28.isChecked()) {
+                        writeTaskS7.WriteByte(28, value);
+                    } else if(rb_niveau_DBB30.isChecked()) {
+                        writeTaskS7.WriteByte(30, value);
+                    }
+                    writeTaskS7.Stop();
+                }
                 break;
         }
     }
@@ -211,5 +294,15 @@ public class NiveauActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(rl_niveau_parametres.getVisibility() == View.VISIBLE) {
+            Intent toChoix = new Intent(this, ChoixActivity.class);
+            startActivity(toChoix);
+            finish();
+        }
+        return;
     }
 }

@@ -244,40 +244,35 @@
                             android:layout_height="30dp"
                             android:text="DBB5"
                             android:checked="false"
-                            android:buttonTint="@color/primary"
-                            android:onClick="onComprimesClickManager"/>
+                            android:buttonTint="@color/primary"/>
                         <RadioButton
                             android:id="@+id/rb_comprimes_DBB6"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:text="DBB6"
                             android:checked="false"
-                            android:buttonTint="@color/primary"
-                            android:onClick="onComprimesClickManager"/>
+                            android:buttonTint="@color/primary"/>
                         <RadioButton
                             android:id="@+id/rb_comprimes_DBB7"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:text="DBB7"
                             android:checked="false"
-                            android:buttonTint="@color/primary"
-                            android:onClick="onComprimesClickManager"/>
+                            android:buttonTint="@color/primary"/>
                         <RadioButton
                             android:id="@+id/rb_comprimes_DBB8"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:text="DBB8"
                             android:checked="false"
-                            android:buttonTint="@color/primary"
-                            android:onClick="onComprimesClickManager"/>
+                            android:buttonTint="@color/primary"/>
                         <RadioButton
                             android:id="@+id/rb_comprimes_DBB18"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:text="DBB18"
                             android:checked="false"
-                            android:buttonTint="@color/primary"
-                            android:onClick="onComprimesClickManager"/>
+                            android:buttonTint="@color/primary"/>
                     </RadioGroup>
 
                     <EditText
@@ -304,7 +299,6 @@
                 android:id="@+id/bt_comprimes_write"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:text="Send data"
                 android:onClick="onComprimesClickManager"
                 tools:ignore="onclick"
