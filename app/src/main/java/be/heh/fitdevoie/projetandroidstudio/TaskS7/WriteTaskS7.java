@@ -29,11 +29,11 @@ public class WriteTaskS7 {
         writeTrhead.interrupt();
     }
 
-    public void Start(String a, String r, String s){
+    public void Start(String ipAddress, String rack, String slot){
         if(!writeTrhead.isAlive()){
-            parConnexion[0] = a;
-            parConnexion[1] = r;
-            parConnexion[2] = s;
+            parConnexion[0] = ipAddress;
+            parConnexion[1] = rack;
+            parConnexion[2] = slot;
             writeTrhead.start();
             isRunning.set(true);
         }
@@ -58,28 +58,20 @@ public class WriteTaskS7 {
         }
     }
 
-    public void setWriteBool(int b, int v){
-        if(v == 1){
-            motCommande[0] = (byte) (b | motCommande[0]);
-        }else {
-            motCommande[0] = (byte) (~b & motCommande[0]);
-        }
-    }
-
-    public void WriteByte(int p, int v){
-        String s = Integer.toBinaryString(v);
+    public void WriteByte(int position, int value){
+        String s = Integer.toBinaryString(value);
         ArrayList<Boolean> booleans = new ArrayList<>();
-        for (char c : s.toCharArray()){
-            if(c == '1'){
+        for (char character : s.toCharArray()){
+            if(character == '1'){
                 booleans.add(true);
-            }else if(c == '0'){
+            }else if(character == '0'){
                 booleans.add(false);
             }
         }
         int i = booleans.size() -1;
-        for(Boolean b : booleans){
-            System.out.print(b + " ");
-            S7.SetBitAt(motCommande, p, i, b);
+        for(Boolean bool : booleans){
+            System.out.print(bool + " ");
+            S7.SetBitAt(motCommande, position, i, bool);
             i--;
         }
         try{

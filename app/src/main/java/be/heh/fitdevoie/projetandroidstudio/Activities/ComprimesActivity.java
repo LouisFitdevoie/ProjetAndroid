@@ -50,7 +50,7 @@ public class ComprimesActivity extends AppCompatActivity {
     TextView tv_comprimes_nbBouteillesRemplies;
     private NetworkInfo network;
     private ConnectivityManager connexStatus;
-    private S7Client comS7;
+
     View v;
     ReadTaskS7Comprimes readS7;
 
@@ -287,5 +287,15 @@ public class ComprimesActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(rl_comprimes_parametres.getVisibility() == View.VISIBLE) {
+            Intent toChoix = new Intent(this, ChoixActivity.class);
+            startActivity(toChoix);
+            finish();
+        }
+        return;
     }
 }
