@@ -185,26 +185,19 @@ public class ComprimesActivity extends AppCompatActivity {
                                 bt_comprimes_write.setEnabled(false);
                             }
 
-                            if(bt_comprimes.getText().equals("CONNECT")) {
-                                rl_comprimes_parametres.setVisibility(View.GONE);
-                                rl_comprimes_read.setVisibility(View.VISIBLE);
+                            rl_comprimes_parametres.setVisibility(View.GONE);
+                            rl_comprimes_read.setVisibility(View.VISIBLE);
 
-                                bt_comprimes.setText("DISCONNECT");
-                                readS7 = new ReadTaskS7Comprimes(v,
-                                        bt_comprimes,
-                                        tv_comprimes_flaconsVides,
-                                        tv_comprimes_selecteurService,
-                                        tv_comprimes_nbComprimesSelectionne,
-                                        tv_comprimes_nbComprimes,
-                                        tv_comprimes_nbBouteillesRemplies,
-                                        rl_comprimes_dataToWrite);
-                                readS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
-                            } else {
-                                readS7.Stop();
-                                bt_comprimes.setText("CONNECT");
-                                rl_comprimes_read.setVisibility(View.GONE);
-                                rl_comprimes_parametres.setVisibility(View.VISIBLE);
-                            }
+                            bt_comprimes.setText("DISCONNECT");
+                            readS7 = new ReadTaskS7Comprimes(v,
+                                    bt_comprimes,
+                                    tv_comprimes_flaconsVides,
+                                    tv_comprimes_selecteurService,
+                                    tv_comprimes_nbComprimesSelectionne,
+                                    tv_comprimes_nbComprimes,
+                                    tv_comprimes_nbBouteillesRemplies,
+                                    rl_comprimes_dataToWrite);
+                            readS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
                         } else {
                             Toast.makeText(this, "Connexion réseau impossible !", Toast.LENGTH_SHORT).show();
                         }

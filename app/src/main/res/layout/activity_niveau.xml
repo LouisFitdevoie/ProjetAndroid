@@ -117,7 +117,7 @@
                 android:visibility="visible"
                 android:layout_below="@+id/rl_niveau_parametres"
                 android:layout_marginHorizontal="25dp"
-                android:layout_marginTop="25dp">
+                android:layout_marginTop="10dp">
 
                 <LinearLayout
                     android:id="@+id/ll_niveau_selecteurMode"
@@ -333,7 +333,10 @@
                     android:layout_height="wrap_content"
                     android:text="Valeur à envoyer"
                     android:layout_marginTop="3dp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:textColor="@color/primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
                 <HorizontalScrollView
                     android:id="@+id/hsv_niveau_dbbNumbers"
                     android:layout_width="match_parent"

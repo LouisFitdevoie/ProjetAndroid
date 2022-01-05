@@ -124,6 +124,7 @@ public class NiveauActivity extends AppCompatActivity {
         bt_niveau_write.setVisibility(View.GONE);
 
         bt_niveau_toGraph = (Button) findViewById(R.id.bt_niveau_toGraph);
+        bt_niveau_toGraph.setVisibility(View.GONE);
     }
 
     public void onNiveauClickManager(View v) {
@@ -192,30 +193,24 @@ public class NiveauActivity extends AppCompatActivity {
                                 bt_niveau_write.setEnabled(false);
                             }
 
-                            if(bt_niveau.getText().equals("CONNECT")) {
-                                rl_niveau_parametres.setVisibility(View.GONE);
-                                rl_niveau_read.setVisibility(View.VISIBLE);
+                            rl_niveau_parametres.setVisibility(View.GONE);
+                            rl_niveau_read.setVisibility(View.VISIBLE);
+                            bt_niveau_toGraph.setVisibility(View.VISIBLE);
 
-                                bt_niveau.setText("DISCONNECT");
-                                readS7 = new ReadTaskS7Niveau(v,
-                                        bt_niveau,
-                                        tv_niveau_selecteurMode,
-                                        tv_niveau_niveauLiquide,
-                                        tv_niveau_niveauConsigneAuto,
-                                        tv_niveau_niveauConsigneManuel,
-                                        tv_niveau_sortie,
-                                        tv_niveau_valve1,
-                                        tv_niveau_valve2,
-                                        tv_niveau_valve3,
-                                        tv_niveau_valve4,
-                                        rl_niveau_dataToWrite);
-                                readS7.Start(et_niveau_ip.getText().toString(),et_niveau_rack.getText().toString(),et_niveau_slot.getText().toString());
-                            } else {
-                                readS7.Stop();
-                                bt_niveau.setText("CONNECT");
-                                rl_niveau_read.setVisibility(View.GONE);
-                                rl_niveau_parametres.setVisibility(View.VISIBLE);
-                            }
+                            bt_niveau.setText("DISCONNECT");
+                            readS7 = new ReadTaskS7Niveau(v,
+                                    bt_niveau,
+                                    tv_niveau_selecteurMode,
+                                    tv_niveau_niveauLiquide,
+                                    tv_niveau_niveauConsigneAuto,
+                                    tv_niveau_niveauConsigneManuel,
+                                    tv_niveau_sortie,
+                                    tv_niveau_valve1,
+                                    tv_niveau_valve2,
+                                    tv_niveau_valve3,
+                                    tv_niveau_valve4,
+                                    rl_niveau_dataToWrite);
+                            readS7.Start(et_niveau_ip.getText().toString(),et_niveau_rack.getText().toString(),et_niveau_slot.getText().toString());
                         } else {
                             Toast.makeText(this, "Connexion réseau impossible !", Toast.LENGTH_SHORT).show();
                         }
@@ -244,6 +239,7 @@ public class NiveauActivity extends AppCompatActivity {
 
                     rl_niveau_read.setVisibility(View.GONE);
                     rl_niveau_parametres.setVisibility(View.VISIBLE);
+            bt_niveau_toGraph.setVisibility(View.GONE);
 
                     if(rl_niveau_dataToWrite.getVisibility() == View.VISIBLE) {
                         rl_niveau_dataToWrite.setVisibility(View.GONE);
