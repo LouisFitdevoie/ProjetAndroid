@@ -14,13 +14,15 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import SimaticS7.S7Client;
 import be.heh.fitdevoie.projetandroidstudio.R;
@@ -36,7 +38,7 @@ public class ComprimesActivity extends AppCompatActivity {
     EditText et_comprimes_slot;
     TextView tv_comprimes_parametres_errorText;
 
-    RelativeLayout rl_comprimes_RW;
+    RelativeLayout rl_comprimes_read;
     LinearLayout ll_comprimes_flaconsVides;
     TextView tv_comprimes_flaconsVides;
     LinearLayout ll_comprimes_selecteurService;
@@ -55,13 +57,15 @@ public class ComprimesActivity extends AppCompatActivity {
     SharedPreferences prefs_data;
 
     Button bt_comprimes_write;
+    RadioGroup rg_comprimes_dbbNumber;
+    RadioButton rb_comprimes_DBB5;
+    RadioButton rb_comprimes_DBB6;
+    RadioButton rb_comprimes_DBB7;
+    RadioButton rb_comprimes_DBB8;
+    RadioButton rb_comprimes_DBB18;
+    ArrayList<RadioButton> radioButtons = new ArrayList<>();
+    EditText et_comprimes_valueToSend;
     RelativeLayout rl_comprimes_dataToWrite;
-    CheckBox cb_comprimes_flaconsVides;
-    CheckBox cb_comprimes_selecteurService;
-    CheckBox cb_comprimes_resetCompteur;
-    RadioButton rb_comprimes_5demandes;
-    RadioButton rb_comprimes_10demandes;
-    RadioButton rb_comprimes_15demandes;
     WriteTaskS7 writeTaskS7;
 
     @Override
@@ -80,7 +84,7 @@ public class ComprimesActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("Conditionnement de comprimés");
 
-        rl_comprimes_RW = (RelativeLayout) findViewById(R.id.rl_comprimes_RW);
+        rl_comprimes_read = (RelativeLayout) findViewById(R.id.rl_comprimes_read);
         ll_comprimes_flaconsVides = (LinearLayout) findViewById(R.id.ll_comprimes_flaconsVides);
         tv_comprimes_flaconsVides = (TextView) findViewById(R.id.tv_comprimes_flaconsVides);
         ll_comprimes_selecteurService = (LinearLayout) findViewById(R.id.ll_comprimes_selecteurService);
@@ -97,24 +101,29 @@ public class ComprimesActivity extends AppCompatActivity {
 
         bt_comprimes_write = (Button) findViewById(R.id.bt_comprimes_write);
         rl_comprimes_dataToWrite = (RelativeLayout) findViewById(R.id.rl_comprimes_dataToWrite);
-        cb_comprimes_flaconsVides = (CheckBox) findViewById(R.id.cb_comprimes_flaconsVides);
-        cb_comprimes_selecteurService = (CheckBox) findViewById(R.id.cb_comprimes_selecteurService);
-        cb_comprimes_resetCompteur = (CheckBox) findViewById(R.id.cb_comprimes_resetCompteur);
-        rb_comprimes_5demandes = (RadioButton) findViewById(R.id.rb_comprimes_5demandes);
-        rb_comprimes_10demandes = (RadioButton) findViewById(R.id.rb_comprimes_10demandes);
-        rb_comprimes_15demandes = (RadioButton) findViewById(R.id.rb_comprimes_15demandes);
+        rg_comprimes_dbbNumber = (RadioGroup) findViewById(R.id.rg_comprimes_dbbNumber);
+        rb_comprimes_DBB5 = (RadioButton) findViewById(R.id.rb_comprimes_DBB5);
+        rb_comprimes_DBB6 = (RadioButton) findViewById(R.id.rb_comprimes_DBB6);
+        rb_comprimes_DBB7 = (RadioButton) findViewById(R.id.rb_comprimes_DBB7);
+        rb_comprimes_DBB8 = (RadioButton) findViewById(R.id.rb_comprimes_DBB8);
+        rb_comprimes_DBB18 = (RadioButton) findViewById(R.id.rb_comprimes_DBB18);
+        et_comprimes_valueToSend = (EditText) findViewById(R.id.et_comprimes_valueToSend);
+
+        radioButtons.add(rb_comprimes_DBB5);
+        radioButtons.add(rb_comprimes_DBB6);
+        radioButtons.add(rb_comprimes_DBB7);
+        radioButtons.add(rb_comprimes_DBB8);
+        radioButtons.add(rb_comprimes_DBB18);
+
+        rl_comprimes_read.setVisibility(View.GONE);
+        rl_comprimes_dataToWrite.setVisibility(View.GONE);
+        bt_comprimes_write.setVisibility(View.GONE);
     }
 
     public void onComprimesClickManager(View v) {
 
         final int BT_COMPRIMES = R.id.bt_comprimes_connect;
         final int BT_COMPRIMES_WRITE = R.id.bt_comprimes_write;
-        final int CB_COMPRIMES_FLACONSVIDES = R.id.cb_comprimes_flaconsVides;
-        final int CB_COMPRIMES_SELECTEURSERVICE = R.id.cb_comprimes_selecteurService;
-        final int CB_COMPRIMES_RESETCOMPTEUR = R.id.cb_comprimes_resetCompteur;
-        final int RB_COMPRIMES_5DEMANDES = R.id.rb_comprimes_5demandes;
-        final int RB_COMPRIMES_10DEMANDES = R.id.rb_comprimes_10demandes;
-        final int RB_COMPRIMES_15DEMANDES = R.id.rb_comprimes_15demandes;
 
         switch(v.getId()) {
             case BT_COMPRIMES:
@@ -124,14 +133,6 @@ public class ComprimesActivity extends AppCompatActivity {
                     Boolean ipOk = false;
                     Boolean rackOk = false;
                     Boolean slotOk = false;
-
-                    if(prefs_data.getInt("rights", -1) == 0) {
-                        bt_comprimes_write.setVisibility(View.VISIBLE);
-                        bt_comprimes_write.setEnabled(true);
-                    } else {
-                        bt_comprimes_write.setVisibility(View.GONE);
-                        bt_comprimes_write.setEnabled(false);
-                    }
 
                     if (et_comprimes_ip.getText().toString().trim().length() == 0) {
                         ipOk = false;
@@ -175,7 +176,49 @@ public class ComprimesActivity extends AppCompatActivity {
 
                     if (ipOk && rackOk && slotOk) {
 
-                        readDataFromAutomate(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
+                        if(network != null && network.isConnectedOrConnecting()) {
+
+                            if(prefs_data.getInt("rights", -1) == 0) {
+                                bt_comprimes_write.setVisibility(View.VISIBLE);
+                                bt_comprimes_write.setEnabled(true);
+                            } else {
+                                bt_comprimes_write.setVisibility(View.GONE);
+                                bt_comprimes_write.setEnabled(false);
+                            }
+
+                            if(bt_comprimes.getText().equals("CONNECT") || rl_comprimes_parametres.getVisibility() == View.GONE) {
+                                rl_comprimes_parametres.setVisibility(View.GONE);
+                                rl_comprimes_read.setVisibility(View.VISIBLE);
+
+                                bt_comprimes.setText("DISCONNECT");
+                                readS7 = new ReadTaskS7Comprimes(v,
+                                        bt_comprimes,
+                                        tv_comprimes_flaconsVides,
+                                        tv_comprimes_selecteurService,
+                                        tv_comprimes_nbComprimesSelectionne,
+                                        tv_comprimes_nbComprimes,
+                                        tv_comprimes_nbBouteillesRemplies,
+                                        rl_comprimes_dataToWrite);
+                                readS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
+                            } else {
+                                readS7.Stop();
+                                bt_comprimes.setText("CONNECT");
+                                rl_comprimes_read.setVisibility(View.GONE);
+                                rl_comprimes_parametres.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            Toast.makeText(this, "Connexion réseau impossible !", Toast.LENGTH_SHORT).show();
+                        }
+
+                        if(prefs_data.getInt("rights", -1) == 0) {
+                            bt_comprimes_write.setVisibility(View.VISIBLE);
+                            bt_comprimes_write.setEnabled(true);
+                            rl_comprimes_dataToWrite.setVisibility(View.VISIBLE);
+                        } else {
+                            bt_comprimes_write.setVisibility(View.GONE);
+                            bt_comprimes_write.setEnabled(false);
+                            rl_comprimes_dataToWrite.setVisibility(View.GONE);
+                        }
 
                     } else {
                         tv_comprimes_parametres_errorText.setText(paramError);
@@ -183,50 +226,51 @@ public class ComprimesActivity extends AppCompatActivity {
                         tv_comprimes_parametres_errorText.setMaxHeight(600);
                     }
                 } else {
-                    if(prefs_data.getInt("rights",-1) == 0) {
+                    readS7.Stop();
 
-                    } else {
-                        readS7.Stop();
-                    }
                     bt_comprimes.setText("CONNECT");
                     bt_comprimes_write.setVisibility(View.GONE);
+                    et_comprimes_valueToSend.setText(null);
 
-                    rl_comprimes_RW.setVisibility(View.GONE);
+                    rl_comprimes_read.setVisibility(View.GONE);
                     rl_comprimes_parametres.setVisibility(View.VISIBLE);
 
                     if(rl_comprimes_dataToWrite.getVisibility() == View.VISIBLE) {
-                        writeTaskS7.Stop();
+
                         rl_comprimes_dataToWrite.setVisibility(View.GONE);
-                        bt_comprimes_write.setText("Stop writing");
                     }
                 }
 
                 break;
 
             case BT_COMPRIMES_WRITE:
-                if(bt_comprimes_write.getText().toString().equals("Start writing")) {
-                    rl_comprimes_dataToWrite.setVisibility(View.VISIBLE);
-                    bt_comprimes_write.setText("Stop writing");
-                } else {
-                    rl_comprimes_dataToWrite.setVisibility(View.GONE);
-                    bt_comprimes_write.setText("Start writing");
+                Boolean writeOk = false;
+                for(RadioButton rb : radioButtons) {
+                    if(rb.isChecked()) {
+                        writeOk = true;
+                    }
                 }
-                break;
-
-            case CB_COMPRIMES_SELECTEURSERVICE:
-                int selecteurService = cb_comprimes_selecteurService.isChecked() ? 1 : 0;
-                //writeTaskS7.setWriteBool(0, 0, selecteurService);
-
-                Toast.makeText(this, "Selecteur service : " + Integer.toString(selecteurService),Toast.LENGTH_SHORT).show();
-
-                break;
-
-            case CB_COMPRIMES_FLACONSVIDES:
-                int flaconsVidesToWrite = cb_comprimes_flaconsVides.isChecked() ? 1 : 0;
-                //writeTaskS7.setWriteBool(1,3, flaconsVidesToWrite);
-
-                Toast.makeText(this, "Flacons vides : " + Integer.toString(flaconsVidesToWrite),Toast.LENGTH_SHORT).show();
-
+                if(et_comprimes_valueToSend.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "Veuillez entrer une valeur", Toast.LENGTH_SHORT).show();
+                } else if(!writeOk) {
+                    Toast.makeText(this, "Veuillez choisir une DBB", Toast.LENGTH_SHORT).show();
+                } else if (writeOk) {
+                    writeTaskS7 = new WriteTaskS7();
+                    writeTaskS7.Start(et_comprimes_ip.getText().toString(),et_comprimes_rack.getText().toString(),et_comprimes_slot.getText().toString());
+                    int value = Integer.parseInt(et_comprimes_valueToSend.getText().toString());
+                    if(rb_comprimes_DBB5.isChecked()) {
+                        writeTaskS7.WriteByte(5,value);
+                    } else if(rb_comprimes_DBB6.isChecked()) {
+                        writeTaskS7.WriteByte(6,value);
+                    } else if(rb_comprimes_DBB7.isChecked()) {
+                        writeTaskS7.WriteByte(7,value);
+                    } else if(rb_comprimes_DBB8.isChecked()) {
+                        writeTaskS7.WriteByte(8,value);
+                    } else if(rb_comprimes_DBB18.isChecked()) {
+                        writeTaskS7.WriteByte(18,value);
+                    }
+                    writeTaskS7.Stop();
+                }
                 break;
         }
     }
@@ -243,47 +287,5 @@ public class ComprimesActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void readDataFromAutomate(String ipAddress, String rack, String slot) {
-        if(network != null && network.isConnectedOrConnecting()) {
-
-            if(prefs_data.getInt("rights", -1) == 0) {
-                bt_comprimes_write.setVisibility(View.VISIBLE);
-                bt_comprimes_write.setEnabled(true);
-            } else {
-                bt_comprimes_write.setVisibility(View.GONE);
-                bt_comprimes_write.setEnabled(false);
-            }
-
-            if(bt_comprimes.getText().equals("CONNECT") || rl_comprimes_parametres.getVisibility() == View.GONE) {
-                rl_comprimes_parametres.setVisibility(View.GONE);
-                rl_comprimes_RW.setVisibility(View.VISIBLE);
-
-                bt_comprimes.setText("DISCONNECT");
-                readS7 = new ReadTaskS7Comprimes(v,
-                        bt_comprimes,
-                        tv_comprimes_flaconsVides,
-                        tv_comprimes_selecteurService,
-                        tv_comprimes_nbComprimesSelectionne,
-                        tv_comprimes_nbComprimes,
-                        tv_comprimes_nbBouteillesRemplies,
-                        rl_comprimes_dataToWrite,
-                        cb_comprimes_flaconsVides,
-                        cb_comprimes_selecteurService,
-                        cb_comprimes_resetCompteur,
-                        rb_comprimes_5demandes,
-                        rb_comprimes_10demandes,
-                        rb_comprimes_15demandes);
-                readS7.Start(ipAddress,rack,slot);
-            } else {
-                readS7.Stop();
-                bt_comprimes.setText("CONNECT");
-                rl_comprimes_RW.setVisibility(View.GONE);
-                rl_comprimes_parametres.setVisibility(View.VISIBLE);
-            }
-        } else {
-            Toast.makeText(this, "Connexion réseau impossible !", Toast.LENGTH_SHORT).show();
-        }
     }
 }
