@@ -176,20 +176,7 @@ public class ReadTaskS7Niveau {
     };
 
     public ArrayList<Integer> getSavedValues() {
-        int maxValues = 500;
-        System.out.println("Nb values saved : " + savedValues.size());
-        if(savedValues.size() <= maxValues) {
-            System.out.println("Nb values returned : " + savedValues.size());
-            return savedValues;
-        } else {
-            ArrayList<Integer> valuesToReturn = new ArrayList<>();
-            int difference = savedValues.size() - maxValues;
-            for(int i = 0 ; i < maxValues ; i++) {
-                valuesToReturn.add(savedValues.get(difference + i));
-            }
-            System.out.println("Nb values returned : " + valuesToReturn.size());
-            return valuesToReturn;
-        }
+        return  savedValues;
     }
 
     private class AutomateS7 implements Runnable {

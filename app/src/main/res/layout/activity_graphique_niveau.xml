@@ -10,6 +10,7 @@
         android:id="@+id/gv_niveau"
         android:layout_width="match_parent"
         android:layout_height="450dp"
-        android:layout_marginVertical="15dp"/>
+        android:layout_marginVertical="15dp"
+        android:layout_marginHorizontal="15dp"/>
 
 </RelativeLayout>
