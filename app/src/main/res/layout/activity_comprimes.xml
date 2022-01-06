@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.ComprimesActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -29,7 +30,8 @@
                         android:layout_height="wrap_content"
                         android:text="Adresse IP : "
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/primary"/>
                     <EditText
                         android:id="@+id/et_comprimes_ip"
                         android:layout_width="wrap_content"
@@ -53,7 +55,8 @@
                         android:layout_height="wrap_content"
                         android:text="N° de Rack : "
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/primary"/>
                     <EditText
                         android:id="@+id/et_comprimes_rack"
                         android:layout_width="wrap_content"
@@ -78,7 +81,8 @@
                         android:layout_height="wrap_content"
                         android:text="N° de Slot : "
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/primary"/>
                     <EditText
                         android:id="@+id/et_comprimes_slot"
                         android:layout_width="wrap_content"
@@ -216,12 +220,21 @@
 
             </RelativeLayout>
 
+            <View
+                android:id="@+id/spacer_comprimes"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/primary"
+                android:layout_below="@+id/rl_comprimes_read"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="15dp"/>
+
             <RelativeLayout
                 android:id="@+id/rl_comprimes_dataToWrite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_comprimes_read"
-                android:layout_marginTop="25dp"
+                android:layout_below="@+id/spacer_comprimes"
+                android:layout_marginTop="0dp"
                 android:visibility="visible"
                 android:gravity="center">
                     <TextView

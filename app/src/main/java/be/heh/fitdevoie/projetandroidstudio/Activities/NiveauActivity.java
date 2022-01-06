@@ -70,6 +70,8 @@ public class NiveauActivity extends AppCompatActivity {
 
     Button bt_niveau_toGraph;
 
+    View spacer_niveau;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,6 +131,9 @@ public class NiveauActivity extends AppCompatActivity {
         //Masque le bouton qui redirige vers le graphique du niveau de liquide
         bt_niveau_toGraph = (Button) findViewById(R.id.bt_niveau_toGraph);
         bt_niveau_toGraph.setVisibility(View.GONE);
+
+        spacer_niveau = (View) findViewById(R.id.spacer_niveau);
+        spacer_niveau.setVisibility(View.GONE);
     }
 
     public void onNiveauClickManager(View v) {
@@ -232,11 +237,13 @@ public class NiveauActivity extends AppCompatActivity {
                             bt_niveau_write.setVisibility(View.VISIBLE);
                             bt_niveau_write.setEnabled(true);
                             rl_niveau_dataToWrite.setVisibility(View.VISIBLE);
+                            spacer_niveau.setVisibility(View.VISIBLE);
                         } else {
                             //Si il est admin -> masque le bouton d'écriture et l'active + masque le layout d'écriture
                             bt_niveau_write.setVisibility(View.GONE);
                             bt_niveau_write.setEnabled(false);
                             rl_niveau_dataToWrite.setVisibility(View.GONE);
+                            spacer_niveau.setVisibility(View.GONE);
                         }
 
                     } else {
@@ -264,6 +271,7 @@ public class NiveauActivity extends AppCompatActivity {
                         //-> masque le layout et le bouton d'écriture
                         rl_niveau_dataToWrite.setVisibility(View.GONE);
                         bt_niveau_write.setVisibility(View.GONE);
+                        spacer_niveau.setVisibility(View.GONE);
                     }
                 }
 

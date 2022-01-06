@@ -69,6 +69,8 @@ public class ComprimesActivity extends AppCompatActivity {
     RelativeLayout rl_comprimes_dataToWrite;
     WriteTaskS7 writeTaskS7;
 
+    View spacer_comprimes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +125,9 @@ public class ComprimesActivity extends AppCompatActivity {
         rl_comprimes_read.setVisibility(View.GONE);
         rl_comprimes_dataToWrite.setVisibility(View.GONE);
         bt_comprimes_write.setVisibility(View.GONE);
+
+        spacer_comprimes = (View) findViewById(R.id.spacer_comprimes);
+        spacer_comprimes.setVisibility(View.GONE);
     }
 
     public void onComprimesClickManager(View v) {
@@ -221,11 +226,13 @@ public class ComprimesActivity extends AppCompatActivity {
                             bt_comprimes_write.setVisibility(View.VISIBLE);
                             bt_comprimes_write.setEnabled(true);
                             rl_comprimes_dataToWrite.setVisibility(View.VISIBLE);
+                            spacer_comprimes.setVisibility(View.VISIBLE);
                         } else {
                             //Masque bouton d'écriture et RL des données à écrire
                             bt_comprimes_write.setVisibility(View.GONE);
                             bt_comprimes_write.setEnabled(false);
                             rl_comprimes_dataToWrite.setVisibility(View.GONE);
+                            spacer_comprimes.setVisibility(View.GONE);
                         }
 
                     } else {
@@ -248,6 +255,7 @@ public class ComprimesActivity extends AppCompatActivity {
 
                     if(rl_comprimes_dataToWrite.getVisibility() == View.VISIBLE) {
                         rl_comprimes_dataToWrite.setVisibility(View.GONE);
+                        spacer_comprimes.setVisibility(View.GONE);
                     }
                 }
 
