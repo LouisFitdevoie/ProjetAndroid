@@ -9,23 +9,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".Activities.InscriptionActivity">
 
-        <TextView
-            android:id="@+id/tv_editProfile_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Modifier le mot de passe"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_marginTop="25dp"
-            />
-
         <EditText
             android:id="@+id/et_editProfile_firstName"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:layout_below="@+id/tv_editProfile_title"
             android:layout_marginTop="25dp"
             android:layout_centerHorizontal="true"
             android:hint="Prénom"

@@ -59,18 +59,30 @@
             android:hint="Confirmez le mot de passe"/>
 
         <TextView
+            android:id="@+id/tv_inscription_firstUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Vous inscrivez un premier utilisateur, il sera administrateur de l'application"
+            android:layout_below="@+id/et_inscription_passwordConfirmation"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="25dp"
+            android:textColor="#FF0000"
+            android:visibility="gone"/>
+
+        <TextView
             android:id="@+id/tv_inscription_incomplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="0dp"
-            android:layout_below="@+id/et_inscription_passwordConfirmation"
+            android:layout_below="@+id/tv_inscription_firstUser"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="25dp"
             android:textAlignment="center"
             android:textColor="#FF0000"
             android:text=""
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/bt_inscription"

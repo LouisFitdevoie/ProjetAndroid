@@ -19,9 +19,7 @@ import SimaticS7.S7Client;
 import SimaticS7.S7OrderCode;
 
 public class ReadTaskS7Comprimes {
-    private static final int MESSAGE_PRE_EXECUTE = 1;
     private static final int MESSAGE_PROGRESS_UPDATE = 2;
-    private static final int MESSAGE_POST_EXECUTE = 3;
     private AtomicBoolean isRunning = new AtomicBoolean(false);
     private View vi_main_ui;
     private Button bt_connect;
@@ -63,13 +61,16 @@ public class ReadTaskS7Comprimes {
     }
 
     public void Stop() {
+        //Déconnecte l'automate + interrompt le thread de lecture
         isRunning.set(false);
         comS7.Disconnect();
         readThread.interrupt();
     }
 
     public void Start(String ipAddress, String rack, String slot) {
+        //Si le thread de lecture n'est pas déjà actif
         if(!readThread.isAlive()) {
+            //Démarre le thread de lecture et enregistre les paramètres de connexion à l'automate
             param[0] = ipAddress;
             param[1] = rack;
             param[2] = slot;
@@ -77,10 +78,6 @@ public class ReadTaskS7Comprimes {
             readThread.start();
             isRunning.set(true);
         }
-    }
-
-    private void downloadOnPreExecute(int t) {
-
     }
 
     private void downloadOnProgressUpdate(int progress, int what) {
@@ -119,23 +116,13 @@ public class ReadTaskS7Comprimes {
         }
     }
 
-    private void downloadOnPostExecute() {
-
-    }
-
     private Handler monHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case MESSAGE_PRE_EXECUTE:
-                    downloadOnPreExecute(msg.arg1);
-                    break;
                 case MESSAGE_PROGRESS_UPDATE:
                     downloadOnProgressUpdate(msg.arg1, msg.arg2);
-                    break;
-                case MESSAGE_POST_EXECUTE:
-                    downloadOnPostExecute();
                     break;
                 default:
                     break;
@@ -147,17 +134,11 @@ public class ReadTaskS7Comprimes {
         @Override
         public void run() {
             try {
+                //Connexion à l'automate
                 comS7.SetConnectionType(S7.S7_BASIC);
                 Integer res = comS7.ConnectTo(param[0],Integer.valueOf(param[1]),Integer.valueOf(param[2]));
-                S7OrderCode orderCode = new S7OrderCode();
-                Integer result = comS7.GetOrderCode(orderCode);
-                int numCPU = -1;
-                if(res.equals(0) && result.equals(0)) {
-                    numCPU = Integer.valueOf(orderCode.Code().toString().substring(5,8));
-                } else {
-                    numCPU = 0000;
-                }
-                sendPreExecuteMessage(numCPU);
+
+                //Boucle -> tant que l'utilisateur ne stoppe pas la boucle
                 while(isRunning.get()) {
                     if(res.equals(0)) {
                         String sout = "";
@@ -210,7 +191,7 @@ public class ReadTaskS7Comprimes {
                             sout += "\nNb comprimés sélectionné : " + String.valueOf(nbComprimesSelectionnes);
                             sendProgressMessage(nbComprimesSelectionnes, 2);
                         }
-                        //Nb comprimés par bouteille
+                        //Nb comprimés par bouteille -> FONCTIONNEL
                         retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 14, 2, datasPLC);
                         int nbComprimes = 0;
                         nbComprimes = 0;
@@ -222,7 +203,7 @@ public class ReadTaskS7Comprimes {
                             sout += "\nNb comprimés par bouteille : " + String.valueOf(nbComprimes);
                             sendProgressMessage(nbComprimes, 3);
                         }
-                        //Nb bouteilles remplies
+                        //Nb bouteilles remplies -> FONCTIONNEL
                         retInfo = comS7.ReadArea(S7.S7AreaDB, 5, 16, 2, datasPLC);
                         int nbBouteillesRemplies = 0;
                         if(retInfo == 0) {
@@ -233,29 +214,16 @@ public class ReadTaskS7Comprimes {
 
                         System.out.println(sout);
                     }
+                    //Attends 1/2 seconde avant de recommencer
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                sendPostExecuteMessage();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-
-        private void sendPostExecuteMessage() {
-            Message postExecuteMsg = new Message();
-            postExecuteMsg.what = MESSAGE_POST_EXECUTE;
-            monHandler.sendMessage(postExecuteMsg);
-        }
-
-        private void sendPreExecuteMessage(int v) {
-            Message preExecuteMsg = new Message();
-            preExecuteMsg.what = MESSAGE_PRE_EXECUTE;
-            preExecuteMsg.arg1 = v;
-            monHandler.sendMessage(preExecuteMsg);
         }
 
         private void sendProgressMessage(int progress, int what) {

@@ -33,9 +33,10 @@ public class ChoixActivity extends Activity {
         bt_choix_autoriserEcriture = (Button) findViewById(R.id.bt_choix_autoriserEcriture);
         bt_choix_deconnexion = (Button) findViewById(R.id.bt_choix_deconnexion);
 
+        //Récupération des Shared Preferences avec les droits et l'ID de l'utilisateur
         prefs_data = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Toast.makeText(this, "ID=" + prefs_data.getInt("userId", -1) + " RIGHTS=" + prefs_data.getInt("rights", -1), Toast.LENGTH_LONG).show();
 
+        //Si l'utilisateur a les droits d'administration -> affiche et active le bouton qui dirige vers AutoriserEcritureActivity
         if(prefs_data.getInt("rights", -1) == 0) {
             bt_choix_autoriserEcriture.setEnabled(true);
             bt_choix_autoriserEcriture.setVisibility(View.VISIBLE);
@@ -58,34 +59,38 @@ public class ChoixActivity extends Activity {
         final int BT_DECONNEXION = R.id.bt_choix_deconnexion;
 
         switch (v.getId()) {
+            //Au clic sur le bouton "Comprimés" -> renvoie vers ComprimesActivity
             case BT_COMPRIMES:
                 Intent toComprimes = new Intent(this, ComprimesActivity.class);
                 startActivity(toComprimes);
                 finish();
                 break;
-
+            //Au clic sur le bouton "Niveau" -> renvoie vers NiveauActivity
             case BT_NIVEAU:
                 Intent toNiveau = new Intent(this, NiveauActivity.class);
                 startActivity(toNiveau);
                 finish();
                 break;
-
+            //Au clic sur le bouton "Profil" -> renvoie vers EditProfileActivity
             case BT_PROFIL:
                 Intent toProfile = new Intent(this, EditProfileActivity.class);
                 startActivity(toProfile);
                 finish();
                 break;
-
+            //Au clic sur le bouton "AuthorizeWrite" -> renvoie vers AutoriserEcritureActivity
             case BT_AUTHORIZEWRITE:
                 Intent toAuthorizeWrite = new Intent(this, AutoriserEcritureActivity.class);
                 startActivity(toAuthorizeWrite);
                 finish();
                 break;
-
+            //Au clic sur le bouton "Deconnexion"
             case BT_DECONNEXION:
+                //Crée une intent vers MainActivity
                 Intent toMain = new Intent(this, MainActivity.class);
+                //AlertDialog qui demande si on veut vraiment se déconnecter
                 AlertDialog.Builder alertDialogDeconnexion = new AlertDialog.Builder(this);
                 alertDialogDeconnexion.setMessage("Voulez-vous vraiment vous déconnecter ?");
+                //Si clic sur "Oui" -> renvoie vers MainActivity et mets à -1 les droits et l'ID de l'utilisateur dans les SharedPreferences
                 alertDialogDeconnexion.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -97,13 +102,15 @@ public class ChoixActivity extends Activity {
                         finish();
                     }
                 });
+                //Si clic sur "Non" -> affiche "Déconnexion annulée"
                 alertDialogDeconnexion.setNegativeButton("Non", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(getApplicationContext(), "Déconnexion annulée", Toast.LENGTH_LONG).show();
                     }
                 });
-
+                alertDialogDeconnexion.setCancelable(false);
+                //Affiche l'AlertDialog
                 AlertDialog alert = alertDialogDeconnexion.create();
                 alert.show();
                 break;

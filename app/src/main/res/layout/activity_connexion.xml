@@ -32,7 +32,6 @@
             android:id="@+id/tv_connexion_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="0dp"
             android:layout_below="@+id/et_connexion_password"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
@@ -40,7 +39,7 @@
             android:textAlignment="center"
             android:textColor="#FF0000"
             android:text=""
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/bt_connexion"
