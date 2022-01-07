@@ -127,11 +127,12 @@ public class AutoriserEcritureActivity extends AppCompatActivity {
                 if(userList.get(currentId).getRights() == 0 && adminNumber == 1) {
                     tv_authorize_error.setText("Cet utilisateur est le seul administrateur, vous devez d'abord donner les droits d'administration à un autre utilisateur avant de les retirer à celui-ci !");
                     tv_authorize_error.setVisibility(View.VISIBLE);
+
+                    break;
                 } else if(userList.get(currentId).getRights() == 0 && adminNumber > 1) {
 
                     android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(this);
-                    alertDialog.setMessage("Voulez-vous vraiment retirer les droits d'administration à cet utilisateur ?");
-
+                    alertDialog.setMessage("Voulez-vous vraiment retirer les droits d'administration à cet utilisateur ?\nSi vous êtes cet utilisateur, vous serez déconnecté !");
                     alertDialog.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -157,6 +158,12 @@ public class AutoriserEcritureActivity extends AppCompatActivity {
                             } else {
                                 tv_authorize_rights.setText("Droits d'administration : Non");
                             }
+
+                            if(userToUpdate.getUserId() == prefs_data.getInt("userId", -1)) {
+                                Intent toMain = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(toMain);
+                                finish();
+                            }
                         }
                     });
 
@@ -171,6 +178,7 @@ public class AutoriserEcritureActivity extends AppCompatActivity {
                     AlertDialog alert = alertDialog.create();
                     alert.show();
 
+                    break;
                 } else if(userList.get(currentId).getRights() != 0) {
 
                     android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(this);
@@ -215,9 +223,9 @@ public class AutoriserEcritureActivity extends AppCompatActivity {
                     AlertDialog alert = alertDialog.create();
                     alert.show();
 
+                    break;
                 }
 
-                break;
 
             case BT_AUTHORIZE_NEXT:
                 tv_authorize_error.setVisibility(View.GONE);
