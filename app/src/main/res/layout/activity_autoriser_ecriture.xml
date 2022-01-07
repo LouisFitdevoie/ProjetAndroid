@@ -6,21 +6,76 @@
     android:layout_height="match_parent"
     tools:context=".Activities.AutoriserEcritureActivity">
 
-    <TextView
-        android:id="@+id/tv_authorize_error"
+    <RelativeLayout
+        android:id="@+id/rl_authorize"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="#FF0000"
-        android:textStyle="italic"
-        android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="25dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_authorize_emailAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="username"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/tv_authorize_rights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_authorize_emailAddress"
+            android:layout_centerHorizontal="true"
+            android:text="rights"
+            android:layout_marginTop="15dp"
+            android:textSize="20sp"/>
+        <LinearLayout
+            android:id="@+id/ll_authorize_nextPrevious"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_authorize_rights"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp">
+            <Button
+                android:id="@+id/bt_authorize_previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Précédent"
+                android:onClick="onAuthorizeClickManager"
+                tools:ignore="onclick"/>
+            <Button
+                android:id="@+id/bt_authorize_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suivant"
+                android:layout_marginLeft="15dp"
+                android:onClick="onAuthorizeClickManager"
+                tools:ignore="onclick"/>
+        </LinearLayout>
 
-    <ListView
-        android:id="@+id/lv_authorize_userList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_authorize_error"/>
+        <TextView
+            android:id="@+id/tv_authorize_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="#FF0000"
+            android:textStyle="italic"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/ll_authorize_nextPrevious"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/bt_authorize_changeRights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_authorize_error"
+            android:text="Changer les droits"
+            android:onClick="onAuthorizeClickManager"
+            tools:ignore="onclick"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
