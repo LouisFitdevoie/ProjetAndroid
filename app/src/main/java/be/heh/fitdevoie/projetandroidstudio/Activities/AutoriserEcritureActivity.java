@@ -50,7 +50,7 @@ public class AutoriserEcritureActivity extends AppCompatActivity {
         UserAccessDB userDB = new UserAccessDB(this);
         userDB.openForRead();
         ArrayList<User> userList = userDB.getAllUser();
-        System.out.println(userList);
+
         userDB.Close();
 
         if(userList.isEmpty()) {
@@ -73,15 +73,5 @@ public class AutoriserEcritureActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onAuthorizeWriteClickManager(View view) {
-
-        int connectedUserID = prefs_data.getInt("userId", -1);
-
-        switch(view.getId()) {
-
-
-        }
     }
 }

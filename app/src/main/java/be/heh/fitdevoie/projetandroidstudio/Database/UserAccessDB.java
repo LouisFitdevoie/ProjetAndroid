@@ -153,4 +153,28 @@ public class UserAccessDB {
         return userToReturn;
     }
 
+    public int getAdminNumber() {
+        Cursor cursor = db.query(TABLE_USER, new String[] { COL_ID, COL_FIRSTNAME, COL_LASTNAME, COL_EMAIL, COL_PASSWORD, COL_RIGHTS }, null, null, null, null, COL_ID);
+
+        ArrayList<User> tabUser = new ArrayList<User>();
+
+        int adminNumber = 0;
+        if(cursor.getCount() == 0) {
+            cursor.close();
+            return 0;
+        }
+
+        while (cursor.moveToNext()) {
+            int rights = cursor.getInt(NUM_COL_RIGHTS);
+
+            if(rights == 0) {
+                adminNumber++;
+            }
+        }
+
+        cursor.close();
+
+        return adminNumber;
+    }
+
 }
