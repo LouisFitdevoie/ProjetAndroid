@@ -6,82 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".Activities.AutoriserEcritureActivity">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tv_authorize_error"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="75dp"
-        >
-        <TextView
-            android:id="@+id/tv_authorizeWrite_userId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="UserID"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/tv_authorizeWrite_firstname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="First Name"
-            android:textSize="20sp"
-            android:layout_below="@+id/tv_authorizeWrite_userId"
-            android:layout_marginTop="25dp"/>
-        <TextView
-            android:id="@+id/tv_authorizeWrite_lastname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Last Name"
-            android:textSize="20sp"
-            android:layout_below="@+id/tv_authorizeWrite_firstname"
-            android:layout_marginTop="25dp"/>
-        <TextView
-            android:id="@+id/tv_authorizeWrite_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Email"
-            android:textSize="20sp"
-            android:layout_below="@+id/tv_authorizeWrite_lastname"
-            android:layout_marginTop="25dp"/>
-        <TextView
-            android:id="@+id/tv_authorizeWrite_rights"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Rights"
-            android:textSize="20sp"
-            android:layout_below="@+id/tv_authorizeWrite_email"
-            android:layout_marginTop="25dp"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_authorizeWrite_buttons"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="25dp"
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        android:textStyle="italic"
         android:layout_centerHorizontal="true"
-        >
-        <Button
-            android:id="@+id/bt_authorizeWrite_previous"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:text="Précédent"
-            android:onClick="onAuthorizeWriteClickManager"
-            tools:ignore="onclick"/>
-        <Button
-            android:id="@+id/bt_auhorizeWrite_next"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/bt_authorizeWrite_previous"
-            android:layout_marginLeft="25dp"
-            android:text="Suivant"
-            android:onClick="onAuthorizeWriteClickManager"
-            tools:ignore="onclick"/>
-    </RelativeLayout>
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="15dp"/>
+
+    <ListView
+        android:id="@+id/lv_authorize_userList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_authorize_error"/>
 
 </RelativeLayout>

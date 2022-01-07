@@ -82,6 +82,7 @@
             android:layout_marginHorizontal="25dp"
             android:textAlignment="center"
             android:textColor="#FF0000"
+            android:textStyle="italic"
             android:text=""
             android:visibility="invisible"/>
 

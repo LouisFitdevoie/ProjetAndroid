@@ -66,4 +66,11 @@ public class User {
         this.rights = rights;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID : " + getUserId() + "\nEmail : " + getEmailAddress().replace("'","") + "\nPrénom : " + getFirstName() + "\nNom : " +  getLastName() + "\nDroits : " + getRights());
+        return sb.toString();
+    }
+
 }

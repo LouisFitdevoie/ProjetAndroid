@@ -107,10 +107,10 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginHorizontal="25dp"
                     android:layout_marginTop="10dp"
-                    android:maxHeight="0dp"
                     android:text=""
                     android:textAlignment="center"
                     android:textColor="#FF0000"
+                    android:textStyle="italic"
                     android:visibility="gone" />
             </RelativeLayout>
 
