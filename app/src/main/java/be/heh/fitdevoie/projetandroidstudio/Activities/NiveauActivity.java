@@ -9,12 +9,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -71,6 +74,8 @@ public class NiveauActivity extends AppCompatActivity {
     Button bt_niveau_toGraph;
 
     View spacer_niveau;
+
+    Button bt_niveau_openBrowser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +139,9 @@ public class NiveauActivity extends AppCompatActivity {
 
         spacer_niveau = (View) findViewById(R.id.spacer_niveau);
         spacer_niveau.setVisibility(View.GONE);
+
+        bt_niveau_openBrowser = (Button) findViewById(R.id.bt_niveau_openBrowser);
+        bt_niveau_openBrowser.setVisibility(View.GONE);
     }
 
     public void onNiveauClickManager(View v) {
@@ -141,6 +149,7 @@ public class NiveauActivity extends AppCompatActivity {
         final int BT_NIVEAU_CONNECT = R.id.bt_niveau;
         final int BT_NIVEAU_WRITE = R.id.bt_niveau_write;
         final int BT_NIVEAU_TOGRAPH = R.id.bt_niveau_toGraph;
+        final int BT_NIVEAU_OPENBROWSER = R.id.bt_niveau_openBrowser;
 
         switch(v.getId()) {
 
@@ -238,12 +247,16 @@ public class NiveauActivity extends AppCompatActivity {
                             bt_niveau_write.setEnabled(true);
                             rl_niveau_dataToWrite.setVisibility(View.VISIBLE);
                             spacer_niveau.setVisibility(View.VISIBLE);
+                            bt_niveau_openBrowser.setVisibility(View.VISIBLE);
+                            bt_niveau_toGraph.setLayoutParams(new LinearLayout.LayoutParams((140 * ((int) getApplicationContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT)), bt_niveau_toGraph.getLayoutParams().height));
                         } else {
                             //Si il est admin -> masque le bouton d'écriture et l'active + masque le layout d'écriture
                             bt_niveau_write.setVisibility(View.GONE);
                             bt_niveau_write.setEnabled(false);
                             rl_niveau_dataToWrite.setVisibility(View.GONE);
                             spacer_niveau.setVisibility(View.GONE);
+                            bt_niveau_openBrowser.setVisibility(View.GONE);
+                            bt_niveau_toGraph.setLayoutParams(new LinearLayout.LayoutParams((305 * ((int) getApplicationContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT)), bt_niveau_toGraph.getLayoutParams().height));
                         }
 
                     } else {
@@ -272,6 +285,7 @@ public class NiveauActivity extends AppCompatActivity {
                         rl_niveau_dataToWrite.setVisibility(View.GONE);
                         bt_niveau_write.setVisibility(View.GONE);
                         spacer_niveau.setVisibility(View.GONE);
+                        bt_niveau_openBrowser.setVisibility(View.GONE);
                     }
                 }
 
@@ -331,6 +345,12 @@ public class NiveauActivity extends AppCompatActivity {
                 startActivity(toGraph);
 
                 break;
+
+            case BT_NIVEAU_OPENBROWSER:
+
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("http://" + et_niveau_ip.getText().toString())));
+
+                break;
         }
     }
 
@@ -343,6 +363,8 @@ public class NiveauActivity extends AppCompatActivity {
                     Intent toChoix = new Intent(this, ChoixActivity.class);
                     startActivity(toChoix);
                     finish();
+                } else {
+                    Toast.makeText(this, "Vous devez d'abord vous déconnecter de l'automate !", Toast.LENGTH_LONG).show();
                 }
                 return true;
         }
@@ -356,6 +378,8 @@ public class NiveauActivity extends AppCompatActivity {
             Intent toChoix = new Intent(this, ChoixActivity.class);
             startActivity(toChoix);
             finish();
+        } else {
+            Toast.makeText(this, "Vous devez d'abord vous déconnecter de l'automate !", Toast.LENGTH_LONG).show();
         }
         return;
     }

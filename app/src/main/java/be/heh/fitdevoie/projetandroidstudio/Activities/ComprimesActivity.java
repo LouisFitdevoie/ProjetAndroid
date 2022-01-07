@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -71,6 +72,8 @@ public class ComprimesActivity extends AppCompatActivity {
 
     View spacer_comprimes;
 
+    Button bt_comprimes_openBrowser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,12 +131,16 @@ public class ComprimesActivity extends AppCompatActivity {
 
         spacer_comprimes = (View) findViewById(R.id.spacer_comprimes);
         spacer_comprimes.setVisibility(View.GONE);
+
+        bt_comprimes_openBrowser = (Button) findViewById(R.id.bt_comprimes_openBrowser);
+        bt_comprimes_openBrowser.setVisibility(View.GONE);
     }
 
     public void onComprimesClickManager(View v) {
 
         final int BT_COMPRIMES_CONNECT = R.id.bt_comprimes_connect;
         final int BT_COMPRIMES_WRITE = R.id.bt_comprimes_write;
+        final int BT_COMPRIMES_OPENBROWSER = R.id.bt_comprimes_openBrowser;
 
         switch(v.getId()) {
             //Au clic sur le bouton de connexion
@@ -227,12 +234,14 @@ public class ComprimesActivity extends AppCompatActivity {
                             bt_comprimes_write.setEnabled(true);
                             rl_comprimes_dataToWrite.setVisibility(View.VISIBLE);
                             spacer_comprimes.setVisibility(View.VISIBLE);
+                            bt_comprimes_openBrowser.setVisibility(View.VISIBLE);
                         } else {
                             //Masque bouton d'écriture et RL des données à écrire
                             bt_comprimes_write.setVisibility(View.GONE);
                             bt_comprimes_write.setEnabled(false);
                             rl_comprimes_dataToWrite.setVisibility(View.GONE);
                             spacer_comprimes.setVisibility(View.GONE);
+                            bt_comprimes_openBrowser.setVisibility(View.GONE);
                         }
 
                     } else {
@@ -294,6 +303,12 @@ public class ComprimesActivity extends AppCompatActivity {
                     }
                     writeTaskS7.Stop();
                 }
+                break;
+
+            case BT_COMPRIMES_OPENBROWSER:
+
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("http://" + et_comprimes_ip.getText().toString())));
+
                 break;
         }
     }
