@@ -258,6 +258,7 @@ public class ComprimesActivity extends AppCompatActivity {
                     bt_comprimes.setText("CONNECT");
                     bt_comprimes_write.setVisibility(View.GONE);
                     et_comprimes_valueToSend.setText(null);
+                    bt_comprimes_openBrowser.setVisibility(View.GONE);
 
                     rl_comprimes_read.setVisibility(View.GONE);
                     rl_comprimes_parametres.setVisibility(View.VISIBLE);

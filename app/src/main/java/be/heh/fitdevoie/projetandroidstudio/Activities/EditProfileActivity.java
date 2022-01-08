@@ -95,7 +95,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 if(et_editProfile_oldPassword.getText().toString().trim().length() == 0) {
                     modificationIncomplete = "Veuillez rentrer votre ancien mot de passe";
                     tv_modification_incomplete.setText(modificationIncomplete);
-                    tv_modification_incomplete.setMaxHeight(600);
                     tv_modification_incomplete.setVisibility(View.VISIBLE);
                     break;
                 } else {
@@ -103,7 +102,6 @@ public class EditProfileActivity extends AppCompatActivity {
                     if(et_editProfile_password.getText().toString().trim().length() == 0) {
                         modificationIncomplete = "Veuillez rentrer votre nouveau mot de passe";
                         tv_modification_incomplete.setText(modificationIncomplete);
-                        tv_modification_incomplete.setMaxHeight(600);
                         tv_modification_incomplete.setVisibility(View.VISIBLE);
                         break;
                     } else {
@@ -111,7 +109,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         if(et_editProfile_passwordConfirmation.getText().toString().trim().length() == 0) {
                             modificationIncomplete = "Veuillez rentrer votre confirmation de mot de passe";
                             tv_modification_incomplete.setText(modificationIncomplete);
-                            tv_modification_incomplete.setMaxHeight(600);
                             tv_modification_incomplete.setVisibility(View.VISIBLE);
                             break;
                         }
@@ -122,23 +119,28 @@ public class EditProfileActivity extends AppCompatActivity {
                 if(et_editProfile_password.getText().toString().trim().length() < 8) {
                     modificationIncomplete = "Veuillez rentrer un nouveau mot de passe qui contient minimum 8 caractères";
                     tv_modification_incomplete.setText(modificationIncomplete);
-                    tv_modification_incomplete.setMaxHeight(600);
                     tv_modification_incomplete.setVisibility(View.VISIBLE);
                     break;
                 //Si le nouveau mot de passe et la confirmation sont différents -> affiche message d'erreur
                 } else if(!et_editProfile_password.getText().toString().equals(et_editProfile_passwordConfirmation.getText().toString())) {
                     modificationIncomplete = "Le nouveau mot de passe entré est différent de la confirmation du nouveau mot de passe";
                     tv_modification_incomplete.setText(modificationIncomplete);
-                    tv_modification_incomplete.setMaxHeight(600);
                     tv_modification_incomplete.setVisibility(View.VISIBLE);
                     break;
                 //Si le nouveau mot de passe est le même que l'ancien -> affiche message d'erreur
                 } else if(et_editProfile_oldPassword.getText().toString().equals(et_editProfile_password.getText().toString())) {
                     modificationIncomplete = "Le nouveau mot de passe entré est le même que l'ancien, veuillez le changer";
                     tv_modification_incomplete.setText(modificationIncomplete);
-                    tv_modification_incomplete.setMaxHeight(600);
                     tv_modification_incomplete.setVisibility(View.VISIBLE);
                     break;
+                } else if(et_editProfile_firstName.getText().toString().trim().length() == 0) {
+                    modificationIncomplete = "Le champ prénom est vide, veuillez le remplir";
+                    tv_modification_incomplete.setText(modificationIncomplete);
+                    tv_modification_incomplete.setVisibility(View.VISIBLE);
+                } else if(et_editProfile_lastName.getText().toString().trim().length() == 0) {
+                    modificationIncomplete = "Le champ nom de famille est vide, veuillez le remplir";
+                    tv_modification_incomplete.setText(modificationIncomplete);
+                    tv_modification_incomplete.setVisibility(View.VISIBLE);
                 //Si tout est bon -> récupération du mot de passe enregistré dans la DB pour voir si le mot de passe entré est correct
                 } else {
                     UserAccessDB db_editPassword = new UserAccessDB(this);
@@ -152,7 +154,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         if(!userWithId.getPassword().equals(et_editProfile_oldPassword.getText().toString())) {
                             modificationIncomplete = "L'ancien mot de passe entré est incorrect, veuillez réessayer";
                             tv_modification_incomplete.setText(modificationIncomplete);
-                            tv_modification_incomplete.setMaxHeight(600);
                             tv_modification_incomplete.setVisibility(View.VISIBLE);
                             break;
                         //Sinon affiche un AlertDialog qui demande de confirmer qu'on veut bien changer le mot de passe et qui signale que l'utilisateur sera déconnecté
@@ -170,6 +171,8 @@ public class EditProfileActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     User userToEdit = userWithId;
                                     userToEdit.setPassword(et_editProfile_password.getText().toString());
+                                    userToEdit.setFirstName(et_editProfile_firstName.getText().toString());
+                                    userToEdit.setLastName(et_editProfile_lastName.getText().toString());
 
                                     db_editPassword.openForWrite();
                                     db_editPassword.updateUser(userId, userToEdit);

@@ -13,11 +13,10 @@
             android:id="@+id/et_editProfile_firstName"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_marginTop="25dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
             android:hint="Prénom"
-            android:enabled="false"/>
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/et_editProfile_lastName"
@@ -27,8 +26,7 @@
             android:layout_below="@+id/et_editProfile_firstName"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
-            android:hint="Nom de famille"
-            android:enabled="false"/>
+            android:hint="Nom de famille"/>
 
         <EditText
             android:id="@+id/et_editProfile_email"
@@ -45,11 +43,11 @@
             android:id="@+id/et_editProfile_oldPassword"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:layout_below="@+id/et_editProfile_email"
-            android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
-            android:hint="Ancien mot de passe"/>
+            android:layout_marginTop="10dp"
+            android:hint="Ancien mot de passe"
+            android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/et_editProfile_password"
@@ -75,7 +73,6 @@
             android:id="@+id/tv_modification_incomplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="0dp"
             android:layout_below="@+id/et_editProfile_passwordConfirmation"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
@@ -83,8 +80,7 @@
             android:textAlignment="center"
             android:textColor="#FF0000"
             android:textStyle="italic"
-            android:text=""
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/bt_modification"
