@@ -65,7 +65,7 @@ public class EditProfileActivity extends AppCompatActivity {
             userConnected = db_modification.getUserWithId(userId);
             et_editProfile_firstName.setText(userConnected.getFirstName());
             et_editProfile_lastName.setText(userConnected.getLastName());
-            et_editProfile_email.setText(userConnected.getEmailAddress().replace("'",""));
+            et_editProfile_email.setText(userConnected.getEmailAddress().replace("'", ""));
             db_modification.Close();
         } else {
             Intent toMain = new Intent(this, MainActivity.class);
